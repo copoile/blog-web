@@ -1,0 +1,40 @@
+// 导航栏样式变量
+
+// 菜单字体颜色
+$menuText:#bfcbd9;
+
+// 活动菜单字体颜色
+$menuActiveText:#409EFF;
+
+// 活动子菜单字体颜色
+$subMenuActiveText:#f4f4f5;
+
+// 菜单背景颜色
+$menuBg:#304156;
+
+// 菜单鼠标移入颜色
+$menuHover:#263445;
+
+// 子菜单背景颜色
+$subMenuBg:#1f2d3d;
+
+// 子菜单鼠标移入颜色
+$subMenuHover:#001528;
+
+// 宽度
+$sideBarWidth: 210px;
+
+// 首页头部高度
+$homeHeadHeight: 372px;
+
+:export {
+  menuText: $menuText;
+  menuActiveText: $menuActiveText;
+  subMenuActiveText: $subMenuActiveText;
+  menuBg: $menuBg;
+  menuHover: $menuHover;
+  subMenuBg: $subMenuBg;
+  subMenuHover: $subMenuHover;
+  sideBarWidth: $sideBarWidth;
+  homeHeadHeight: $homeHeadHeight;
+}

@@ -1,0 +1,71 @@
+import router from './router'
+import store from './store'
+import { Message } from 'element-ui'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+import { getAccessToken } from '@/utils/auth'
+import getPageTitle from '@/utils/get-page-title'
+
+NProgress.configure({ showSpinner: false })
+// 免登录白名单
+const whiteList = ['/login']
+
+router.beforeEach(async(to, from, next) => {
+  // 进度条开始
+  NProgress.start()
+
+  // 页面标题
+  document.title = getPageTitle(to.meta.title)
+
+  // 获取AccessToken，判断是否已登录
+  const hasToken = getAccessToken()
+
+  if (hasToken) {
+    if (to.path === '/login') {
+      // 已登录
+      next({ path: '/user' })
+      NProgress.done()
+    } else {
+      // 获取角色，判断是否已调获取用户信息接口
+      const hasRoles = store.getters.roles && store.getters.roles.length > 0
+      if (hasRoles) {
+        next()
+      } else {
+        try {
+          // 获取用户线信息，从用户信息中获取角色
+          const { roles } = await store.dispatch('user/getUserInfo')
+
+          // 根据角色动态加载路由
+          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+
+          // 添加动态路由
+          router.addRoutes(accessRoutes)
+
+          next({ ...to, replace: true })
+        } catch (error) {
+          // 获取用户信息失败重置登录信息
+          await store.dispatch('user/resetToken')
+          Message.error(error || 'Has Error')
+          // 跳转登录页
+          next(`/login?redirect=${to.path}`)
+          NProgress.done()
+        }
+      }
+    }
+  } else {
+    // 未登录
+    // 免登录白名单
+    if (whiteList.indexOf(to.path) !== -1) {
+      next()
+    } else {
+      // 跳转登录页面
+      next(`/login?redirect=${to.path}`)
+      NProgress.done()
+    }
+  }
+})
+
+router.afterEach(() => {
+  // 进度条结束
+  NProgress.done()
+})
