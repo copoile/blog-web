@@ -4,20 +4,18 @@ import { resetRouter } from '@/router'
 
 const state = {
   token: getAccessToken(),
-  name: '',
+  nickname: '',
   avatar: '',
-  roles: []
+  roles: [],
+  userInfo: null
 }
 
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
-  SET_NAME: (state, name) => {
-    state.name = name
-  },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+  SET_USER_INFO: (state, userInfo) => {
+    state.userInfo = userInfo
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
@@ -31,7 +29,7 @@ const actions = {
   accountLogin({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      accountLogin(username.trim(), password.trim()).then(response => {
+      accountLogin(username.trim(), password).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.access_token)
         setAccessToken(data.access_token)
@@ -54,7 +52,7 @@ const actions = {
           reject('获取用户信息失败，请重新登录')
         }
 
-        const { roles, nickname, avatar } = data
+        const { roles } = data
 
         // 角色列表校验
         if (!roles || roles.length <= 0) {
@@ -62,8 +60,7 @@ const actions = {
         }
 
         commit('SET_ROLES', roles)
-        commit('SET_NAME', nickname)
-        commit('SET_AVATAR', avatar)
+        commit('SET_USER_INFO', data)
         resolve(data)
       }).catch(error => {
         reject(error)

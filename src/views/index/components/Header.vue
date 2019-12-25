@@ -1,70 +1,73 @@
 <template>
   <div class="head-container">
     <div class="head">
-
       <div class="head_t">
         <div class="head_inner">
           <ul>
-            <li v-for="(item, index) in items" :key="index" @mouseenter="mouseover(index)" @mouseleave="mouseleave">
+            <li v-for="(section, index) in sections" :key="index" @mouseenter="mouseover(index)" @mouseleave="mouseleave">
               <a href="#" :style="activeIndex == index ? active : ''">
-                {{ item.chsname }}
-                <span style="color: #fff;">{{ item.enname }}</span>
+                {{ section.chsname }}
+                <span style="color: #fff;">{{ section.enname }}</span>
               </a>
               <span class="line" :class="{ 'active-line': active != '' && activeIndex == index }">-</span>
             </li>
+
+            <div class="avatar-wrapper">
+              <el-popover v-if="false" placement="bottom" trigger="hover">
+                <div slot="reference" class="dropdown-wrapper">
+                  <img class="user-avatar" src="https://poile-img.nos-eastchina1.126.net/nologin.jpg">
+                  <span class="name">嗨~，欢迎登录</span>
+                </div>
+
+                <div>
+                  <router-link
+                    to="/login"
+                    style=" text-align: center;
+                           display: block;
+                           text-decoration: none;
+                           color: #fff;
+                           background: #1985f4;
+                           width: 200px;
+                           line-height: 35px;
+                           margin-top:10px;
+                           margin-bottom:20px;
+                           height: 35px;
+                           border-radius: 3px;
+             "
+                  >
+                    登录
+                  </router-link>
+                </div>
+                <div style="text-align: center;display: block;color:#333;width:200px;">
+                  首次使用？
+                  <router-link to="/register" style="text-decoration: none;color:#0e90d2">点我去注册</router-link>
+                </div>
+              </el-popover>
+              <el-dropdown v-else placement="bottom-start" @command="handleCommand">
+                <div class="dropdown-wrapper">
+                  <img class="user-avatar" :src="userInfo.avatar || defaultAvatar">
+                  <span class="name">吾乃小博</span>
+                </div>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="a">&emsp;控制台 &emsp;</el-dropdown-item>
+                  <el-dropdown-item command="b">&emsp;退出&emsp;</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
           </ul>
         </div>
       </div>
 
-      <div class="avatar-wrapper">
-        <el-popover v-if="true" placement="bottom" trigger="hover">
-          <img slot="reference" class="user-avatar" src="https://poile-img.nos-eastchina1.126.net/nologin.jpg">
-          <div>
-            <router-link
-              to="/login"
-              style=" text-align: center;
-                     display: block;
-                     text-decoration: none;
-                     color: #fff;
-                     background: #1985f4;
-                     width: 200px;
-                     line-height: 35px;
-                     margin-top:10px;
-                     margin-bottom:20px;
-                     height: 35px;
-                     border-radius: 3px;
-       "
-            >
-              登录
-            </router-link>
-          </div>
-          <div style="text-align: center;display: block;color:#333;width:200px;">
-            首次使用？
-            <router-link to="/register" style="text-decoration: none;color:#0e90d2">点我去注册</router-link>
-          </div>
-        </el-popover>
-        <el-dropdown v-else placement="bottom" @command="handleCommand">
-          <img class="user-avatar" src="https://poile-img.nos-eastchina1.126.net/me.png">
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="a">控制台</el-dropdown-item>
-            <el-dropdown-item command="b">退出</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
-
       <div class="search-wrapper">
-        <el-input v-model="title" placeholder="请搜索输入关键字">
-          <i
-            slot="suffix"
-            class="el-input__icon el-icon-search"
-          />
-        </el-input>
+        <el-input v-model="title" placeholder="请搜索输入关键字"><i slot="suffix" class="el-input__icon el-icon-search" /></el-input>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import sections from '@/config/sections'
 export default {
   data() {
     return {
@@ -73,39 +76,11 @@ export default {
       activeIndex: -1,
       opacity: 0,
       title: '',
-      items: [
-        {
-          chsname: '首页',
-          enname: 'HOME',
-          path: '/'
-        },
-        {
-          chsname: '分类',
-          enname: 'CATEGORY',
-          path: '/'
-        },
-        {
-          chsname: '标签',
-          enname: 'TAG',
-          path: '/'
-        },
-        {
-          chsname: '归档',
-          enname: 'ARCHIVES',
-          path: '/'
-        },
-        {
-          chsname: '友链',
-          enname: 'FRIEND',
-          path: '/'
-        },
-        {
-          chsname: '留言',
-          enname: 'WORDS',
-          path: '/'
-        }
-      ]
+      sections: sections
     }
+  },
+  computed: {
+    ...mapGetters(['userInfo', 'defaultAvatar'])
   },
   methods: {
     mouseover(index) {
@@ -116,6 +91,7 @@ export default {
     },
     handleCommand() {
       console.log('---')
+      this.$router.push('/user')
     }
   }
 }
@@ -127,7 +103,7 @@ export default {
 .head-container {
   // position: fixed;
   position: relative;
-  width: 100%;
+  width: auto;
   background: url(../../../assets/common_images/header_bg_03.png);
   background-color: #fff;
   background-position: center 0;
@@ -175,7 +151,6 @@ export default {
         color: white;
 
         ul {
-          overflow: hidden;
           width: 1000px;
           margin-left: 263px;
 
@@ -222,26 +197,41 @@ export default {
               }
             }
           }
+
+          .avatar-wrapper {
+            width: 160px;
+            height: 88px;
+            position: relative;
+            left: 150px;
+            display: flex;
+            align-items: center;
+
+            .dropdown-wrapper {
+              color: #fff;
+
+              .name {
+                width: 120px;
+                line-height: 44px;
+                display: block;
+                float: right;
+                padding-left: 5px;
+                font-size: 15px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                cursor: pointer;
+              }
+            }
+
+            .user-avatar {
+              cursor: pointer;
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              border: 2px solid #ffff;
+            }
+          }
         }
-      }
-    }
-
-    .avatar-wrapper {
-      position: absolute;
-      top: 0;
-      right: 200px;
-      width: 120px;
-      height: 88px;
-      z-index: 4;
-      display: flex;
-      align-items: center;
-
-      .user-avatar {
-        cursor: pointer;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        border: 2px solid #ffff;
       }
     }
 

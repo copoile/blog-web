@@ -23,6 +23,8 @@ export default {
 <style lang="scss" scoped>
 .home-container {
 @import "~@/styles/variables.scss";
+	width: 100%;
+	overflow: hidden;
   .conents {
     z-index: 3;
     position: relative;

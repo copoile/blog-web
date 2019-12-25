@@ -18,12 +18,12 @@ router.beforeEach(async(to, from, next) => {
   document.title = getPageTitle(to.meta.title)
 
   // 获取AccessToken，判断是否已登录
-  const hasToken = getAccessToken()
+  const hasAccessToken = getAccessToken()
 
-  if (hasToken) {
+  if (hasAccessToken) {
     if (to.path === '/login') {
       // 已登录
-      next({ path: '/user' })
+      next({ path: '/' })
       NProgress.done()
     } else {
       // 获取角色，判断是否已调获取用户信息接口
@@ -53,8 +53,7 @@ router.beforeEach(async(to, from, next) => {
       }
     }
   } else {
-    // 未登录
-    // 免登录白名单
+    // 未登录，并且路径存在免登录白名单中
     if (whiteList.indexOf(to.path) !== -1) {
       next()
     } else {
