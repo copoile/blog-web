@@ -1,3 +1,5 @@
+import Quill from 'quill'
+
 // 编辑器图片处理插件配置, 如果不配置图片在编辑器改动的样式将不会保存到htmlContent中
 var BaseImageFormat = Quill.import('formats/image');
 const ImageFormatAttributesList = [
@@ -33,6 +35,7 @@ export class ImageFormat extends BaseImageFormat {
 // 富文本编辑工具栏
 export const toolbarOptions = [
   ["bold", "italic", "underline", "strike"],
+    ['emoji'],
   ["blockquote", "code-block"],
   [{
     header: 1

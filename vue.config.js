@@ -1,12 +1,13 @@
 'use strict'
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
+const webpack = require('webpack')
 
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'vue Admin Template' // page title
+const name = defaultSettings.title || '个人悦读分享' // page title
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
@@ -60,6 +61,11 @@ module.exports = {
     }
   },
   chainWebpack(config) {
+    // 解决quill-image-resize-module导入问题, https://github.com/kensnyder/quill-image-resize-module/issues/54
+    config.plugin('provide').use(webpack.ProvidePlugin, [{
+          'window.Quill': 'quill'
+    }])
+
     config.plugins.delete('preload') // TODO: need test
     config.plugins.delete('prefetch') // TODO: need test
 

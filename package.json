@@ -1,8 +1,8 @@
 {
-  "name": "vue-admin-template",
+  "name": "blog-web",
   "version": "4.2.1",
-  "description": "A vue admin template with Element UI & axios & iconfont & permission control & lint",
-  "author": "Pan <panfree23@gmail.com>",
+  "description": "a blog web project",
+  "author": "yaohw<yaohw484@gmail.com>",
   "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",
@@ -21,7 +21,9 @@
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
     "path-to-regexp": "2.4.0",
+    "quill-image-resize-module": "^3.0.0",
     "vue": "2.6.10",
+    "vue-quill-editor": "^3.0.6",
     "vue-router": "3.0.6",
     "vuex": "3.1.0"
   },
