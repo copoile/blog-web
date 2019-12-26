@@ -1,13 +1,13 @@
 <template>
   <div class="edit-container">
     <!-- 工具栏图片点击，这个按钮只是作为一个跳板 -->
-    <el-button id="toolbar-img" style="display:none" @click="insertEmoji('<p>sss</p>')" />
+    <el-button id="toolbar-img" style="display:none" @click="toolbarImgClick" />
 
     <!-- 头部 -->
     <div class="edit-head">
       <el-button class="col" size="small" type="danger">发布</el-button>
       <el-button class="col" size="small" type="warning">保存</el-button>
-      <el-button type="primary" size="small" icon="el-icon-upload" @click="">上传封面</el-button>
+      <el-button type="primary" size="small" icon="el-icon-upload" @click="coverUploadClick">上传封面</el-button>
       <el-select v-model="categoryId" class="col" size="small" placeholder="选择分类" style="width: 120px;">
         <el-option v-for="(category, index) in categorys" :key="index" :label="category.name" :value="category.id" />
       </el-select>
@@ -39,6 +39,7 @@
 <script>
 import Quill from 'quill'
 import ImageResize from 'quill-image-resize-module'
+import '@/assets/quill-emoji/quill-emoji.js'
 import DynamicTags from './components/DynamicTags'
 import ImgUpload from './components/ImgUpload'
 import { toolbarOptions, ImageFormat } from '@/config/editor'
@@ -58,6 +59,8 @@ export default {
           toolbar: {
             container: toolbarOptions,
             handlers: {
+              // 表情符
+              emoji: function() {},
               image: function(value) {
                 if (value) {
                   // 点击事件转移到按钮
@@ -70,7 +73,9 @@ export default {
           },
           imageResize: {
             modules: ['Resize', 'DisplaySize', 'Toolbar']
-          }
+          },
+          "emoji-toolbar": true,
+          "emoji-shortname": true
         },
         placeholder: '开始书写你的文章吧~~~'
       },
@@ -169,14 +174,6 @@ export default {
       if (oldCover) {
         deleteFile(params)
       }
-    },
-    // 插入表情
-    insertEmoji(emoji) {
-      const length = this.editor.getSelection().index
-      this.editor.insertEmbed(length, 'emoji', emoji)
-      // 调整光标到最后
-      this.editor.setSelection(length + 1)
-      // this.editor.quill.insertText(range, emoji)
     }
   }
 }

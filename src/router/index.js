@@ -12,7 +12,7 @@ import Layout from '@/layout'
  * hidden: true                   如果设置了true，则不在左边导航栏显示
  * alwaysShow: true               如果设置了true，则总在根菜单显示
  *
- * redirect: noRedirect           如果不设置，则面包屑路径不显示
+ * redirect: noRedirect           设置noRedirect，则面包屑路径不可点
  * name:'router-name'             名称在 <keep-alive> 用到，后台管理必须设置！！！
  * meta : {
     roles: ['admin','test']      页面角色控制，可多角色
@@ -112,6 +112,7 @@ export const asyncRoutes = [
   {
     path: '/article-manage',
     component: Layout,
+    redirect: 'noRedirect',
     meta: {
       title: '文章管理',
       icon: 'nested',
@@ -127,8 +128,8 @@ export const asyncRoutes = [
         }
       },
       {
-        path: 'index',
-        name: 'list',
+        path: 'list',
+        name: 'List',
         component: () => import('@/views/article-manage/index'),
         meta: {
           title: '列表',

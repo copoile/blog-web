@@ -6,7 +6,9 @@ const ImageFormatAttributesList = [
   'alt',
   'height',
   'width',
-  'style'
+  'style',
+  'class',
+  ''
 ];
 
 export class ImageFormat extends BaseImageFormat {
