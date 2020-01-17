@@ -74,8 +74,8 @@ export default {
           imageResize: {
             modules: ['Resize', 'DisplaySize', 'Toolbar']
           },
-          "emoji-toolbar": true,
-          "emoji-shortname": true
+          'emoji-toolbar': true,
+          'emoji-shortname': true
         },
         placeholder: '开始书写你的文章吧~~~'
       },
@@ -129,6 +129,7 @@ export default {
 
     // 上传封面点击事件
     coverUploadClick() {
+      console.log(this.editor)
       this.uploadType = 2
       this.imgUploadVisible = true
     },
