@@ -32,50 +32,58 @@
           <div class="right-box">
 
             <!-- 登录·注册 -->
-            <div class="nologin">
-              <div class="login-btn" @click="showLogin=true">登录</div><div class="reg-btn">注册</div>
+            <div v-if="!userInfo" class="nologin">
+              <div class="login-btn" @click="loClick">登录</div><div class="reg-btn" @click="reClick">注册</div>
+            </div>
+            <div v-else class="logined">
+              <router-link to="/user" class="console">个人中心</router-link>
+              <el-dropdown trigger="click" placement="bottom">
+                <div class="avatar-wrapper">
+                  <img :src="userInfo.avatar || defaultAvatar" class="user-avatar">
+                </div>
+                <el-dropdown-menu slot="dropdown">
+                  <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
+                    <el-dropdown-item>修改密码</el-dropdown-item>
+                  </a>
+                  <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
+                    <el-dropdown-item>Docs</el-dropdown-item>
+                  </a>
+                  <el-dropdown-item divided>
+                    <span style="display:block;" @click="logout">退 出</span>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
             </div>
           </div>
 
         </nav>
       </div>
     </header>
-    <el-dialog
-      title="注册"
-      top="30vh"
-      width="318px"
-      custom-class="login-dialog"
-      :close-on-click-modal="false"
-      :visible.sync="showLogin"
-      :before-close="loginClose"
-    >
-      <el-input v-model="reForm.username" placeholder="用户名字母开头, 允许2-16字节" />
-      <el-input v-model="reForm.mobile" placeholder="请输入手机号" />
-      <el-input
-        v-model="reForm.code"
-        placeholder="手机验证码"
-      >
-        <span slot="suffix" class="code-btn">获取验证码</span>
-      </el-input>
-      <el-input v-model="reForm.password" placeholder="密码不能少于6位数" />
-       <el-button type="primary">注册</el-button>
-    </el-dialog>
+
+    <register-dialog ref="reDialog" />
+    <login-dialog ref="loDialog" />
   </div>
 </template>
 <script>
+import RegisterDialog from './RegisterDialog'
+import LoginDialog from './LoginDialog'
+import { mapGetters } from 'vuex'
 export default {
+  components: {
+    RegisterDialog,
+    LoginDialog
+  },
   data() {
     return {
       content: '',
-      inputIconColor: '',
-      showLogin: false,
-      reForm: {
-        username: '',
-        mobile: '',
-        code: '',
-        password: ''
-      }
+      inputIconColor: ''
     }
+  },
+  computed: {
+    ...mapGetters([
+      'userInfo',
+      'defaultAvatar'
+    ])
   },
   methods: {
     inputFocus() {
@@ -84,8 +92,14 @@ export default {
     inputBlur() {
       this.inputIconColor = ''
     },
-    loginClose() {
-      this.showLogin = false
+    reClick() {
+      this.$refs.reDialog.open()
+    },
+    loClick() {
+      this.$refs.loDialog.open()
+    },
+    logout() {
+      console.log('退出')
     }
   }
 }
@@ -182,7 +196,7 @@ export default {
             cursor: pointer;
           }
 
-          @media screen and (max-width: 700px){
+          @media screen and (max-width: 750px){
             display: none;
           }
         }
@@ -193,7 +207,7 @@ export default {
           width: 150px;
           flex-direction: row-reverse;
 
-          @media screen and (max-width: 850px){
+          @media screen and (max-width: 900px){
             display: none;
           }
 
@@ -219,33 +233,35 @@ export default {
               line-height: 60px;
             }
           }
+
+          .logined {
+            height: 100%;
+            color: #007fff;
+            display: flex;
+            align-items: center;
+
+            .console {
+              font-size: 12px;
+              padding: 0 8px;
+              margin-right: 8px;
+              border-right: 1px solid hsla(0,0%,59.2%,.2);
+            }
+
+              .avatar-wrapper {
+                margin-top: 5px;
+                position: relative;
+
+                .user-avatar {
+                  cursor: pointer;
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                  border: 1px solid rgba(0, 0, 0, 0.1);
+                }
+              }
+          }
         }
       }
-    }
-  }
-
-  /deep/ .el-dialog__body {
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-top: 10px;
-  }
-
-  /deep/ .el-dialog__title {
-    font-weight: bold;
-  }
-
-  .login-dialog {
-    font-size: 14px;
-
-    .el-input {
-      margin-bottom: 10px;
-    }
-
-    .code-btn {
-      color: #007fff;
-      position: relative;
-      top: 10px;
-      right: 5px;
     }
   }
 }

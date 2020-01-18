@@ -24,6 +24,16 @@
   margin: 0 auto;
 }
 
+// refine element ui el-dialog__body
+.el-dialog__body {
+  padding: 10px 25px 15px 25px;
+}
+
+// refine element ui el-dialog__title
+.el-dialog__title {
+  font-weight: bold;
+}
+
 // refine element ui upload
 .upload-container {
   .el-upload {

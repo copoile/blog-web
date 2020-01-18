@@ -129,7 +129,6 @@ export default {
 
     // 上传封面点击事件
     coverUploadClick() {
-      console.log(this.editor)
       this.uploadType = 2
       this.imgUploadVisible = true
     },
