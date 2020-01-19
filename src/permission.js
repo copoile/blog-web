@@ -21,11 +21,6 @@ router.beforeEach(async(to, from, next) => {
   const hasAccessToken = getAccessToken()
 
   if (hasAccessToken) {
-    if (to.path === '/login') {
-      // 已登录
-      next({ path: '/' })
-      NProgress.done()
-    } else {
       // 获取角色，判断是否已调获取用户信息接口
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
       if (hasRoles) {
@@ -46,19 +41,18 @@ router.beforeEach(async(to, from, next) => {
           // 获取用户信息失败重置登录信息
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
-          // 跳转登录页
-          next(`/login?redirect=${to.path}`)
+          // 跳回首页
+          next(`/`)
           NProgress.done()
         }
       }
-    }
   } else {
     // 未登录，并且路径存在免登录白名单中
     if (whiteList.indexOf(to.path) !== -1) {
       next()
     } else {
-      // 跳转登录页面
-      next(`/login?redirect=${to.path}`)
+      // 跳回首页
+      next(`/`)
       NProgress.done()
     }
   }

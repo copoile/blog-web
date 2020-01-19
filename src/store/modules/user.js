@@ -7,7 +7,7 @@ const state = {
   nickname: '',
   avatar: '',
   roles: [],
-  userInfo: null
+  userInfo: ''
 }
 
 const mutations = {
@@ -73,11 +73,16 @@ const actions = {
    */
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        removeAccessToken()
-        resetRouter()
+      const access_token = state.token
+      commit('SET_TOKEN', '')
+      commit('SET_ROLES', [])
+      commit('SET_USER_INFO', '')
+      removeAccessToken()
+      resetRouter()
+      const params = {
+        access_token: access_token
+      }
+      logout(params).then(res => {
         resolve()
       }).catch(error => {
         reject(error)
@@ -92,7 +97,9 @@ const actions = {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
+      commit('SET_USER_INFO', '')
       removeAccessToken()
+      resetRouter()
       resolve()
     })
   }

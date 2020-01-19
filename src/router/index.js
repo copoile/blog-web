@@ -34,12 +34,6 @@ export const constantRoutes = [
   },
 
   {
-    path: '/login',
-    component: () => import('@/views/login/index'),
-    hidden: true
-  },
-
-  {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
@@ -52,54 +46,24 @@ export const constantRoutes = [
     children: [{
       path: 'info',
       name: 'Info',
-      component: () => import('@/views/dashboard/index'),
+      component: () => import('@/views/user/index'),
       meta: {
-        title: '个人中心',
-        icon: 'dashboard'
+        title: '基本信息',
+        icon: 'user'
       }
     }]
   },
 
   {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: {
-      title: 'Example',
-      icon: 'example'
-    },
-    children: [{
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: {
-          title: 'Table',
-          icon: 'table'
-        }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: {
-          title: 'Tree',
-          icon: 'tree'
-        }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
+    path: '/collect',
     component: Layout,
     children: [{
       path: 'index',
-      name: 'Form',
-      component: () => import('@/views/form/index'),
+      name: 'collect',
+      component: () => import('@/views/collect-manage/index'),
       meta: {
-        title: 'Form',
-        icon: 'form'
+        title: '我的收藏',
+        icon: 'collect-manage'
       }
     }]
   }
@@ -109,13 +73,29 @@ export const constantRoutes = [
  * 根据用户角色动态加载路由
  */
 export const asyncRoutes = [
+
   {
-    path: '/article-manage',
+    path: '/user-manage',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'UserManage',
+      component: () => import('@/views/user-manage/index'),
+      meta: {
+        title: '用户管理',
+        icon: 'user-manage',
+        roles: ['admin']
+      }
+    }]
+  },
+
+  {
+    path: '/art-manage',
     component: Layout,
     redirect: 'noRedirect',
     meta: {
       title: '文章管理',
-      icon: 'nested',
+      icon: 'art-manage',
       roles: ['admin']
     },
     children: [{
@@ -124,20 +104,96 @@ export const asyncRoutes = [
         component: () => import('@/views/article-manage/edit'),
         meta: {
           title: '编辑',
-          icon: 'form'
+          icon: 'art-edit'
         }
       },
       {
         path: 'list',
         name: 'List',
-        component: () => import('@/views/article-manage/index'),
+        component: () => import('@/views/article-manage/list'),
         meta: {
           title: '列表',
-          icon: 'form'
+          icon: 'art-list'
         }
       }
     ]
   },
+
+  {
+    path: '/recommend',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'RecommendManage',
+      component: () => import('@/views/recommend-manage/index'),
+      meta: {
+        title: '推荐管理',
+        icon: 'recommend-manage',
+        roles: ['admin']
+      }
+    }]
+  },
+
+  {
+    path: '/tag-manage',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'TagManage',
+      component: () => import('@/views/tag-manage/index'),
+      meta: {
+        title: '标签管理',
+        icon: 'tag-manage',
+        roles: ['admin']
+      }
+    }]
+  },
+
+  {
+    path: '/category-manage',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'CategoryManage',
+      component: () => import('@/views/category-manage/index'),
+      meta: {
+        title: '分类管理',
+        icon: 'category-manage',
+        roles: ['admin']
+      }
+    }]
+  },
+
+  {
+    path: '/friend-chain/manage',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'FriendChainManage',
+      component: () => import('@/views/friend-chain-manage/index'),
+      meta: {
+        title: '友链管理',
+        icon: 'friend-chain-manage',
+        roles: ['admin']
+      }
+    }]
+  },
+
+  {
+    path: '/client',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'client',
+      component: () => import('@/views/client-manage/index'),
+      meta: {
+        title: '客户端管理',
+        icon: 'client-manage',
+        roles: ['admin']
+      }
+    }]
+  },
+
   // 404 页面必须放到最后！！！
   {
     path: '*',

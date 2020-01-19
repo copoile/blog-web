@@ -1,3 +1,10 @@
+<!--
+  自定义svg图片组件
+  使用方法：在阿里云iconfont下载需要图标并命名文件名为英文名，将命名好的文件放到icons文件夹下svg文件夹下，
+  如logo图标使用：
+  <svg-icon icon-class="logo" class="customize-class" />
+  这里的logo即为logo文件名，customize-class用于自定义图标样式，样式通过fill更改，大小通过宽高更改
+-->
 <template>
   <div v-if="isExternal" :style="styleExternalIcon" class="svg-external-icon svg-icon" v-on="$listeners" />
   <svg v-else :class="svgClass" aria-hidden="true" v-on="$listeners">
@@ -47,8 +54,8 @@ export default {
 
 <style scoped>
 .svg-icon {
-  width: 1em;
-  height: 1em;
+  width: 1.1em;
+  height: 1.1em;
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;

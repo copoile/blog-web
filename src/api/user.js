@@ -19,14 +19,11 @@ export function accountLogin(username, password) {
   })
 }
 
-export function login(data) {
-  return request({
-    url: '/user/login',
-    method: 'post',
-    data
-  })
-}
 
+/**
+ * @description 获取用户信息
+ * @param {Object} token
+ */
 export function getUserInfo(token) {
   return request({
     url: '/user/info',
@@ -34,9 +31,17 @@ export function getUserInfo(token) {
   })
 }
 
-export function logout() {
+/**
+ * @description 退出
+ * @param {Object} params
+ */
+export function logout(params) {
   return request({
-    url: '/user/logout',
-    method: 'post'
+    url: '/logout',
+    headers: {
+      'Authorization': 'Basic cGM6MTIzNDU2'
+    },
+    method: 'delete',
+    params: params
   })
 }

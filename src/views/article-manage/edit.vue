@@ -1,3 +1,8 @@
+<!-- 
+ 文章编辑页面
+ 富文本编辑器使用vue-quill-editor(https://github.com/surmon-china/vue-quill-editor)
+-->
+
 <template>
   <div class="edit-container">
     <!-- 工具栏图片点击，这个按钮只是作为一个跳板 -->

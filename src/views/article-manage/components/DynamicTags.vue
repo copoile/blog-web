@@ -1,3 +1,4 @@
+<!-- 动态标签组件 -->
 <template>
   <div class="tags-wrapper">
     <!--  已选标签 -->

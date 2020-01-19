@@ -24,8 +24,11 @@ $subMenuHover:#001528;
 // 宽度
 $sideBarWidth: 210px;
 
-// 首页头部高度
-$homeHeadHeight: 372px;
+// 内容容器宽度
+$ContentContainerW: 960px;
+
+// 内容右边side的宽度
+$ContentRightSideW: 240px;
 
 :export {
   menuText: $menuText;
@@ -36,5 +39,6 @@ $homeHeadHeight: 372px;
   subMenuBg: $subMenuBg;
   subMenuHover: $subMenuHover;
   sideBarWidth: $sideBarWidth;
-  homeHeadHeight: $homeHeadHeight;
+  ContentContainerW: $ContentContainerW;
+  ContentRightSideW: $ContentRightSideW;
 }

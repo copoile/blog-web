@@ -1,6 +1,4 @@
-/**
- * 登录弹框组件
- */
+<!-- 登录弹框组件 -->
 <template>
   <el-dialog
     top="25vh"
@@ -30,7 +28,7 @@
     </el-input>
     <el-button type="primary" size="medium" :loading="loading" @click="login">登录</el-button>
     <p class="tip">
-      <span class="active tab right">忘记密码^_^?</span>
+      <span class="active right">忘记密码^_^?</span>
     </p>
     <p>注册登录即表示同意<a href="#" style="color: #007fff;">用户协议、隐私政策</a></p>
   </el-dialog>
@@ -41,8 +39,8 @@ export default {
   data() {
     return {
       show: false,
-      username: '',
-      password: '',
+      username: 'admin',
+      password: '123456',
       code: '',
       tabs: ['密码登录', '免密登录'],
       active: 0,
@@ -92,14 +90,22 @@ export default {
         username: username,
         password: password
       }
-      this.$store.dispatch('user/accountLogin', form).then(() => {
-        this.$store.dispatch('user/getUserInfo')
-        this.$router.push({ path: '/' })
-        this.loading = false
-        this.show = false
-      }).catch(() => {
-        this.loading = false
-      })
+      new Promise(async(resolve, reject) => {
+        try {
+          await this.$store.dispatch('user/accountLogin', form)
+          const { roles } = await this.$store.dispatch('user/getUserInfo')
+          const accessRoutes = await this.$store.dispatch('permission/generateRoutes', roles)
+          this.$router.addRoutes(accessRoutes)
+          this.loading = false
+          this.show = false
+          resolve()
+        } catch (error) {
+          this.loading = false
+          console.error(error)
+          reject(error)
+        }
+      }
+      )
     },
     // 验证码登录
     codeLogin() {
@@ -114,7 +120,8 @@ export default {
   font-size: 14px;
 
   .tab {
-    padding-right: 5px;
+    padding-right: 10px;
+    font-weight: bold;
   }
 
   .active {

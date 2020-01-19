@@ -1,3 +1,4 @@
+<!-- 头部导航栏 -->
 <template>
   <div class="main-header-box">
     <header class="main-header">
@@ -42,11 +43,11 @@
                   <img :src="userInfo.avatar || defaultAvatar" class="user-avatar">
                 </div>
                 <el-dropdown-menu slot="dropdown">
-                  <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
+                  <a target="_blank" href="#">
                     <el-dropdown-item>修改密码</el-dropdown-item>
                   </a>
-                  <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-                    <el-dropdown-item>Docs</el-dropdown-item>
+                  <a target="_blank" href="#">
+                    <el-dropdown-item>绑定邮箱</el-dropdown-item>
                   </a>
                   <el-dropdown-item divided>
                     <span style="display:block;" @click="logout">退 出</span>
@@ -98,8 +99,9 @@ export default {
     loClick() {
       this.$refs.loDialog.open()
     },
+    // 退出
     logout() {
-      console.log('退出')
+      this.$store.dispatch('user/logout').then(res => { this.$router.push('/') })
     }
   }
 }
@@ -237,6 +239,7 @@ export default {
           .logined {
             height: 100%;
             color: #007fff;
+            font-weight: 600;
             display: flex;
             align-items: center;
 

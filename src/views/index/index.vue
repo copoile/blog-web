@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <app-header />
-    <div class="main-content">
+    <div class="content-container">
       <div class="side-left">
         <ul class="list-header">
           <li
@@ -22,7 +22,7 @@
         </ul>
       </div>
 
-      <div class="side-right">
+      <div class="content-right-side-container">
         <right-side-about />
         <right-side-tags />
         <right-side-comment />
@@ -63,15 +63,12 @@ export default {
 
 <style lang="scss" scoped>
 .home-container {
-@import "~@/styles/variables.scss";
 	width: 100%;
 	overflow-x: hidden;
 
-  .main-content {
+  .content-container {
     margin: 0 auto;
     position: relative;
-    width: 100%;
-    max-width: 960px;
     margin-top: 15px;
     display: flex;
     color: #909090;
@@ -123,9 +120,7 @@ export default {
       }
     }
 
-    .side-right {
-      width: 240px;
-      box-sizing: border-box;
+    .content-right-side-container {
       margin-left: 20px;
       font-size: 14px;
 

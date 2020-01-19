@@ -38,14 +38,13 @@ service.interceptors.response.use(
     if (res.code !== 0) {
       // 凭证无效或过期
       if (res.code === 1006 || res.code === 1009) {
-        MessageBox.confirm('登录信息已过期', '确认退出', {
-          confirmButtonText: '重新登录',
+        store.dispatch('user/resetToken')
+        MessageBox.confirm('登录信息已过期', {
+          confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
-          })
+          location.reload()
         })
       } else {
         // 其他
