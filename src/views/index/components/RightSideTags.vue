@@ -48,10 +48,10 @@ export default {
 .container {
   font-size: 14px;
   width: 100%;
-  height: 250px;
   background: #fff;
   border-radius: 2px;
   margin-bottom: 10px;
+  padding-bottom: 10px;
   box-sizing: border-box;
   color: #2e3135;
   overflow: hidden;

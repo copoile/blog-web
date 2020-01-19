@@ -82,3 +82,10 @@ div:focus {
 .btn {
   cursor: pointer;
 }
+
+// 单行超出显示...
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
