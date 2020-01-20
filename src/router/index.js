@@ -44,6 +44,18 @@ export const constantRoutes = [
     component: () => import('@/views/category/index'),
     hidden: true
   },
+  
+  {
+    path: '/archives',
+    component: () => import('@/views/archives/index'),
+    hidden: true
+  },
+  
+  {
+    path: '/message',
+    component: () => import('@/views/message/index'),
+    hidden: true
+  },
 
   {
     path: '/404',

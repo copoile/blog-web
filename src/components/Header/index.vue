@@ -99,7 +99,7 @@ export default {
         },
         {
           name: '归档',
-          to: '/'
+          to: '/archives'
         },
         {
           name: '友链',
@@ -107,7 +107,7 @@ export default {
         },
         {
           name: '留言',
-          to: '/'
+          to: '/message'
         }
       ]
     }
