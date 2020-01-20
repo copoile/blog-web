@@ -1,4 +1,4 @@
-import { accountLogin, logout, getUserInfo } from '@/api/user'
+import { accountLogin, codeLogin, logout, getUserInfo } from '@/api/user'
 import { getAccessToken, setAccessToken, removeAccessToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -26,10 +26,25 @@ const actions = {
   /**
    * 账号登录
    */
-  accountLogin({ commit }, userInfo) {
-    const { username, password } = userInfo
+  accountLogin({ commit }, params) {
     return new Promise((resolve, reject) => {
-      accountLogin(username.trim(), password).then(response => {
+      accountLogin(params).then(response => {
+        const { data } = response
+        commit('SET_TOKEN', data.access_token)
+        setAccessToken(data.access_token)
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+  
+  /**
+   * 账号登录
+   */
+  codeLogin({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      codeLogin(params).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.access_token)
         setAccessToken(data.access_token)

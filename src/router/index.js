@@ -9,7 +9,7 @@ import Layout from '@/layout'
 /**
  *
  *
- * hidden: true                   如果设置了true，则不在左边导航栏显示
+ * hidden: true                   如果设置了true，则不在左边导航栏显示,即不是后台管理的页面
  * alwaysShow: true               如果设置了true，则总在根菜单显示
  *
  * redirect: noRedirect           设置noRedirect，则面包屑路径不可点
@@ -30,6 +30,18 @@ export const constantRoutes = [
   {
     path: '/',
     component: () => import('@/views/index/index'),
+    hidden: true
+  },
+
+  {
+    path: '/tag',
+    component: () => import('@/views/tag/index'),
+    hidden: true
+  },
+
+  {
+    path: '/category',
+    component: () => import('@/views/category/index'),
     hidden: true
   },
 

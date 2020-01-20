@@ -17,7 +17,8 @@
         @click="tabClick(index)"
       >{{ item }}</span>
     </span>
-    <el-input v-model="username" placeholder="用户名" />
+    <el-input v-if="active === 0" v-model="username" placeholder="用户名" />
+    <el-input v-else v-model="mobile" placeholder="手机号" />
     <el-input v-if="active === 0" v-model="password" placeholder="密码" />
     <el-input
       v-else
@@ -35,12 +36,14 @@
 </template>
 
 <script>
+import { validMobile } from '@/utils/validate.js'
 export default {
   data() {
     return {
       show: false,
       username: 'admin',
       password: '123456',
+      mobile: '',
       code: '',
       tabs: ['密码登录', '免密登录'],
       active: 0,
@@ -86,18 +89,18 @@ export default {
         this.$message('请输入密码')
         return
       }
-      const form = {
+      const params = {
         username: username,
         password: password
       }
       new Promise(async(resolve, reject) => {
         try {
-          await this.$store.dispatch('user/accountLogin', form)
+          await this.$store.dispatch('user/accountLogin', params)
           const { roles } = await this.$store.dispatch('user/getUserInfo')
           const accessRoutes = await this.$store.dispatch('permission/generateRoutes', roles)
           this.$router.addRoutes(accessRoutes)
           this.loading = false
-          this.show = false
+          this.bClose()
           resolve()
         } catch (error) {
           this.loading = false
@@ -109,7 +112,40 @@ export default {
     },
     // 验证码登录
     codeLogin() {
-      console.log('验证码登录')
+      const mobile = this.mobile
+      const code = this.code
+      if (mobile === '') {
+        this.$message('请输入手机号')
+        return
+      }
+      if (!validMobile(mobile)) {
+        this.$message('手机号格式不正确')
+        return
+      }
+      if (code === '') {
+        this.$message('请输入验证码')
+        return
+      }
+      const params = {
+        mobile: mobile,
+        code: code
+      }
+      new Promise(async(resolve, reject) => {
+        try {
+          await this.$store.dispatch('user/codeLogin', params)
+          const { roles } = await this.$store.dispatch('user/getUserInfo')
+          const accessRoutes = await this.$store.dispatch('permission/generateRoutes', roles)
+          this.$router.addRoutes(accessRoutes)
+          this.loading = false
+          this.bClose()
+          resolve()
+        } catch (error) {
+          this.loading = false
+          console.error(error)
+          reject(error)
+        }
+      }
+      )
     }
   }
 }

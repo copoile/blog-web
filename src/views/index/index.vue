@@ -63,10 +63,14 @@ export default {
 
 <style lang="scss" scoped>
 .home-container {
+  @import '~@/styles/variables';
 	width: 100%;
 	overflow-x: hidden;
 
   .content-container {
+    width: 100%;
+    max-width: $ContentContainerW;
+    box-sizing: border-box;
     margin: 0 auto;
     position: relative;
     margin-top: 15px;
@@ -121,6 +125,8 @@ export default {
     }
 
     .content-right-side-container {
+      width: $ContentRightSideW;
+      box-sizing: border-box;
       margin-left: 20px;
       font-size: 14px;
 

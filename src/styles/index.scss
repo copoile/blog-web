@@ -64,20 +64,6 @@ div:focus {
   padding: 20px;
 }
 
-// 内容容器
-.content-container {
-  width: 100%;
-  max-width: $ContentContainerW;
-  box-sizing: border-box;
-}
-
-// 内容容器右边容器
-.content-right-side-container {
-  width: $ContentRightSideW;
-  box-sizing: border-box;
-}
-
-
 // button
 .btn {
   cursor: pointer;

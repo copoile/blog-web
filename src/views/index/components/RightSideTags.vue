@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <div class="head">标签
-    <router-link class="right btn" to="/">全部标签</router-link>
+      <router-link class="right btn" to="/tag">全部标签</router-link>
     </div>
-	<ul class="tag-list">
-		<li class="list-item btn" v-for="item in tags" :key="item.id">{{ item.name }}</li>
-	</ul>
+    <ul class="tag-list">
+      <li v-for="item in tags" :key="item.id" class="list-item btn">{{ item.name }}</li>
+    </ul>
   </div>
 </template>
 

@@ -2,21 +2,32 @@ import request from '@/utils/request'
 
 /**
  * 账号登录
- * @param {用户名} username
- * @param {密码} password
+ * @param {Object} username
  */
-export function accountLogin(username, password) {
+export function accountLogin(params) {
   return request({
     url: '/account/login',
     headers: {
       'Authorization': 'Basic cGM6MTIzNDU2'
     },
     method: 'post',
-    params: {
-      username,
-      password
-    }
+    params: params
   })
+}
+
+/**
+ * 手机号验证码登录
+ * @param {Object} params
+ */
+export function codeLogin(params) {
+	return request({
+	  url: '/mobile/login',
+	  headers: {
+	    'Authorization': 'Basic cGM6MTIzNDU2'
+	  },
+	  method: 'post',
+	  params: params
+	})
 }
 
 

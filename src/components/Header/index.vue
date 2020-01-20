@@ -3,19 +3,23 @@
   <div class="main-header-box">
     <header class="main-header">
       <div class="container">
-        <a href="#" class="logo">
+        <router-link to="/" class="logo">
           <svg-icon icon-class="logo" class="logo-svg" />
           <span class="logo-title">个人阅读分享</span>
-        </a>
+        </router-link>
 
         <nav class="main-nav">
           <!-- 导航栏目 -->
           <ul class="main-nav-list">
-            <li class="main-nav-item">首页</li>
-            <li class="main-nav-item">分类</li>
-            <li class="main-nav-item">归档</li>
-            <li class="main-nav-item">友链</li>
-            <li class="main-nav-item">留言</li>
+            <li
+              v-for="(nav,index) in navItems"
+              :key="index"
+              class="main-nav-item"
+              :class="{'main-nav-item-active':navItemActive===index}"
+              @click="$router.push(nav.to)"
+            >
+              {{ nav.name }}
+            </li>
           </ul>
           <!-- 搜索框 -->
           <div class="search-box">
@@ -74,10 +78,38 @@ export default {
     RegisterDialog,
     LoginDialog
   },
+  props: {
+    navItemActive: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
       content: '',
-      inputIconColor: ''
+      inputIconColor: '',
+      navItems: [
+        {
+          name: '首页',
+          to: '/'
+        },
+        {
+          name: '分类',
+          to: '/category'
+        },
+        {
+          name: '归档',
+          to: '/'
+        },
+        {
+          name: '友链',
+          to: '/'
+        },
+        {
+          name: '留言',
+          to: '/'
+        }
+      ]
     }
   },
   computed: {
@@ -178,6 +210,10 @@ export default {
             &:hover {
               color: #007fff;
             }
+          }
+
+          .main-nav-item-active {
+            color: #007fff;
           }
         }
 
