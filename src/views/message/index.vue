@@ -6,12 +6,12 @@
         <p class="main-tip-label">温馨提示</p>
         <p class="main-tip-text">本站欢迎交换友链，请在下面留言备注即可，请先在您博客上添加本站的友链。</p>
         <div class="edit-container">
-          编辑器
+          <quill-editor ref="editor" v-model="content" :options="editorOption" />
         </div>
       </div>
       <div class="content-box">
         <p class="main-tip-label">留言列表
-        <span class="right">共27条留言</span>
+          <span class="right">共27条留言</span>
         </p>
         <ul class="content-list">
           <li class="list-item">dd</li>
@@ -26,6 +26,21 @@ import AppHeader from '@/components/Header/index'
 export default {
   components: {
     AppHeader
+  },
+  data() {
+  	return {
+  		content: '',
+      editorOption: {
+        modules: {
+          toolbar: {
+            container: [['emoji']]
+          },
+          'emoji-toolbar': true,
+          'emoji-shortname': true
+        },
+        placeholder: '不说点什么吗?^_^......'
+      }
+  	}
   }
 }
 </script>
@@ -62,6 +77,25 @@ export default {
         font-size: 14px;
         text-indent: 50px;
         padding: 20px 0 50px 0;
+      }
+
+      .edit-container {
+        margin: 0 auto;
+        padding: 0 50px;
+
+      	/deep/ .ql-container.ql-snow {
+      	  border: none;
+      	}
+
+      	/deep/ .ql-toolbar.ql-snow {
+      	  border: none;
+      	}
+
+      	/deep/ .ql-editor {
+      	  border: 1px #00a77c solid;
+      	  border-radius: 5px;
+      	  min-height: 100px;
+      	}
       }
     }
 

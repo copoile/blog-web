@@ -129,6 +129,7 @@ export default {
       box-sizing: border-box;
       margin-left: 20px;
       font-size: 14px;
+      position: relative;
 
       @media screen and (max-width: 960px){
         display: none;

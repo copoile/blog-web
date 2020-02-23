@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { tagList } from '@/api/tag.js'
 export default {
   props: {
     seletedTags: {
@@ -53,14 +54,7 @@ export default {
       dynamicTags: this.seletedTags || [],
       inputTagVisible: false,
       inputTagValue: '',
-      tags: [
-        { value: '测试', tagId: 1 },
-        { value: '阿斯蒂芬', tagId: 2 },
-        { value: 's', tagId: 3 },
-        { value: 'c', tagId: 4 },
-        { value: '给对方', tagId: 5 },
-        { value: 'ga', tagId: 6 }
-      ]
+      tags: []
     }
   },
 
@@ -71,7 +65,24 @@ export default {
     }
   },
 
+  mounted() {
+    this.initTag()
+  },
+
   methods: {
+    // 加载标签列表
+    initTag() {
+      tagList().then(
+        res => {
+          const tagList = res.data
+          const len = tagList.length
+          for (var i = 0; i < len; i++) {
+            this.tags.push({ value: tagList[i].name, tagId: tagList[i].id })
+          }
+        }
+      )
+    },
+
     // 过滤标签列表
     querySearch(queryString, cb) {
       var tags = this.tags
@@ -141,6 +152,10 @@ export default {
     margin-right: 5px;
     background: #409eff;
     color: #fff;
+  }
+
+  .el-icon-close {
+    cursor: pointer;
   }
 }
 </style>

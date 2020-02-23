@@ -8,7 +8,7 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false })
 // 免登录白名单
-const whiteList = ['/login', '/', '/tag', '/category', '/archives']
+const whiteList = ['/login', '/', '/tag', '/category', '/archives', '/message']
 
 router.beforeEach(async(to, from, next) => {
   // 进度条开始

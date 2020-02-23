@@ -1,11 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router)
-
 /* Layout */
 import Layout from '@/layout'
-
 /**
  *
  *
@@ -26,43 +23,36 @@ import Layout from '@/layout'
 /**
  * 常量路由，所有用户可见
  */
-export const constantRoutes = [
-  {
+export const constantRoutes = [{
     path: '/',
     component: () => import('@/views/index/index'),
     hidden: true
   },
-
   {
     path: '/tag',
     component: () => import('@/views/tag/index'),
     hidden: true
   },
-
   {
     path: '/category',
     component: () => import('@/views/category/index'),
     hidden: true
   },
-  
   {
     path: '/archives',
     component: () => import('@/views/archives/index'),
     hidden: true
   },
-  
   {
     path: '/message',
     component: () => import('@/views/message/index'),
     hidden: true
   },
-
   {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
   },
-
   {
     path: '/user',
     component: Layout,
@@ -77,7 +67,6 @@ export const constantRoutes = [
       }
     }]
   },
-
   {
     path: '/collect',
     component: Layout,
@@ -96,9 +85,7 @@ export const constantRoutes = [
 /**
  * 根据用户角色动态加载路由
  */
-export const asyncRoutes = [
-
-  {
+export const asyncRoutes = [{
     path: '/user-manage',
     component: Layout,
     children: [{
@@ -112,7 +99,6 @@ export const asyncRoutes = [
       }
     }]
   },
-
   {
     path: '/art-manage',
     component: Layout,
@@ -136,13 +122,12 @@ export const asyncRoutes = [
         name: 'List',
         component: () => import('@/views/article-manage/list'),
         meta: {
-          title: '列表',
+          title: '文章',
           icon: 'art-list'
         }
       }
     ]
   },
-
   {
     path: '/recommend',
     component: Layout,
@@ -157,7 +142,6 @@ export const asyncRoutes = [
       }
     }]
   },
-
   {
     path: '/tag-manage',
     component: Layout,
@@ -172,7 +156,6 @@ export const asyncRoutes = [
       }
     }]
   },
-
   {
     path: '/category-manage',
     component: Layout,
@@ -187,7 +170,6 @@ export const asyncRoutes = [
       }
     }]
   },
-
   {
     path: '/friend-chain/manage',
     component: Layout,
@@ -202,7 +184,6 @@ export const asyncRoutes = [
       }
     }]
   },
-
   {
     path: '/client',
     component: Layout,
@@ -217,7 +198,6 @@ export const asyncRoutes = [
       }
     }]
   },
-
   // 404 页面必须放到最后！！！
   {
     path: '*',

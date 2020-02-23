@@ -2,23 +2,15 @@
   <div class="container">
     <app-header :nav-item-active="1" />
     <div class="content-container">
-      <ul class="head-list">
+      <ul class="left-list">
         <li
-          v-for="(tab,index) in firstTabs"
+          v-for="(category,index) in categorys"
           :key="index"
-          class="head-list-item"
-          :class="{'head-list-item-active':tabActive === index}"
-          @click="tabClick(index,tab)"
-        >前端工程狮</li>
-        <li v-if="secondTabs.length !=0 " class="head-list-item">
-          <el-dropdown placement="bottom" @command="handleCommand">
-            <span>
-              更多<i class="el-icon-caret-bottom" />
-            </span>
-            <el-dropdown-menu slot="dropdown" split-button>
-              <el-dropdown-item v-for="(tab,index) in secondTabs" :key="index" :command="tab">猪酱的日常</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          class="left-list-item"
+          :class="{'left-list-item-active': tabActive === index}"
+          @click="chageTab(index,category.id)"
+        >
+          <span class="item-content">{{ category.name }}</span>
         </li>
       </ul>
       <ul class="content-list">
@@ -35,6 +27,7 @@
 
 <script>
 import AppHeader from '@/components/Header/index'
+import { categoryList } from '@/api/category.js'
 export default {
   components: {
     AppHeader
@@ -42,35 +35,29 @@ export default {
   data() {
     return {
       tabActive: 0,
-      categorys: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      categorys: []
     }
   },
-  computed: {
-    // 数组拆分
-    firstTabs() {
-      const len = this.categorys.length
-      if (len > 7) {
-        return this.categorys.slice(0, 6)
-      }
-      return this.categorys
-    },
-    secondTabs() {
-      const len = this.categorys.length
-      if (len > 7) {
-        return this.categorys.slice(7, len + 1)
-      }
-      return []
-    }
+
+  mounted() {
+    this.initCategoryList()
   },
+
   methods: {
-    // tab点击事件
-    tabClick(index, tab) {
-      console.log(tab)
-      this.tabActive = index
+
+    // 获取分类列表
+    initCategoryList() {
+      categoryList().then(
+        res => {
+          this.categorys = res.data
+        }
+      )
     },
-    // 下拉列表点击事件
-    handleCommand(tab) {
-      this.tabClick(-1, tab)
+
+    // tab更改
+    chageTab(index, categoryId) {
+      this.tabActive = index
+      console.log(categoryId)
     }
   }
 }
@@ -84,56 +71,71 @@ export default {
   overflow-x: hidden;
 
   .content-container {
-    background: #fff;
-    max-width: $ContentContainerW;
+    max-width: 822px;
     margin: 0 auto;
     margin-top: 15px;
     border-radius: 2px;
+    display: flex;
+    align-items: flex-start;
 
-    .head-list {
+    .left-list {
+      background: #fff;
+      width: 112px;
       margin: 0;
+      margin-right: 10px;
       padding: 0;
-      padding-left: 10px;
-      display: flex;
-      border-bottom: 1px solid hsla(0,0%,59.2%,.1);
+      text-align: center;
+      box-sizing: border-box;
+      color: #909090;
+      border-radius: 2px;
 
-      .head-list-item {
+      .left-list-item {
         font-size: 14px;
         list-style: none;
-        padding: 15px 0px;
-        margin: 0 15px;
         cursor: pointer;
         position: relative;
-        color: #333;
+        margin-top: 10px;
 
-        &:first-child {
-          margin-left: 0;
+        &:last-child {
+          margin-bottom: 10px;
         }
 
-        &:hover {
-          color: #007fff;
+        .item-content {
+          padding: 7px 0;
+          display: inline-block;
+          min-width: 86px;
+          cursor: pointer;
+          border-radius: 3px;
+
+          &:hover {
+            color: #007fff;
+            background: #f4f5f5;
+          }
         }
       }
 
-      .head-list-item-active {
-        color: #007fff;
-        font-weight: 600;
-        &:after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          height: 2px;
+      .left-list-item-active {
+        color: #fff;
+        font-weight: 700;
+
+        .item-content {
           background: #007fff;
-          width: 100%;
+
+          &:hover {
+            color: #fff;
+            background: #007fff;
+          }
         }
       }
     }
 
     .content-list {
+      background: #fff;
+      flex: 1;
       margin: 0;
       box-sizing: border-box;
       padding: 10px;
+      border-radius: 2px;
 
       .content-list-item {
         list-style: none;

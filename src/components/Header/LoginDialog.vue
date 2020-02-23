@@ -29,9 +29,10 @@
     </el-input>
     <el-button type="primary" size="medium" :loading="loading" @click="login">登录</el-button>
     <p class="tip">
-      <span class="active right">忘记密码^_^?</span>
+      <el-checkbox v-if="active === 0" v-model="checked">记住密码</el-checkbox>
+      <span class="active btn" :class="{'right': active === 0}">忘记密码^_^?</span>
     </p>
-    <p>注册登录即表示同意<a href="#" style="color: #007fff;">用户协议、隐私政策</a></p>
+    <p style="clear: both;">注册登录即表示同意<a href="#" style="color: #007fff;">用户协议、隐私政策</a></p>
   </el-dialog>
 </template>
 
@@ -47,6 +48,7 @@ export default {
       code: '',
       tabs: ['密码登录', '免密登录'],
       active: 0,
+      checked: false,
       loading: false
     }
   },
@@ -181,6 +183,11 @@ export default {
 
   .tip {
     margin-bottom: 20px;
+    padding: 0 2px;
+
+    .right {
+      float: right;
+    }
   }
 
 }

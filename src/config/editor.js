@@ -69,7 +69,6 @@ export const toolbarOptions = [
   [{
     header: [1, 2, 3, 4, 5, 6, false]
   }],
-
   [{
     color: []
   }, {
@@ -78,6 +77,7 @@ export const toolbarOptions = [
   [{
     align: []
   }],
-  ["link", "image"],
-  ["clean"]
-];
+  ['link', 'image'],
+  ['clean'],
+  ['preview']
+]

@@ -1,17 +1,19 @@
-<!-- 
+<!--
  文章编辑页面
  富文本编辑器使用vue-quill-editor(https://github.com/surmon-china/vue-quill-editor)
 -->
-
 <template>
-  <div class="edit-container">
+  <div v-loading="loading" class="edit-container">
     <!-- 工具栏图片点击，这个按钮只是作为一个跳板 -->
     <el-button id="toolbar-img" style="display:none" @click="toolbarImgClick" />
 
+    <!-- 工具栏预览点击，这个按钮只是作为一个跳板 -->
+    <el-button id="toolbar-preview" style="display:none" @click="toolbarPreviewClick" />
+
     <!-- 头部 -->
     <div class="edit-head">
-      <el-button class="col" size="small" type="danger">发布</el-button>
-      <el-button class="col" size="small" type="warning">保存</el-button>
+      <el-button class="col" size="small" type="danger" @click="save(0)">发布</el-button>
+      <el-button class="col" size="small" type="warning" @click="save(1)">保存</el-button>
       <el-button type="primary" size="small" icon="el-icon-upload" @click="coverUploadClick">上传封面</el-button>
       <el-select v-model="categoryId" class="col" size="small" placeholder="选择分类" style="width: 120px;">
         <el-option v-for="(category, index) in categorys" :key="index" :label="category.name" :value="category.id" />
@@ -19,7 +21,7 @@
       <el-select v-model="original" class="col" size="small" style="width: 75px;">
         <el-option v-for="(option, index) in options" :key="index" :label="option.name" :value="option.value" />
       </el-select>
-      <dynamic-tags @tagsChage="tagsChage" />
+      <dynamic-tags :seleted-tags="seletedTags" @tagsChage="tagsChage" />
     </div>
 
     <div class="row-box">
@@ -51,6 +53,8 @@ import { toolbarOptions, ImageFormat } from '@/config/editor'
 import { deleteFile } from '@/api/file'
 Quill.register('modules/imageResize', ImageResize)
 Quill.register(ImageFormat, true)
+import { categoryList } from '@/api/category.js'
+import { saveArticle, articleDetail } from '@/api/article.js'
 export default {
   name: 'Edit',
   components: {
@@ -73,6 +77,14 @@ export default {
                 } else {
                   this.quill.format('image', false)
                 }
+              },
+              preview: function(value) {
+                if (value) {
+                  // 点击事件转移到按钮
+                  document.querySelector('#toolbar-preview').click()
+                } else {
+                  this.quill.format('preview', false)
+                }
               }
             }
           },
@@ -84,6 +96,8 @@ export default {
         },
         placeholder: '开始书写你的文章吧~~~'
       },
+      loading: false,
+      id: null,
       tagIds: [],
       categoryId: null,
       title: '',
@@ -106,16 +120,8 @@ export default {
           value: 0
         }
       ],
-      categorys: [
-        {
-          name: '测试测试测',
-          id: 1
-        },
-        {
-          name: '测试2',
-          id: 2
-        }
-      ]
+      categorys: [],
+      seletedTags: []
     }
   },
   computed: {
@@ -123,7 +129,65 @@ export default {
       return this.$refs.editor.quill
     }
   },
+  mounted() {
+    this.addPreviewTool()
+    this.initCategoryList()
+    this.id = this.$route.query.id || null
+    this.initEdit()
+  },
+
   methods: {
+
+    // 添加n预览按钮
+    addPreviewTool() {
+      // 自定义预览按钮
+      const btn = document.querySelector('.ql-preview')
+      btn.style.cssText = 'min-width: 50px;color: #007fff;font-size: 14px;'
+      btn.innerText = '预览'
+    },
+
+    // 预览点击事件
+    toolbarPreviewClick() {
+      // 使编辑器失去焦点，要不然会跳到最后，显示会拖动
+      this.editor.blur()
+      console.log('预览')
+    },
+
+    // 加载编辑文章
+    initEdit() {
+      if (this.id) {
+        this.loading = true
+        articleDetail(this.id).then(
+          res => {
+            this.categoryId = res.data.categoryId
+            this.title = res.data.title
+            this.summary = res.data.summary
+            this.cover = res.data.cover
+            this.content = res.data.content
+            this.original = res.data.original
+            const tagList = res.data.tagList
+            const len = tagList.length
+            for (var i = 0; i < len; i++) {
+              this.seletedTags.push({ value: tagList[i].name, tagId: tagList[i].id })
+            }
+            this.loading = false
+          },
+          error => {
+            console.error(error)
+            this.loading = false
+          }
+        )
+      }
+    },
+
+    // 获取分类列表
+    initCategoryList() {
+      categoryList().then(
+        res => {
+          this.categorys = res.data
+        }
+      )
+    },
 
     // 监控到已选标签
     tagsChage(tags) {
@@ -167,6 +231,11 @@ export default {
       this.editor.insertEmbed(length, 'image', url)
       // 调整光标到最后
       this.editor.setSelection(length + 1)
+      this.$notify({
+        title: '成功',
+        message: '图片上传成功！',
+        type: 'success'
+      })
     },
 
     // 封面上传成功，删除原封面
@@ -179,6 +248,42 @@ export default {
       if (oldCover) {
         deleteFile(params)
       }
+      this.$notify({
+        title: '成功',
+        message: '封面上传成功！',
+        type: 'success'
+      })
+    },
+
+    // 保存文章
+    save(status) {
+      this.loading = true
+      const data = {
+        id: this.id,
+        status: status,
+        title: this.title,
+        content: this.content,
+        cover: this.cover,
+        summary: this.summary,
+        original: this.original,
+        reproduce: this.original === 0 ? null : this.reproduce,
+        categoryId: this.categoryId,
+        tagIds: this.tagIds
+      }
+      saveArticle(data).then(
+        res => {
+          this.loading = false
+          this.$notify({
+            title: '成功',
+            message: '文章保存成功！',
+            type: 'success'
+          })
+        },
+        error => {
+          console.log(error)
+          this.loading = false
+        }
+      )
     }
   }
 }
