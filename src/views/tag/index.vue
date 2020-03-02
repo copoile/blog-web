@@ -9,14 +9,10 @@
           <p class="content-row"><span style="color: #00a4ff;">#</span>Mysql</p>
           <p class="content-row content-des">Mysql标签共计36篇文章。</p>
         </div>
-        <ul class="content-list">
-          <li class="content-list-item">
-            asdf
-          </li>
-          <li class="content-list-item">
-            asdf
-          </li>
-        </ul>
+        <div />
+        <div class="content-list">
+          <article-list />
+        </div>
       </div>
       <!-- 右边 -->
       <div class="right-side">
@@ -36,9 +32,11 @@
 
 <script>
 import AppHeader from '@/components/Header/index'
+import ArticleList from '@/components/ArticleList'
 export default {
   components: {
-    AppHeader
+    AppHeader,
+    ArticleList
   },
   data() {
     return {
@@ -86,15 +84,16 @@ export default {
     margin-top: 15px;
     box-sizing: border-box;
     display: flex;
+    align-items: flex-start;
 
     .left-side {
       flex: 1;
       background: #fff;
       border-radius: 2px;
-      padding: 10px;
+      margin-right: 260px;
 
       .content-head {
-        padding: 50px 0;
+        padding: 45px 30px;
         font-weight: 700;
         font-size: 25px;
         border-bottom: 1px solid hsla(0,0%,59.2%,.1);
@@ -114,20 +113,20 @@ export default {
       .content-list {
         margin: 0;
         box-sizing: border-box;
-        padding: 10px;
-
-        .content-list-item {
-          list-style: none;
-          padding: 10px 0;
-        }
       }
     }
 
     .right-side {
+      position: fixed;
+      top: 75px;
+      right: calc(calc(100% - 950px)/2);
+      z-index: 999;
       background: #fff;
       width: $ContentRightSideW;
       margin-left: 20px;
       font-size: 14px;
+      min-height: 190px;
+
       .tag-box {
         width: 100%;
         border-radius: 2px;

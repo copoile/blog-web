@@ -23,6 +23,7 @@
 
 <script>
 import AppHeader from '@/components/Header/index'
+import '@/assets/quill-emoji/quill-emoji.js'
 export default {
   components: {
     AppHeader

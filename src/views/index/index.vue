@@ -12,14 +12,7 @@
             @click="mainTabClick(index)"
           >{{ item }}</li>
         </ul>
-        <ul class="content-list">
-          <li class="content-list-item">
-            asdf
-          </li>
-          <li class="content-list-item">
-            asdf
-          </li>
-        </ul>
+        <article-list />
       </div>
 
       <div class="content-right-side-container">
@@ -27,6 +20,7 @@
         <right-side-tags />
         <right-side-comment />
         <right-side-recommend />
+        <right-side-section />
       </div>
     </div>
   </div>
@@ -34,18 +28,22 @@
 
 <script>
 import AppHeader from '@/components/Header/index'
+import ArticleList from '@/components/ArticleList'
 import RightSideAbout from './components/RightSideAbout'
 import RightSideTags from './components/RightSideTags'
 import RightSideComment from './components/RightSideComment'
 import RightSideRecommend from './components/RightSideRecommend'
+import RightSideSection from './components/RightSideSection'
 export default {
   name: 'Index',
   components: {
     AppHeader,
+    ArticleList,
     RightSideAbout,
     RightSideTags,
     RightSideComment,
-    RightSideRecommend
+    RightSideRecommend,
+    RightSideSection
   },
   data() {
     return {
@@ -109,17 +107,6 @@ export default {
 
         .main-active {
           color: #007fff;
-        }
-      }
-
-      .content-list {
-        margin: 0;
-        box-sizing: border-box;
-        padding: 10px;
-
-        .content-list-item {
-          list-style: none;
-          padding: 10px 0;
         }
       }
     }

@@ -8,7 +8,7 @@
         </div>
         <div class="content-box">
           <p class="content-row text-ellipsis">爱江山不爱美人&emsp;1天前(6月18日)</p>
-          <p class="content-row text text-ellipsis">尼玛的，来玩下啊！！！尼玛的，来玩下啊！！！尼玛的，来玩下啊！！！</p>
+          <p class="content-row text text-ellipsis">小伙子，来玩下啊！！！尼玛的，来玩下啊！！！尼玛的，来玩下啊！！！</p>
         </div>
       </li>
 
@@ -18,7 +18,7 @@
         </div>
         <div class="content-box">
           <p class="content-row">校园同学&emsp;1天前(6月18日)</p>
-          <p class="content-row text">尼玛的，来玩下啊！！！</p>
+          <p class="content-row text">小伙子，来玩下啊！！！</p>
         </div>
       </li>
 
@@ -28,7 +28,7 @@
         </div>
         <div class="content-box">
           <p class="content-row">校园同学&emsp;1天前(6月18日)</p>
-          <p class="content-row text">尼玛的，来玩下啊！！！</p>
+          <p class="content-row text">小伙子，来玩下啊！！！</p>
         </div>
       </li>
 
@@ -38,7 +38,7 @@
         </div>
         <div class="content-box">
           <p class="content-row">校园同学&emsp;1天前(6月18日)</p>
-          <p class="content-row text">尼玛的，来玩下啊！！！</p>
+          <p class="content-row text">小伙子，来玩下啊！！！</p>
         </div>
       </li>
 
@@ -48,7 +48,7 @@
         </div>
         <div class="content-box">
           <p class="content-row">校园同学&emsp;1天前(6月18日)</p>
-          <p class="content-row text">尼玛的，来玩下啊！！！</p>
+          <p class="content-row text">小伙子，来玩下啊！！！</p>
         </div>
       </li>
     </ul>

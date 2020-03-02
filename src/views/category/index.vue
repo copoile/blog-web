@@ -13,24 +13,21 @@
           <span class="item-content">{{ category.name }}</span>
         </li>
       </ul>
-      <ul class="content-list">
-        <li class="content-list-item">
-          asdf
-        </li>
-        <li class="content-list-item">
-          asdf
-        </li>
-      </ul>
+      <div class="content-list">
+        <article-list />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import AppHeader from '@/components/Header/index'
+import ArticleList from '@/components/ArticleList'
 import { categoryList } from '@/api/category.js'
 export default {
   components: {
-    AppHeader
+    AppHeader,
+    ArticleList
   },
   data() {
     return {
@@ -71,6 +68,7 @@ export default {
   overflow-x: hidden;
 
   .content-container {
+    position: relative;
     max-width: 822px;
     margin: 0 auto;
     margin-top: 15px;
@@ -88,6 +86,11 @@ export default {
       box-sizing: border-box;
       color: #909090;
       border-radius: 2px;
+      position: fixed;
+      left: calc(calc(100% - 830px)/2);
+      top: 75px;
+      background: #fff;
+      z-index: 999;
 
       .left-list-item {
         font-size: 14px;
@@ -131,16 +134,11 @@ export default {
 
     .content-list {
       background: #fff;
-      flex: 1;
+      width: 700px;
       margin: 0;
       box-sizing: border-box;
-      padding: 10px;
       border-radius: 2px;
-
-      .content-list-item {
-        list-style: none;
-        padding: 10px 0;
-      }
+      margin-left: 122px;
     }
   }
 }

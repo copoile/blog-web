@@ -13,7 +13,7 @@
     <el-input v-model="mobile" placeholder="请输入手机号" />
     <el-input
       v-model="code"
-      placeholder="手机验证码"
+      placeholder="验证码"
     >
       <span slot="suffix" class="code-btn btn">获取验证码</span>
     </el-input>

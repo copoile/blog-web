@@ -84,7 +84,12 @@ export default {
     display: flex;
 
     .left-side {
-      width: $ContentRightSideW;
+      position: fixed;
+      top: 125px;
+      left: calc(calc(100% - 830px)/2);
+      background: #fff;
+      z-index: 999;
+      width: 200px;
 
       .left-side-title {
         margin: 0;
@@ -105,7 +110,7 @@ export default {
         .list-tab {
           list-style: none;
           position: relative;
-          margin: 15px 0;
+          margin: 12px 0;
           cursor: pointer;
 
           &:hover {
@@ -132,7 +137,7 @@ export default {
     }
 
     .right-side {
-      margin-left: 10px;
+      margin-left: 240px;
       flex: 1;
 
       #first {
