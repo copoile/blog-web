@@ -9,7 +9,7 @@
           <quill-editor ref="editor" v-model="content" :options="editorOption" />
         </div>
         <div class="main-tools-box">
-          <div class="submit-btn">留个言</div>
+          <div class="submit-btn" @click="addMessage">留个言</div>
         </div>
       </div>
       <div class="content-box">
@@ -17,45 +17,30 @@
           <span class="right">共27条留言</span>
         </p>
         <ul class="content-list">
-          <li class="list-item">
+          <li v-for="(comment, index1) in commentList" :key="index1" class="list-item">
             <div class="cmt-li-title">
               <div class="headimg">
-                <img src="https://poile-img.nos-eastchina1.126.net/me.png">
+                <img :src="comment.fromUser.avatar">
               </div>
             </div>
             <div class="cmt-li-r">
               <div class="top">
-                <p class="nickname">小红</p>
-                <p class="date">2020-03-05 21:56 00</p>
+                <p class="nickname">{{ comment.fromUser.nickname }}</p>
+                <p class="date">{{ comment.createTime }}</p>
               </div>
-              <p class="body-text">哈喽博主，小站来交换友链啦，我已经给你加上了~ 名称：CCD'Blog 链接：https://ccddccd.com 描述：19线小镇青年~ 头像：https://ccddccd.com/wp-content/uploads/2019/11/1573708671-tubiao.png
-              </p>
+              <p class="body-text" v-html="comment.content" />
               <div class="btns-bar">
                 <span class="reply-btn">回复</span>
               </div>
               <ul class="reply-list">
-                <li class="reply-item">
-                  <div class="reply-date">2020-03-05 21:56 00</div>
+                <li v-for="(reply, index2) in comment.replyList" :key="index2" class="reply-item">
+                  <div class="reply-date">{{ reply.createTime }}</div>
                   <div class="reply-content">
                     <div class="headimg">
-                      <img src="https://poile-img.nos-eastchina1.126.net/me.png">
+                      <img :src="reply.fromUser.avatar">
                     </div>
-                    <div class="nickname">小红</div>
-                    <p class="reply-text">哈喽博主，小站来交换友链啦，我已经给你加上了~ 名称：CCD'Blog 链接：https://ccddccd.com 描述：19线小镇青年~ 头像：https://ccddccd.com/wp-content/uploads/2019/11/1573708671-tubiao.png</p>
-                  </div>
-                  <div class="btns-bar">
-                    <span class="reply-btn">回复</span>
-                  </div>
-                </li>
-
-                <li class="reply-item">
-                  <div class="reply-date">2020-03-05 21:56 00</div>
-                  <div class="reply-content">
-                    <div class="headimg">
-                      <img src="http://thirdqq.qlogo.cn/g?b=oidb&amp;k=0ibmB9fW2dNEgCCG4Km8Xlw&amp;s=100&amp;t=1556662682">
-                    </div>
-                    <div class="nickname">小红</div>
-                    <p class="reply-text">哈喽博主，小站来交换友链啦，我已经给你加上了~ 名称：CCD'Blog 链接：https://ccddccd.com 描述：19线小镇青年~ 头像：https://ccddccd.com/wp-content/uploads/2019/11/1573708671-tubiao.png</p>
+                    <div class="nickname">{{ reply.fromUser.nickname }}<span style="color: #000000;">回复</span>@{{ reply.toUser.nickname }}</div>
+                    <p class="reply-text" v-html="reply.content" />
                   </div>
                   <div class="btns-bar">
                     <span class="reply-btn">回复</span>
@@ -64,26 +49,6 @@
               </ul>
             </div>
           </li>
-
-          <li class="list-item">
-            <div class="cmt-li-title">
-              <div class="headimg">
-                <img src="http://thirdqq.qlogo.cn/g?b=oidb&amp;k=0ibmB9fW2dNEgCCG4Km8Xlw&amp;s=100&amp;t=1556662682">
-              </div>
-            </div>
-            <div class="cmt-li-r">
-              <div class="top">
-                <p class="nickname">小红</p>
-                <p class="date">2020-03-05 21:56 00</p>
-              </div>
-              <p class="body-text">哈喽博主，小站来交换友链啦，我已经给你加上了~ 名称：CCD'Blog 链接：https://ccddccd.com 描述：19线小镇青年~ 头像：https://ccddccd.com/wp-content/uploads/2019/11/1573708671-tubiao.png
-              </p>
-              <div class="btns-bar">
-                <span class="reply-btn">回复</span>
-              </div>
-            </div>
-          </li>
-
         </ul>
       </div>
     </div>
@@ -93,13 +58,14 @@
 <script>
 import AppHeader from '@/components/Header/index'
 import '@/assets/quill-emoji/quill-emoji.js'
+import { pageMessage, addMessage } from '@/api/message.js'
 export default {
   components: {
     AppHeader
   },
   data() {
-  	return {
-  		content: '',
+    return {
+      content: '',
       editorOption: {
         modules: {
           toolbar: {
@@ -109,8 +75,41 @@ export default {
           'emoji-shortname': true
         },
         placeholder: '客官，来都来了，怎么不给博主留个言呢 ？'
+      },
+      current: 1,
+      size: 6,
+      commentList: []
+    }
+  },
+
+  mounted() {
+    this.pageMessage()
+  },
+
+  methods: {
+
+    pageMessage() {
+      const params = {
+        current: this.current,
+        size: this.size
       }
-  	}
+      pageMessage(params).then(
+        res => {
+          this.commentList = res.data.records
+        }
+      )
+    },
+
+    addMessage() {
+      const params = {
+        content: this.content
+      }
+      addMessage(params).then(
+        () => {
+          this.pageMessage()
+        }
+      )
+    }
   }
 }
 </script>
@@ -153,20 +152,20 @@ export default {
         margin: 0 auto;
         padding: 0 50px;
 
-      	/deep/ .ql-container.ql-snow {
-      	  border: none;
-      	}
+        /deep/ .ql-container.ql-snow {
+          border: none;
+        }
 
-      	/deep/ .ql-toolbar.ql-snow {
-      	  border: none;
-      	}
+        /deep/ .ql-toolbar.ql-snow {
+          border: none;
+        }
 
-      	/deep/ .ql-editor {
-      	  border: 1px solid #e74851;
-      	  border-radius: 5px;
-      	  min-height: 120px;
+        /deep/ .ql-editor {
+          border: 1px solid #e74851;
+          border-radius: 5px;
+          min-height: 120px;
           padding: 20px;
-      	}
+        }
 
         /deep/ .ql-stroke {
           stroke: #e74851;
@@ -239,6 +238,7 @@ export default {
               width: 42px;
               border-radius: 50%;
               overflow: hidden;
+              border: 1px solid rgba(0, 0, 0, 0.1);
 
               img {
                 height: 100%;
@@ -248,7 +248,7 @@ export default {
           }
 
           .cmt-li-r {
-            margin-left: 20px;
+            margin-left: 15px;
             width: 850px;
             float: left;
 
@@ -260,12 +260,12 @@ export default {
 
               .nickname {
                 float: left;
-                color: #e74851;
+                color: #007fff;
                 font-weight: 700;
                 font-size: 13px;
                 padding: 0;
                 margin: 0;
-                margin-top: 12px;
+                margin-top: 10px;
               }
 
               .date {
@@ -277,7 +277,6 @@ export default {
             .body-text {
               font-size: 14px;
               color: #333;
-              line-height: 28px;
             }
 
             .btns-bar {
@@ -325,6 +324,7 @@ export default {
                     width: 36px;
                     border-radius: 50%;
                     overflow: hidden;
+                    border: 1px solid rgba(0, 0, 0, 0.1);
 
                     img {
                       height: 100%;
@@ -335,7 +335,7 @@ export default {
                   .nickname {
                     font-weight: 700;
                     padding-top: 13px;
-                    color: #e74851;
+                    color: #007fff;
                     padding-left: 10px;
 
                     &:after {
@@ -347,11 +347,10 @@ export default {
 
                   .reply-text {
                     margin: 0;
-                    padding-top: 8px;
+                    padding-top: 10px;
                     flex: 1;
                     font-size: 14px;
                     color: #333;
-                    line-height: 20px;
                   }
                 }
 
@@ -367,7 +366,6 @@ export default {
                     float: right;
                   }
                 }
-
               }
             }
           }
