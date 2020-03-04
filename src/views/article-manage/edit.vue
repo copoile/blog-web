@@ -243,7 +243,7 @@ export default {
       const oldCover = this.cover
       this.cover = url
       const params = {
-        fullPath: url
+        fullPath: oldCover
       }
       if (oldCover) {
         deleteFile(params)
@@ -275,7 +275,7 @@ export default {
           this.loading = false
           this.$notify({
             title: '成功',
-            message: '文章保存成功！',
+            message: '文章提交成功！',
             type: 'success'
           })
         },

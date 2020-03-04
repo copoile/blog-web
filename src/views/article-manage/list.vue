@@ -8,12 +8,12 @@
         <el-option v-for="(tag, index) in tags" :key="index" :label="tag.name" :value="tag.id" />
       </el-select>
       <el-input
+        v-model="title"
         style="width: 120px;"
         placeholder="请输入标题"
         size="small"
-        v-model="title"
-        clearable>
-      </el-input>
+        clearable
+      />
       <el-button type="primary" size="small" icon="el-icon-search" @click="search">搜索</el-button>
     </div>
     <el-table
@@ -32,7 +32,7 @@
       <el-table-column
         prop="title"
         label="标题"
-        width="110"
+        min-width="110"
         align="center"
       />
       <el-table-column
@@ -64,7 +64,10 @@
       <el-table-column label="状态" width="110" align="center">
         <template slot-scope="scope">
           <el-tag
-            :type="scope.row.status === 0 ? 'success' : scope.row.status === 1 ? 'primary' : 'danger'"> {{ scope.row.status === 0 ? '已发布' : scope.row.status === 1 ? '待发布': '已删除' }} </el-tag>
+            :type="scope.row.status === 0 ? 'success' : scope.row.status === 1 ? 'primary' : 'danger'"
+          >
+            {{ scope.row.status === 0 ? '已发布' : scope.row.status === 1 ? '待发布': '已删除' }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" min-width="230">

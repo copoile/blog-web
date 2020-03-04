@@ -5,8 +5,8 @@
     width="318px"
     custom-class="login-dialog"
     :close-on-click-modal="false"
-    :visible.sync="show"
-    :before-close="bClose"
+    :show-close="false"
+    :visible="login_visible"
   >
     <span slot="title">
       <span
@@ -16,7 +16,11 @@
         :class="{ 'active': active === index }"
         @click="tabClick(index)"
       >{{ item }}</span>
+      <button type="button" aria-label="Close" class="el-dialog__headerbtn" @click="bClose">
+        <i class="el-dialog__close el-icon el-icon-close" />
+      </button>
     </span>
+
     <el-input v-if="active === 0" v-model="username" placeholder="用户名" />
     <el-input v-else v-model="mobile" placeholder="手机号" />
     <el-input v-if="active === 0" v-model="password" placeholder="密码" />
@@ -38,10 +42,10 @@
 
 <script>
 import { validMobile } from '@/utils/validate.js'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      show: false,
       username: 'admin',
       password: '123456',
       mobile: '',
@@ -52,23 +56,24 @@ export default {
       loading: false
     }
   },
+  computed: {
+    ...mapGetters([
+      'login_visible'
+    ])
+  },
   methods: {
     // 关闭弹框事件
     bClose() {
-      this.username = ''
-      this.password = ''
       this.code = ''
       this.active = 0
-      this.show = false
+      this.$store.commit('login/CHANGE_VISIBLE', false)
     },
-    // 打开弹框，父组件调用
-    open() {
-      this.show = true
-    },
+
     // tab切换
     tabClick(index) {
       this.active = index
     },
+
     // 登录
     login() {
       this.loading = true
@@ -79,6 +84,7 @@ export default {
         this.codeLogin()
       }
     },
+
     // 密码登录
     passwordLogin() {
       const username = this.username
@@ -112,6 +118,7 @@ export default {
       }
       )
     },
+
     // 验证码登录
     codeLogin() {
       const mobile = this.mobile

@@ -2,12 +2,11 @@
 <template>
   <el-dialog
     title="注册"
-    top="20vh"
+    top="25vh"
     width="318px"
     custom-class="register-dialog"
-    :close-on-click-modal="false"
     :visible.sync="show"
-    :before-close="bClose"
+    :close-on-click-modal="false"
   >
     <el-input v-model="username" placeholder="用户名字母开头, 允许2-16字节" />
     <el-input v-model="mobile" placeholder="请输入手机号" />
@@ -18,7 +17,7 @@
       <span slot="suffix" class="code-btn btn">获取验证码</span>
     </el-input>
     <el-input v-model="password" placeholder="密码不能少于6位数" />
-    <el-button type="primary" size="medium">注册</el-button>
+    <el-button type="primary" size="medium" @click="test">注册</el-button>
     <p>注册登录即表示同意<a href="#" style="color: #007fff;">用户协议、隐私政策</a></p>
   </el-dialog>
 </template>
@@ -45,6 +44,10 @@ export default {
 
     open() {
       this.show = true
+    },
+
+    test() {
+      this.show = false
     }
   }
 }

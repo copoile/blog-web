@@ -6,12 +6,12 @@
       <!-- 左边 -->
       <div class="left-side">
         <div class="content-head">
-          <p class="content-row"><span style="color: #00a4ff;">#</span>Mysql</p>
-          <p class="content-row content-des">Mysql标签共计36篇文章。</p>
+          <p class="content-row"><span style="color: #00a4ff;">#</span>{{ tagName }}</p>
+          <p class="content-row content-des">{{ tagName }}标签共计{{ total }}篇文章。</p>
         </div>
         <div />
         <div class="content-list">
-          <article-list />
+          <article-list :list="artList" :loading="loading" />
         </div>
       </div>
       <!-- 右边 -->
@@ -21,7 +21,15 @@
             全部标签
           </div>
           <ul class="tag-list">
-            <li v-for="item in tags" :key="item.id" class="list-item btn">{{ item.name }}</li>
+            <li
+              v-for="(tag, index) in tags"
+              :key="index"
+              class="list-item btn"
+              :class="{'active': tagId === tag.id}"
+              @click="tagClick(tag.id)"
+            >
+              {{ tag.name }}
+            </li>
           </ul>
         </div>
       </div>
@@ -31,8 +39,10 @@
 </template>
 
 <script>
+import { tagList } from '@/api/tag.js'
 import AppHeader from '@/components/Header/index'
 import ArticleList from '@/components/ArticleList'
+import { pagePublishedArticle } from '@/api/article.js'
 export default {
   components: {
     AppHeader,
@@ -40,32 +50,67 @@ export default {
   },
   data() {
     return {
-      tags: [
-        {
-          id: 1,
-          name: '程序员'
-        },
-        {
-          id: 2,
-          name: '程序员'
-        },
-        {
-          id: 3,
-          name: '程序员'
-        },
-        {
-          id: 4,
-          name: '程序员'
-        },
-        {
-          id: 5,
-          name: '程序员'
-        },
-        {
-          id: 6,
-          name: '程序员'
+      tagId: 0,
+      current: 1,
+      size: 6,
+      tags: [],
+      artList: [],
+      total: 0,
+      loading: false
+    }
+  },
+
+  computed: {
+    tagName() {
+      const tag = this.tags.find(ele => ele.id === this.tagId)
+      return tag ? tag.name : null
+    }
+  },
+
+  mounted() {
+    this.init()
+  },
+
+  methods: {
+
+    init() {
+      tagList().then(
+        res => {
+          this.tags = res.data
+          const id = this.$route.query && this.$route.query.id
+          if (id && this.tags.some(ele => ele.id === id)) {
+            this.tagClick(id)
+          } else {
+            this.tagClick(this.tags[0].id)
+          }
         }
-      ]
+      )
+    },
+
+    tagClick(id) {
+      this.tagId = id
+      this.getArtList()
+    },
+
+    // 获取文章列表
+    getArtList() {
+      this.loading = true
+      const params = {
+        current: this.current,
+        size: this.size,
+        tagId: this.tagId
+      }
+      pagePublishedArticle(params).then(
+        res => {
+          this.total = res.data.total
+          this.artList = res.data.records
+          this.loading = false
+        },
+        error => {
+          console.error(error)
+          this.loading = false
+        }
+      )
     }
   }
 }
@@ -156,6 +201,11 @@ export default {
               background-color: #00CC00;
               color: #fff;
             }
+          }
+
+          .active {
+            background-color: #00CC00;
+            color: #fff;
           }
         }
       }

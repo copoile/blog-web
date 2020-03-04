@@ -7,23 +7,24 @@
           v-for="(category,index) in categorys"
           :key="index"
           class="left-list-item"
-          :class="{'left-list-item-active': tabActive === index}"
-          @click="chageTab(index,category.id)"
+          :class="{'left-list-item-active': categoryId === category.id}"
+          @click="chageTab(category.id)"
         >
           <span class="item-content">{{ category.name }}</span>
         </li>
       </ul>
       <div class="content-list">
-        <article-list />
+        <article-list :list="artList" :loading="loading" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { categoryList } from '@/api/category.js'
 import AppHeader from '@/components/Header/index'
 import ArticleList from '@/components/ArticleList'
-import { categoryList } from '@/api/category.js'
+import { pagePublishedArticle } from '@/api/article.js'
 export default {
   components: {
     AppHeader,
@@ -31,30 +32,58 @@ export default {
   },
   data() {
     return {
-      tabActive: 0,
-      categorys: []
+      categoryId: 0,
+      categorys: [],
+      loading: false,
+      artList: []
     }
   },
 
   mounted() {
-    this.initCategoryList()
+    this.init()
   },
 
   methods: {
 
     // 获取分类列表
-    initCategoryList() {
+    init() {
       categoryList().then(
         res => {
           this.categorys = res.data
+          const id = this.$route.query && this.$route.query.id
+          if (id && this.categorys.some(ele => ele.id === id)) {
+            this.chageTab(id)
+          } else {
+            this.chageTab(this.categorys[0].id)
+          }
         }
       )
     },
 
     // tab更改
-    chageTab(index, categoryId) {
-      this.tabActive = index
-      console.log(categoryId)
+    chageTab(categoryId) {
+      this.categoryId = categoryId
+      this.getArtList()
+    },
+
+    // 获取文章列表
+    getArtList() {
+      this.loading = true
+      const params = {
+        current: this.current,
+        size: this.size,
+        categoryId: this.categoryId
+      }
+      pagePublishedArticle(params).then(
+        res => {
+          this.artList = res.data.records
+          this.loading = false
+        },
+        error => {
+          console.error(error)
+          this.loading = false
+        }
+      )
     }
   }
 }
@@ -87,7 +116,7 @@ export default {
       color: #909090;
       border-radius: 2px;
       position: fixed;
-      left: calc(calc(100% - 830px)/2);
+      left: calc(calc(100% - 845px)/2);
       top: 75px;
       background: #fff;
       z-index: 999;

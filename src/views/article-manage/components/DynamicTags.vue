@@ -111,16 +111,16 @@ export default {
     // 选择列表中的标签
     tagSelect(item) {
       // 判断是否已选标签
-      for (var i = 0; i < this.dynamicTags.length; i++) {
-        if (this.dynamicTags[i].tagId === item.tagId) {
-          this.inputTagValue = ''
-          this.inputTagVisible = false
-          this.$message.error('该标签已选择')
-          return
-        }
+      const selected = this.dynamicTags.some(ele => ele.tagId === item.tagId)
+      if (selected) {
+        this.inputTagValue = ''
+        this.inputTagVisible = false
+        this.$message.error('该标签已选择')
+        return
       }
+
       // 判断是否已选3个标签
-      var leng = this.dynamicTags.length
+      const leng = this.dynamicTags.length
       if (leng > 3) {
         this.inputTagValue = ''
         this.inputTagVisible = false

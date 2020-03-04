@@ -75,3 +75,21 @@ div:focus {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+// 最多两行，超出显示...
+.multi-ellipsis--l2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+// 最多三行，超出显示...
+.multi-ellipsis--l3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

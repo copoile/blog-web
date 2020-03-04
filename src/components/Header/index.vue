@@ -129,7 +129,7 @@ export default {
       this.$refs.reDialog.open()
     },
     loClick() {
-      this.$refs.loDialog.open()
+      this.$store.commit('login/CHANGE_VISIBLE', true)
     },
     // 退出
     logout() {

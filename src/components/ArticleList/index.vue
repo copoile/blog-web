@@ -2,41 +2,84 @@
   <ul class="note-list">
     <li v-for="(item, index) in list" :key="index" class="list-item">
       <router-link to="/" class="wrap-img">
-        <el-image src="https://poile-img.nos-eastchina1.126.net/1582879163511.jpg" />
+        <el-image :src="item.cover">
+          <div slot="error" class="image-slot">
+            <i class="el-icon-picture-outline" />
+          </div>
+        </el-image>
       </router-link>
       <div class="wrapper-meta">
         <div class="avatar-wrapper">
-          <img class="user-avatar" src="https://poile-img.nos-eastchina1.126.net/me.png">
+          <img class="user-avatar" :src="item.user.avatar">
         </div>
-        <span class="right-solt">小姚同学</span>
+        <span class="right-solt">{{ item.user.nickname }}</span>
         <span class="right-solt">02月23</span>
-        <span class="active">程序员日常</span>
+        <span class="active" @click="categoryClick(item.categoryId)">{{ item.categoryName }}</span>
       </div>
 
       <div class="content">
-        <router-link to="/" class="title">程序员过年如何向亲戚朋友介绍自己的职业</router-link>
-        <p class="abstract"> 文/元气宜 学校这两天刚开学，能在大四最后一个学期开学来学校的人寥寥无几，刚好一个朋友出去忘了带钥匙，回来的时候进不去，就来我宿舍坐坐，结果凳子... </p>
+        <router-link to="/" class="title">{{ item.title }}</router-link>
+        <p class="abstract multi-ellipsis--l3">{{ item.summary }}</p>
         <div class="tags-wrapper">
-          <span class="tag active btn">SpringBoot</span>
-          <span class="tag active btn">测试</span>
+          <span
+            v-for="(tag, index2) in item.tagList"
+            :key="index2"
+            class="tag active btn"
+            @click="tagClick(tag.id)"
+          >
+            {{ tag.name }}
+          </span>
         </div>
-
         <div class="meta">
-          <span>57&ensp;评论</span>
-          <span>57&ensp;点赞</span>
-          <span>89&ensp;收藏</span>
-          <span>100&ensp;浏览</span>
+          <span>{{ item.commentCount }}&ensp;评论</span>
+          <span>{{ item.likeCount }}&ensp;点赞</span>
+          <span>{{ item.collectCount }}&ensp;收藏</span>
+          <span>{{ item.viewCount }}&ensp;浏览</span>
         </div>
       </div>
     </li>
+    <div v-show="list.length === 0 && !loading" class="list-empty">列表为空</div>
   </ul>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      list: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  props: {
+    list: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
+    loading: {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+
+    // 分类点击
+    categoryClick(id) {
+      if (this.$route.path !== '/category') {
+        this.$router.push(
+          {
+            path: '/category',
+            query: { id: id }
+          }
+        )
+      }
+    },
+
+    // 标签点击
+    tagClick(id) {
+      if (this.$route.path !== '/tag') {
+        this.$router.push(
+          {
+            path: '/tag',
+            query: { id: id }
+          }
+        )
+      }
     }
   }
 }
@@ -74,23 +117,37 @@ export default {
       margin-top: -55px;
       right: 18px;
       cursor: pointer;
+      overflow: hidden;
+      border-radius: 4px;
+
       // el-image 有个bug，点击图片滚动失效，所以给一层透明顶层
-      &:after {
+      &:before {
         content: "";
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 9999;
+        z-index: 99;
         opacity: 0;
       }
 
       .el-image {
         border-radius: 4px;
         border: 1px solid #f0f0f0;
-      }
 
+        /deep/ .image-slot {
+          width: 150px;
+          height: 100px;
+          background: #f5f7fa;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 20px;
+          border-radius: 4px;
+          overflow: hidden;
+        }
+      }
       img {
         width: 100%;
         height: 100%;
@@ -176,6 +233,15 @@ export default {
         }
       }
     }
+  }
+
+  .list-empty {
+    background: #fff;
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    border-bottom: 1px solid #f0f0f0;
+    text-align: center;
   }
 }
 </style>

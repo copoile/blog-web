@@ -23,3 +23,12 @@ export function articleDetail(id) {
 export function pageArticle(params) {
   return request.get('/article/page', { params })
 }
+
+/**
+ * 分页获取已发布文章（前台）
+ * @param {Object} params
+ */
+export function pagePublishedArticle(params) {
+  return request.get('/article/published/page', { params })
+}
+

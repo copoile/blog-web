@@ -4,41 +4,41 @@
       <router-link class="right btn" to="/tag">全部标签</router-link>
     </div>
     <ul class="tag-list">
-      <li v-for="item in tags" :key="item.id" class="list-item btn">{{ item.name }}</li>
+      <li v-for="(tag, index) in tags" :key="index" class="list-item btn" @click="tagClick(tag.id)">{{ tag.name }}</li>
     </ul>
   </div>
 </template>
 
 <script>
+import { tagList } from '@/api/tag.js'
 export default {
   data() {
     return {
-      tags: [
-        {
-          id: 1,
-          name: '程序员'
-        },
-        {
-          id: 2,
-          name: '程序员'
-        },
-        {
-          id: 3,
-          name: '程序员'
-        },
-        {
-          id: 4,
-          name: '程序员'
-        },
-        {
-          id: 5,
-          name: '程序员'
-        },
-        {
-          id: 6,
-          name: '程序员'
+      tags: []
+    }
+  },
+
+  mounted() {
+    this.init()
+  },
+
+  methods: {
+
+    init() {
+      tagList().then(
+        res => {
+          this.tags = res.data.slice(0, 10)
         }
-      ]
+      )
+    },
+
+    tagClick(id) {
+      this.$router.push(
+        {
+          path: '/tag',
+          query: { id: id }
+        }
+      )
     }
   }
 }

@@ -12,7 +12,7 @@
             @click="mainTabClick(index)"
           >{{ item }}</li>
         </ul>
-        <article-list />
+        <article-list :list="artList" />
       </div>
 
       <div class="content-right-side-container">
@@ -34,6 +34,7 @@ import RightSideTags from './components/RightSideTags'
 import RightSideComment from './components/RightSideComment'
 import RightSideRecommend from './components/RightSideRecommend'
 import RightSideSection from './components/RightSideSection'
+import { pagePublishedArticle } from '@/api/article.js'
 export default {
   name: 'Index',
   components: {
@@ -48,12 +49,43 @@ export default {
   data() {
     return {
       mainTabs: ['最新', '热门'],
-      mainActive: 0
+      current: 1,
+      size: 5,
+      mainActive: 0,
+      artList: []
     }
   },
+
+  computed: {
+    orderBy() {
+      return this.mainActive === 0 ? 'publish_time' : 'view_count'
+    }
+  },
+
+  mounted() {
+    this.getArtList()
+  },
+
   methods: {
+
+    // 热门|最新切换
     mainTabClick(index) {
       this.mainActive = index
+      this.getArtList()
+    },
+
+    // 获取文章列表
+    getArtList() {
+      const params = {
+        current: this.current,
+        size: this.size,
+        orderBy: this.orderBy
+      }
+      pagePublishedArticle(params).then(
+        res => {
+          this.artList = res.data.records
+        }
+      )
     }
   }
 }
