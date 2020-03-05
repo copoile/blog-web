@@ -33,7 +33,7 @@
               <p class="body-text" v-html="comment.content" />
               <div class="btns-bar">
                 <el-popover
-                  v-if="userInfo.id === comment.fromUser.id || userInfo.roles.includes('admin')"
+                  v-if="userInfo && (userInfo.id === comment.fromUser.id || userInfo.roles.includes('admin'))"
                   v-model="comment.del_visible"
                   placement="bottom"
                 >
@@ -62,7 +62,7 @@
                   </div>
                   <div class="btns-bar">
                     <el-popover
-                      v-if="userInfo.id === reply.fromUser.id || userInfo.roles.includes('admin')"
+                      v-if="userInfo && (userInfo.id === reply.fromUser.id || userInfo.roles.includes('admin'))"
                       v-model="reply.del_visible"
                       placement="bottom"
                     >
@@ -82,6 +82,8 @@
         </ul>
       </div>
     </div>
+
+    <el-pagination background layout="prev, pager, next" :page-size="size" :current-page="current" :total="total" @current-change="currentChange"/>
 
     <!-- 回复弹框 -->
     <el-dialog
@@ -141,7 +143,7 @@ export default {
         placeholder: '回复点啥子呢？'
       },
       current: 1,
-      size: 6,
+      size: 10,
       total: 0,
       commentList: [],
       pid: 0,
@@ -170,6 +172,12 @@ export default {
       this.toUserId = 0
       this.reEditVisible = false
       this.recontent = ''
+    },
+
+    // 监听分页
+    currentChange(current) {
+      this.current = current
+      this.pageMessage()
     },
 
     // 获取分页数据
@@ -544,6 +552,7 @@ export default {
             .reply-list {
               margin: 0;
               padding: 0;
+              padding-bottom: 5px;
 
               .reply-item {
                 list-style: none;
@@ -563,7 +572,7 @@ export default {
 
                 .reply-content {
                   float: left;
-                  padding: 10px 0;
+                  padding-top: 10px;
                   display: flex;
                   align-items: flex-start;
 
@@ -604,7 +613,7 @@ export default {
 
                 .btns-bar {
                   clear: both;
-                  height: 20px;
+                  height: auto !important;
                   margin-bottom: 4px;
 
                   .reply-btn {
@@ -625,6 +634,11 @@ export default {
         }
       }
     }
+  }
+
+  .el-pagination {
+    margin: 30px;
+    text-align: center;
   }
 }
 
