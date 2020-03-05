@@ -7,6 +7,7 @@
     :close-on-click-modal="false"
     :show-close="false"
     :visible="login_visible"
+    :lock-scroll="false"
   >
     <span slot="title">
       <span
@@ -21,7 +22,7 @@
       </button>
     </span>
 
-    <el-input v-if="active === 0" v-model="username" placeholder="用户名" />
+    <el-input v-if="active === 0" v-model="username" placeholder="用户名或手机号" />
     <el-input v-else v-model="mobile" placeholder="手机号" />
     <el-input v-if="active === 0" v-model="password" placeholder="密码" />
     <el-input

@@ -7,6 +7,7 @@
     :visible.sync="visible"
     width="350px"
     :before-close="dialogClose"
+    :lock-scroll="false"
   >
     <div style="text-align: center">
       <el-upload

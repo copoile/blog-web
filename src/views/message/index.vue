@@ -9,18 +9,20 @@
           <quill-editor ref="editor" v-model="content" :options="editorOption" />
         </div>
         <div class="main-tools-box">
-          <div class="submit-btn" @click="addMessage">留个言</div>
+          <el-button :loading="cloading" type="danger" size="mini" @click="messageSubmit">留个言</el-button>
         </div>
       </div>
       <div class="content-box">
         <p class="main-tip-label">留言列表
-          <span class="right">共27条留言</span>
+          <span class="right">共{{ total }}条留言</span>
         </p>
+
+        <!-- 留言列表 -->
         <ul class="content-list">
           <li v-for="(comment, index1) in commentList" :key="index1" class="list-item">
             <div class="cmt-li-title">
               <div class="headimg">
-                <img :src="comment.fromUser.avatar">
+                <img :src="comment.fromUser.avatar || defaultAvatar">
               </div>
             </div>
             <div class="cmt-li-r">
@@ -30,20 +32,48 @@
               </div>
               <p class="body-text" v-html="comment.content" />
               <div class="btns-bar">
-                <span class="reply-btn">回复</span>
+                <el-popover
+                  v-if="userInfo.id === comment.fromUser.id || userInfo.roles.includes('admin')"
+                  v-model="comment.del_visible"
+                  placement="bottom"
+                >
+                  <p style="margin: 8px;">确定删除这一条留言吗？</p>
+                  <div style="text-align: right; margin: 0">
+                    <el-button size="mini" type="text" @click="comment.del_visible = false">取消</el-button>
+                    <el-button type="primary" size="mini" @click="delSubmit(comment)">确定</el-button>
+                  </div>
+                  <span slot="reference" class="reply-btn">删除</span>
+                </el-popover>
+                <span class="reply-btn" @click="reClick(comment.id, comment.fromUser.id)">回复</span>
               </div>
+
+              <!-- 留言回复列表 -->
               <ul class="reply-list">
                 <li v-for="(reply, index2) in comment.replyList" :key="index2" class="reply-item">
                   <div class="reply-date">{{ reply.createTime }}</div>
                   <div class="reply-content">
                     <div class="headimg">
-                      <img :src="reply.fromUser.avatar">
+                      <img :src="reply.fromUser.avatar || defaultAvatar">
                     </div>
-                    <div class="nickname">{{ reply.fromUser.nickname }}<span style="color: #000000;">回复</span>@{{ reply.toUser.nickname }}</div>
+                    <div class="nickname">
+                      {{ reply.fromUser.nickname }}<span style="color: #000000;">回复</span>@{{ reply.toUser.nickname }}
+                    </div>
                     <p class="reply-text" v-html="reply.content" />
                   </div>
                   <div class="btns-bar">
-                    <span class="reply-btn">回复</span>
+                    <el-popover
+                      v-if="userInfo.id === reply.fromUser.id || userInfo.roles.includes('admin')"
+                      v-model="reply.del_visible"
+                      placement="bottom"
+                    >
+                      <p style="margin: 8px;">确定删除这一条回复吗？</p>
+                      <div style="text-align: right; margin: 0">
+                        <el-button size="mini" type="text" @click="reply.del_visible = false">取消</el-button>
+                        <el-button type="primary" size="mini" @click="delSubmit(reply)">确定</el-button>
+                      </div>
+                      <span slot="reference" class="reply-btn">删除</span>
+                    </el-popover>
+                    <span class="reply-btn" @click="reClick(comment.id, reply.fromUser.id)">回复</span>
                   </div>
                 </li>
               </ul>
@@ -52,13 +82,35 @@
         </ul>
       </div>
     </div>
+
+    <!-- 回复弹框 -->
+    <el-dialog
+      :visible.sync="reEditVisible"
+      title="提示"
+      width="700px"
+      top="45vh"
+      :modal="false"
+      :show-close="false"
+      class="rely-dialog"
+      :before-close="bClose"
+    >
+      <div class="re-editor-container">
+        <quill-editor v-model="recontent" :options="reEditorOption" />
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="info" size="mini" @click="bClose">取 消</el-button>
+        <el-button :loading="rloading" type="danger" size="mini" @click="reSubmit">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import AppHeader from '@/components/Header/index'
+import { mapGetters } from 'vuex'
 import '@/assets/quill-emoji/quill-emoji.js'
-import { pageMessage, addMessage } from '@/api/message.js'
+import AppHeader from '@/components/Header/index'
+import { pageMessage, addMessage, addReply, deleteO } from '@/api/message.js'
+
 export default {
   components: {
     AppHeader
@@ -66,6 +118,7 @@ export default {
   data() {
     return {
       content: '',
+      recontent: '',
       editorOption: {
         modules: {
           toolbar: {
@@ -76,10 +129,33 @@ export default {
         },
         placeholder: '客官，来都来了，怎么不给博主留个言呢 ？'
       },
+      reEditVisible: false,
+      reEditorOption: {
+        modules: {
+          toolbar: {
+            container: [['emoji']]
+          },
+          'emoji-toolbar': true,
+          'emoji-shortname': true
+        },
+        placeholder: '回复点啥子呢？'
+      },
       current: 1,
       size: 6,
-      commentList: []
+      total: 0,
+      commentList: [],
+      pid: 0,
+      toUserId: 0,
+      cloading: false,
+      rloading: false
     }
+  },
+
+  computed: {
+    ...mapGetters([
+      'userInfo',
+      'defaultAvatar'
+    ])
   },
 
   mounted() {
@@ -88,6 +164,15 @@ export default {
 
   methods: {
 
+    // 回复弹框关闭事件
+    bClose() {
+      this.pid = 0
+      this.toUserId = 0
+      this.reEditVisible = false
+      this.recontent = ''
+    },
+
+    // 获取分页数据
     pageMessage() {
       const params = {
         current: this.current,
@@ -95,20 +180,173 @@ export default {
       }
       pageMessage(params).then(
         res => {
-          this.commentList = res.data.records
+          this.total = res.data.total
+          const commentList = res.data.records
+          const clen = commentList.length
+          for (var i = 0; i < clen; i++) {
+            commentList[i].del_visible = false
+            const replyList = commentList[i].replyList
+            const rlen = replyList.length
+            for (var j = 0; j < rlen; j++) {
+              replyList[j].del_visible = false
+            }
+          }
+          this.commentList = commentList
         }
       )
     },
 
-    addMessage() {
-      const params = {
-        content: this.content
+    // 重载
+    reload() {
+      this.current = 1
+      this.pageMessage()
+    },
+
+    // 留言提交
+    messageSubmit() {
+      const userInfo = this.userInfo
+      if (!userInfo) {
+        this.$store.commit('login/CHANGE_VISIBLE', true)
+        return
       }
-      addMessage(params).then(
-        () => {
-          this.pageMessage()
+      const content = this.content.replace(/<\/?p[^>]*>/gi, '')
+      if (!content) {
+        this.$message('还没输入内容呢~')
+        return
+      }
+      const params = { content: content }
+      const email = userInfo.email
+      if (!email) {
+        this.$confirm('没绑定邮箱接收不到回复提醒哦~', '提示', {
+          confirmButtonText: '马上绑定',
+          cancelButtonText: '下次一定',
+          showClose: false,
+          type: 'warning'
+        }).then(() => {
+          this.$router.push('/email-binding')
+        }).catch(() => {
+          this.cloading = true
+          addMessage(params).then(
+            res => {
+              this.cloading = false
+              this.$message({
+                message: '留言成功',
+                type: 'success'
+              })
+              this.content = ''
+              this.reload()
+            },
+            error => {
+              console.log(error)
+              this.cloading = false
+            }
+          )
+        })
+      } else {
+        this.cloading = true
+        addMessage(params).then(
+          res => {
+            this.cloading = false
+            this.$message({
+              message: '留言成功',
+              type: 'success'
+            })
+            this.content = ''
+            this.reload()
+          },
+          error => {
+            console.log(error)
+            this.cloading = false
+          }
+        )
+      }
+    },
+
+    // 删除提交
+    delSubmit(item) {
+      deleteO(item.id).then(
+        res => {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+          this.reload()
         }
       )
+    },
+
+    // 点击回复
+    reClick(pid, toUserId) {
+      const userInfo = this.userInfo
+      if (!userInfo) {
+        this.$store.commit('login/CHANGE_VISIBLE', true)
+        return
+      }
+      this.reEditVisible = true
+      this.pid = pid
+      this.toUserId = toUserId
+    },
+
+    // 回复提交
+    reSubmit() {
+      const content = this.recontent.replace(/<\/?p[^>]*>/gi, '')
+      if (!content) {
+        this.$message('还没输入内容呢~')
+        return
+      }
+
+      const params = {
+        pid: this.pid,
+        toUserId: this.toUserId,
+        content: content
+      }
+      const email = this.userInfo.email
+      if (!email) {
+        this.$confirm('没绑定邮箱接收不到回复提醒哦~', '提示', {
+          confirmButtonText: '马上绑定',
+          cancelButtonText: '下次一定',
+          showClose: false,
+          type: 'warning'
+        }).then(() => {
+          this.$router.push('/email-binding')
+        }).catch(() => {
+          this.rloading = true
+          addReply(params).then(
+            res => {
+              this.rloading = false
+              this.reEditVisible = false
+              this.recontent = ''
+              this.$message({
+                message: '回复成功',
+                type: 'success'
+              })
+              this.reload()
+            },
+            error => {
+              console.error(error)
+              this.rloading = false
+            }
+          )
+        })
+      } else {
+        this.rloading = true
+        addReply(params).then(
+          res => {
+            this.rloading = false
+            this.reEditVisible = false
+            this.recontent = ''
+            this.$message({
+              message: '回复成功',
+              type: 'success'
+            })
+            this.reload()
+          },
+          error => {
+            console.error(error)
+            this.rloading = false
+          }
+        )
+      }
     }
   }
 }
@@ -120,6 +358,11 @@ export default {
   width: 100%;
   height: 100vh;
   overflow-x: hidden;
+
+  .re-editor-container {
+    margin: 0 auto;
+    width: 90%;
+  }
 
   .content-container {
     background: #fff;
@@ -145,7 +388,7 @@ export default {
         color: #545454;
         font-size: 14px;
         text-indent: 50px;
-        padding: 20px 0 40px 0;
+        padding: 20px 0 20px 0;
       }
 
       .edit-container {
@@ -290,6 +533,11 @@ export default {
                 color: silver;
                 cursor: pointer;
                 float: right;
+                margin-left: 10px;
+
+                &:hover {
+                  color: #007fff;
+                }
               }
             }
 
@@ -364,6 +612,11 @@ export default {
                     color: silver;
                     cursor: pointer;
                     float: right;
+                    margin-left: 10px;
+
+                    &:hover {
+                      color: #007fff;
+                    }
                   }
                 }
               }
@@ -373,5 +626,41 @@ export default {
       }
     }
   }
+}
+
+</style>
+
+<style scoped>
+.rely-dialog >>> .el-button--text {
+  color: #999;
+}
+
+.rely-dialog >>> .el-button--text:hover {
+  color: #333;
+}
+
+.rely-dialog >>> .dialog__body {
+  padding: 10px;
+}
+
+.rely-dialog >>> .el-dialog__header {
+  display: none;
+}
+
+.rely-dialog >>> .el-dialog__body {
+  padding: 0;
+}
+.rely-dialog >>> .ql-container.ql-snow {
+  border: none;
+}
+
+.rely-dialog >>> .ql-toolbar.ql-snow {
+  border: none;
+}
+
+.rely-dialog >>> .ql-editor {
+  border: 1px #e74851 solid;
+  border-radius: 5px;
+  min-height: 80px;
 }
 </style>

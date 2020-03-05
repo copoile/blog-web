@@ -5,11 +5,12 @@
     top="25vh"
     width="318px"
     custom-class="register-dialog"
-    :visible.sync="show"
+    :visible.sync="visible"
     :close-on-click-modal="false"
+    :lock-scroll="false"
   >
     <el-input v-model="username" placeholder="用户名字母开头, 允许2-16字节" />
-    <el-input v-model="mobile" placeholder="请输入手机号" />
+    <el-input v-model="mobile" placeholder="手机号用于登录和找回密码" />
     <el-input
       v-model="code"
       placeholder="验证码"
@@ -17,7 +18,7 @@
       <span slot="suffix" class="code-btn btn">获取验证码</span>
     </el-input>
     <el-input v-model="password" placeholder="密码不能少于6位数" />
-    <el-button type="primary" size="medium" @click="test">注册</el-button>
+    <el-button type="primary" size="medium">注册</el-button>
     <p>注册登录即表示同意<a href="#" style="color: #007fff;">用户协议、隐私政策</a></p>
   </el-dialog>
 </template>
@@ -30,12 +31,12 @@ export default {
       mobile: '',
       code: '',
       password: '',
-      show: false
+      visible: false
     }
   },
   methods: {
     bClose() {
-      this.show = false
+      this.visible = false
       this.username = ''
       this.mobile = ''
       this.code = ''
@@ -43,11 +44,7 @@ export default {
     },
 
     open() {
-      this.show = true
-    },
-
-    test() {
-      this.show = false
+      this.visible = true
     }
   }
 }

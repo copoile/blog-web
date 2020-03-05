@@ -19,3 +19,23 @@ export function addMessage(params) {
     params: params
   })
 }
+
+/**
+ * @description 新增回复
+ * @param {Object} params
+ */
+export function addReply(params) {
+  return request({
+    url: '/leave/message/reply',
+    method: 'post',
+    params: params
+  })
+}
+
+/**
+ * @description 删除留言或回复
+ * @param {Object} id
+ */
+export function deleteO(id) {
+  return request.delete('/leave/message/delete/' + id)
+}
