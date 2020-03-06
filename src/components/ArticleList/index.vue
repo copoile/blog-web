@@ -39,6 +39,14 @@
       </div>
     </li>
     <div v-show="list.length === 0 && !loading" class="list-empty">列表为空</div>
+    <div
+      v-show="loading"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="#fff"
+      style="color: #fff;width: 100%;height: 100px;"
+    >加载中</div>
   </ul>
 </template>
 
@@ -53,7 +61,7 @@ export default {
     },
     loading: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
   methods: {

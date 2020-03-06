@@ -7,11 +7,20 @@
       <div class="left-side">
         <div class="content-head">
           <p class="content-row"><span style="color: #00a4ff;">#</span>{{ tagName }}</p>
-          <p class="content-row content-des">{{ tagName }}标签共计{{ total }}篇文章。</p>
+          <p class="content-row content-des">当前标签共计{{ total }}篇文章。</p>
         </div>
         <div />
         <div class="content-list">
           <article-list :list="artList" :loading="loading" />
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :page-size="size"
+            :current-page="current"
+            :total="total"
+            :hide-on-single-page="true"
+            @current-change="currentChange"
+          />
         </div>
       </div>
       <!-- 右边 -->
@@ -52,7 +61,7 @@ export default {
     return {
       tagId: 0,
       current: 1,
-      size: 6,
+      size: 5,
       tags: [],
       artList: [],
       total: 0,
@@ -89,6 +98,14 @@ export default {
 
     tagClick(id) {
       this.tagId = id
+      this.current = 1
+      this.artList = []
+      this.getArtList()
+    },
+
+    // 分页监控
+    currentChange(current) {
+      this.current = current
       this.getArtList()
     },
 
@@ -158,6 +175,12 @@ export default {
       .content-list {
         margin: 0;
         box-sizing: border-box;
+
+        .el-pagination {
+          text-align: center;
+          padding: 30px;
+          background: #eee;
+        }
       }
     }
 

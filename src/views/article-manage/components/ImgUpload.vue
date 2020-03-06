@@ -72,6 +72,7 @@ export default {
       if (res.code !== 0) {
         console.error(res.message)
         this.$message.error('文件上传失败')
+        return
       }
       this.$emit('uploadSuccess', res.data)
       this.loading = false

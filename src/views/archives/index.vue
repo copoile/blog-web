@@ -74,7 +74,6 @@ export default {
   width: 100%;
   height: 100vh;
   overflow-x: hidden;
-  background: #fff;
 
   .content-container {
     max-width: $ContentContainerW;
@@ -85,11 +84,11 @@ export default {
 
     .left-side {
       position: fixed;
-      top: 125px;
+      top: 110px;
       left: calc(calc(100% - 830px)/2);
-      background: #fff;
       z-index: 999;
-      width: 200px;
+      padding: 20px;
+      background: #fff;
 
       .left-side-title {
         margin: 0;
@@ -97,7 +96,7 @@ export default {
         font-size: 20px;
         color: #303133;
         text-align: center;
-        padding-bottom: 40px;
+        padding-bottom: 20px;
       }
 
       .tab-list {
@@ -155,6 +154,17 @@ export default {
           width: 23px;
           height: 23px;
         }
+      }
+      
+      // 左边连线的样式
+      /deep/ .el-timeline-item__tail {
+        border-left: 2px solid #444;
+      }
+      
+      // 右边日期的样式
+      /deep/ .el-timeline-item__timestamp {
+        color: #444;
+        font-weight: 700;
       }
     }
   }

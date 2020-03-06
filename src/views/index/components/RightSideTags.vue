@@ -3,7 +3,13 @@
     <div class="head">标签
       <router-link class="right btn" to="/tag">全部标签</router-link>
     </div>
-    <ul class="tag-list">
+    <ul
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="#fff"
+      class="tag-list"
+    >
       <li v-for="(tag, index) in tags" :key="index" class="list-item btn" @click="tagClick(tag.id)">{{ tag.name }}</li>
     </ul>
   </div>
@@ -14,7 +20,8 @@ import { tagList } from '@/api/tag.js'
 export default {
   data() {
     return {
-      tags: []
+      tags: [],
+      loading: true
     }
   },
 
@@ -27,7 +34,12 @@ export default {
     init() {
       tagList().then(
         res => {
+          this.loading = false
           this.tags = res.data.slice(0, 10)
+        },
+        error => {
+          console.error(error)
+          this.loading = false
         }
       )
     },
@@ -68,6 +80,7 @@ export default {
   }
 
   .tag-list {
+    min-height: 120px;
     width: 100%;
     margin: 10px;
     padding: 0;

@@ -165,6 +165,7 @@ export default {
             this.cover = res.data.cover
             this.content = res.data.content
             this.original = res.data.original
+            this.reproduce = res.data.reproduce
             const tagList = res.data.tagList
             const len = tagList.length
             for (var i = 0; i < len; i++) {
@@ -231,9 +232,8 @@ export default {
       this.editor.insertEmbed(length, 'image', url)
       // 调整光标到最后
       this.editor.setSelection(length + 1)
-      this.$notify({
-        title: '成功',
-        message: '图片上传成功！',
+      this.$message({
+        message: '图片上传成功',
         type: 'success'
       })
     },
@@ -248,9 +248,8 @@ export default {
       if (oldCover) {
         deleteFile(params)
       }
-      this.$notify({
-        title: '成功',
-        message: '封面上传成功！',
+      this.$message({
+        message: '封面上传成功',
         type: 'success'
       })
     },
@@ -266,16 +265,15 @@ export default {
         cover: this.cover,
         summary: this.summary,
         original: this.original,
-        reproduce: this.original === 0 ? null : this.reproduce,
+        reproduce: this.original === 1 ? null : this.reproduce,
         categoryId: this.categoryId,
         tagIds: this.tagIds
       }
       saveArticle(data).then(
         res => {
           this.loading = false
-          this.$notify({
-            title: '成功',
-            message: '文章提交成功！',
+          this.$message({
+            message: '文章提交成功',
             type: 'success'
           })
         },

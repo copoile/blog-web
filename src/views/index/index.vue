@@ -12,7 +12,17 @@
             @click="mainTabClick(index)"
           >{{ item }}</li>
         </ul>
-        <article-list :list="artList" />
+        <article-list :list="artList" :loading="loading" />
+
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :page-size="size"
+          :current-page="current"
+          :hide-on-single-page="true"
+          :total="total"
+          @current-change="currentChange"
+        />
       </div>
 
       <div class="content-right-side-container">
@@ -50,8 +60,10 @@ export default {
     return {
       mainTabs: ['最新', '热门'],
       current: 1,
-      size: 5,
+      size: 6,
+      total: 0,
       mainActive: 0,
+      loading: false,
       artList: []
     }
   },
@@ -70,12 +82,21 @@ export default {
 
     // 热门|最新切换
     mainTabClick(index) {
+      this.current = 1
+      this.total = 0
       this.mainActive = index
+      this.getArtList()
+    },
+
+    // 监听页码
+    currentChange(current) {
+      this.current = current
       this.getArtList()
     },
 
     // 获取文章列表
     getArtList() {
+      this.loading = true
       const params = {
         current: this.current,
         size: this.size,
@@ -83,7 +104,13 @@ export default {
       }
       pagePublishedArticle(params).then(
         res => {
+          this.loading = false
+          this.total = res.data.total
           this.artList = res.data.records
+        },
+        error => {
+          console.error(error)
+          this.loading = false
         }
       )
     }
@@ -140,6 +167,12 @@ export default {
         .main-active {
           color: #007fff;
         }
+      }
+
+      .el-pagination {
+        padding: 30px;
+        text-align: center;
+        background: #eee;
       }
     }
 

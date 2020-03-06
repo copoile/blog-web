@@ -15,6 +15,16 @@
       </ul>
       <div class="content-list">
         <article-list :list="artList" :loading="loading" />
+
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :page-size="size"
+          :current-page="current"
+          :total="total"
+          :hide-on-single-page="true"
+          @current-change="currentChange"
+        />
       </div>
     </div>
   </div>
@@ -35,7 +45,10 @@ export default {
       categoryId: 0,
       categorys: [],
       loading: false,
-      artList: []
+      artList: [],
+      current: 1,
+      size: 10,
+      total: 0
     }
   },
 
@@ -62,7 +75,16 @@ export default {
 
     // tab更改
     chageTab(categoryId) {
+      this.artList = []
+      this.total = 0
+      this.current = 1
       this.categoryId = categoryId
+      this.getArtList()
+    },
+
+    // 分页监听
+    currentChange(current) {
+      this.current = current
       this.getArtList()
     },
 
@@ -168,6 +190,12 @@ export default {
       box-sizing: border-box;
       border-radius: 2px;
       margin-left: 122px;
+
+      .el-pagination {
+        text-align: center;
+        padding: 30px;
+        background: #eee;
+      }
     }
   }
 }

@@ -27,7 +27,11 @@
             </div>
             <div class="cmt-li-r">
               <div class="top">
-                <p class="nickname">{{ comment.fromUser.nickname }}</p>
+                <p class="nickname" :style="comment.fromUser.admin === 1 ? 'color:#e74851' : ''">
+                  {{ comment.fromUser.nickname }}
+
+                  <el-tag v-if="comment.fromUser.admin === 1" type="info" size="mini" effect="light">狗管理</el-tag>
+                </p>
                 <p class="date">{{ comment.createTime }}</p>
               </div>
               <p class="body-text" v-html="comment.content" />
@@ -56,7 +60,9 @@
                       <img :src="reply.fromUser.avatar || defaultAvatar">
                     </div>
                     <div class="nickname">
-                      {{ reply.fromUser.nickname }}<span style="color: #000000;">回复</span>@{{ reply.toUser.nickname }}
+                      <span :style="reply.fromUser.admin === 1 ? 'color:#e74851' : ''">{{ reply.fromUser.nickname }}</span>
+                      <span style="color: #000000;">回复</span>
+                      <span :style="reply.toUser.admin === 1 ? 'color:#e74851' : ''">@{{ reply.toUser.nickname }}</span>
                     </div>
                     <p class="reply-text" v-html="reply.content" />
                   </div>
@@ -80,10 +86,24 @@
             </div>
           </li>
         </ul>
+        <div
+          v-show="current === 1 && loading"
+          v-loading="loading"
+          element-loading-text="拼命加载中"
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="#fff"
+          style="color: #fff;width: 100%;height: 100px;"
+        >正在加载</div>
       </div>
     </div>
-
-    <el-pagination background layout="prev, pager, next" :page-size="size" :current-page="current" :total="total" @current-change="currentChange"/>
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :page-size="size"
+      :current-page="current"
+      :total="total"
+      @current-change="currentChange"
+    />
 
     <!-- 回复弹框 -->
     <el-dialog
@@ -121,6 +141,7 @@ export default {
     return {
       content: '',
       recontent: '',
+      loading: false,
       editorOption: {
         modules: {
           toolbar: {
@@ -182,12 +203,14 @@ export default {
 
     // 获取分页数据
     pageMessage() {
+      this.loading = true
       const params = {
         current: this.current,
         size: this.size
       }
       pageMessage(params).then(
         res => {
+          this.loading = false
           this.total = res.data.total
           const commentList = res.data.records
           const clen = commentList.length
@@ -200,6 +223,10 @@ export default {
             }
           }
           this.commentList = commentList
+        },
+        error => {
+          console.error(error)
+          this.loading = false
         }
       )
     },
@@ -396,7 +423,7 @@ export default {
         color: #545454;
         font-size: 14px;
         text-indent: 50px;
-        padding: 20px 0 20px 0;
+        padding: 20px 0 0 0;
       }
 
       .edit-container {
@@ -513,10 +540,16 @@ export default {
                 float: left;
                 color: #007fff;
                 font-weight: 700;
-                font-size: 13px;
+                font-size: 14px;
                 padding: 0;
                 margin: 0;
                 margin-top: 10px;
+
+                .el-tag {
+                  margin-left: 2px;
+                  font-weight: normal;
+                  font-size: 12px;
+                }
               }
 
               .date {
