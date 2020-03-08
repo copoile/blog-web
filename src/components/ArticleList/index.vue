@@ -2,11 +2,7 @@
   <ul class="note-list">
     <li v-for="(item, index) in list" :key="index" class="list-item">
       <router-link to="/" class="wrap-img">
-        <el-image :src="item.cover">
-          <div slot="error" class="image-slot">
-            <i class="el-icon-picture-outline" />
-          </div>
-        </el-image>
+        <img :src="item.cover">
       </router-link>
       <div class="wrapper-meta">
         <div class="avatar-wrapper">
@@ -120,42 +116,15 @@ export default {
     .wrap-img {
       position: absolute;
       width: 150px;
-      height: 100px;
+      height: 90px;
       top: 50%;
       margin-top: -55px;
       right: 18px;
       cursor: pointer;
       overflow: hidden;
       border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
 
-      // el-image 有个bug，点击图片滚动失效，所以给一层透明顶层
-      &:before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 99;
-        opacity: 0;
-      }
-
-      .el-image {
-        border-radius: 4px;
-        border: 1px solid #f0f0f0;
-
-        /deep/ .image-slot {
-          width: 150px;
-          height: 100px;
-          background: #f5f7fa;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 20px;
-          border-radius: 4px;
-          overflow: hidden;
-        }
-      }
       img {
         width: 100%;
         height: 100%;
@@ -191,7 +160,7 @@ export default {
 
     .content {
       width: 100%;
-      padding-right: 170px;
+      padding-right: 180px;
 
       .title {
         margin: -7px 0 4px;

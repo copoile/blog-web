@@ -85,7 +85,7 @@ export default {
     .left-side {
       position: fixed;
       top: 110px;
-      left: calc(calc(100% - 830px)/2);
+      left: calc(calc(100% - 750px)/2);
       z-index: 999;
       padding: 20px;
       background: #fff;
@@ -129,7 +129,6 @@ export default {
             height: 1px;
             background: #007fff;
             width: 95px;
-
           }
         }
       }
@@ -155,12 +154,10 @@ export default {
           height: 23px;
         }
       }
-      
       // 左边连线的样式
       /deep/ .el-timeline-item__tail {
-        border-left: 2px solid #444;
+        border-left: 2px solid #C0C4CC;
       }
-      
       // 右边日期的样式
       /deep/ .el-timeline-item__timestamp {
         color: #444;

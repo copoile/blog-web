@@ -1,11 +1,20 @@
+<!--
+ 文章编辑页面
+ 富文本编辑器使用vue-quill-editor(https://github.com/surmon-china/vue-quill-editor)
+-->
 <template>
   <div v-loading="loading" class="edit-container">
+    <!-- 工具栏图片点击，这个按钮只是作为一个跳板 -->
+    <el-button id="toolbar-img" style="display:none" @click="toolbarImgClick" />
+
+    <!-- 工具栏预览点击，这个按钮只是作为一个跳板 -->
+    <el-button id="toolbar-preview" style="display:none" @click="toolbarPreviewClick" />
+
     <!-- 头部 -->
     <div class="edit-head">
       <el-button class="col" size="small" type="danger" @click="save(0)">发布</el-button>
       <el-button class="col" size="small" type="warning" @click="save(1)">保存</el-button>
-      <el-button v-if="!cover" type="primary" size="small" icon="el-icon-upload" @click="coverUploadClick">上传封面</el-button>
-      <el-button v-else type="primary" size="small" icon="el-icon-picture" @click="coverPreview">预览封面</el-button>
+      <el-button type="primary" size="small" icon="el-icon-upload" @click="coverUploadClick">上传封面</el-button>
       <el-select v-model="categoryId" class="col" size="small" placeholder="选择分类" style="width: 120px;">
         <el-option v-for="(category, index) in categorys" :key="index" :label="category.name" :value="category.id" />
       </el-select>
@@ -29,55 +38,64 @@
         <el-input v-model="reproduce" placeholder="输入转载地址" />
       </div>
     </div>
-    <!-- markdown编辑器 -->
-    <mavon-editor
-      ref="md"
-      v-model="content"
-      style="min-height: 600px"
-      @imgAdd="mdImgUpload"
-      @imgDel="mdImgDel"
-      @change="change"
-      @save="save(1)"
-    />
-    <img-upload :visible="imgUploadVisible" @dialogClose="dialogClose" @uploadSuccess="coverUploadSuccess" />
-    <el-dialog
-      :modal="false"
-      title="预览封面"
-      :top="'25vh'"
-      :visible.sync="coverVisible"
-      width="320px"
-      :before-close="coverClose"
-      :lock-scroll="false"
-    > <div class="cover-pre" style="text-align: center;overflow: hidden;position: relative;border-radius: 4px;">
-      <img :src="cover" style="height: 100%;width: 100%;">
-      <i
-        class="el-icon-delete"
-        style="position: absolute;bottom: 2px;right: 10px;z-index: 999;"
-        @click="delCover"
-      />
-    </div>
-    </el-dialog>
+    <quill-editor ref="editor" v-model="content" :options="editorOption" />
+    <img-upload :visible="imgUploadVisible" @dialogClose="dialogClose" @uploadSuccess="imgUploadSuccess" />
   </div>
 </template>
 
 <script>
-import { mavonEditor } from 'mavon-editor'
-import 'mavon-editor/dist/css/index.css'
+import Quill from 'quill'
+import ImageResize from 'quill-image-resize-module'
+import '@/assets/quill-emoji/quill-emoji.js'
 import DynamicTags from './components/DynamicTags'
 import ImgUpload from './components/ImgUpload'
+import { toolbarOptions, ImageFormat } from '@/config/editor'
 import { deleteFile } from '@/api/file'
+Quill.register('modules/imageResize', ImageResize)
+Quill.register(ImageFormat, true)
 import { categoryList } from '@/api/category.js'
-import request from '@/utils/request'
 import { saveArticle, articleDetail } from '@/api/article.js'
 export default {
   name: 'Edit',
   components: {
     DynamicTags,
-    ImgUpload,
-    mavonEditor
+    ImgUpload
   },
   data() {
     return {
+      editorOption: {
+        modules: {
+          toolbar: {
+            container: toolbarOptions,
+            handlers: {
+              // 表情符
+              emoji: function() {},
+              image: function(value) {
+                if (value) {
+                  // 点击事件转移到按钮
+                  document.querySelector('#toolbar-img').click()
+                } else {
+                  this.quill.format('image', false)
+                }
+              },
+              preview: function(value) {
+                if (value) {
+                  // 点击事件转移到按钮
+                  document.querySelector('#toolbar-preview').click()
+                } else {
+                  this.quill.format('preview', false)
+                }
+              }
+            }
+          },
+          imageResize: {
+            modules: ['Resize', 'DisplaySize', 'Toolbar']
+          },
+          'emoji-toolbar': true,
+          'emoji-shortname': true
+        },
+        placeholder: '开始书写你的文章吧~~~'
+      },
       loading: false,
       id: null,
       tagIds: [],
@@ -86,9 +104,7 @@ export default {
       summary: '',
       reproduce: '',
       content: '',
-      html: '',
       cover: '',
-      coverVisible: false,
       imgUploadVisible: false,
       // 上传类型，1：文章图片，2：文章封面
       uploadType: 1,
@@ -108,8 +124,13 @@ export default {
       seletedTags: []
     }
   },
-
+  computed: {
+    editor() {
+      return this.$refs.editor.quill
+    }
+  },
   mounted() {
+    this.addPreviewTool()
     this.initCategoryList()
     this.id = this.$route.query.id || null
     this.initEdit()
@@ -117,9 +138,19 @@ export default {
 
   methods: {
 
-    // 监控编辑器
-    change(value, render) {
-      this.html = render
+    // 添加n预览按钮
+    addPreviewTool() {
+      // 自定义预览按钮
+      const btn = document.querySelector('.ql-preview')
+      btn.style.cssText = 'min-width: 50px;color: #007fff;font-size: 14px;'
+      btn.innerText = '预览'
+    },
+
+    // 预览点击事件
+    toolbarPreviewClick() {
+      // 使编辑器失去焦点，要不然会跳到最后，显示会拖动
+      this.editor.blur()
+      console.log('预览')
     },
 
     // 加载编辑文章
@@ -168,66 +199,14 @@ export default {
 
     // 上传封面点击事件
     coverUploadClick() {
+      this.uploadType = 2
       this.imgUploadVisible = true
     },
 
-    // 预览封面
-    coverPreview() {
-      this.coverVisible = true
-    },
-
-    // 封面预览关闭
-    coverClose() {
-      this.coverVisible = false
-    },
-
-    // 删除封面
-    delCover() {
-      const cover = this.cover
-      if (cover) {
-        const params = {
-          fullPath: cover
-        }
-        deleteFile(params).then(
-          res => {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            })
-            this.coverVisible = false
-            this.cover = ''
-          }
-        )
-      }
-    },
-
-    // 编辑器图片上传
-    mdImgUpload(pos, $file) {
-      var formdata = new FormData()
-      formdata.append('file', $file)
-      request({
-        url: 'http://127.0.0.1:9090/file/upload',
-        method: 'post',
-        data: formdata,
-        headers: { 'Content-Type': 'multipart/form-data' }
-      }).then(
-        res => {
-          this.$message({
-            message: '图片上传成功',
-            type: 'success'
-          })
-          this.$refs.md.$img2Url(pos, res.data)
-        })
-    },
-
-    // 编辑器删除上传图片事件
-    mdImgDel(file) {
-      if (file && file[0]) {
-        const params = {
-          fullPath: file[0]
-        }
-        deleteFile(params)
-      }
+    // 编辑器图片点击事件
+    toolbarImgClick() {
+      this.uploadType = 1
+      this.imgUploadVisible = true
     },
 
     // 上传图片弹框关闭
@@ -235,9 +214,32 @@ export default {
       this.imgUploadVisible = false
     },
 
+    // 图片上传成功，文章图片封面图片做不同处理
+    imgUploadSuccess(url) {
+      this.imgUploadVisible = false
+      if (this.uploadType === 1) {
+        this.artImgUploadSuccess(url)
+      } else {
+        this.coverUploadSuccess(url)
+      }
+    },
+
+    // 文章上传成功，将图片集成到富文本编辑器
+    artImgUploadSuccess(url) {
+      // 获取光标位置
+      const length = this.editor.getSelection().index
+      // 插入图片
+      this.editor.insertEmbed(length, 'image', url)
+      // 调整光标到最后
+      this.editor.setSelection(length + 1)
+      this.$message({
+        message: '图片上传成功',
+        type: 'success'
+      })
+    },
+
     // 封面上传成功，删除原封面
     coverUploadSuccess(url) {
-      this.imgUploadVisible = false
       const oldCover = this.cover
       this.cover = url
       const params = {
@@ -269,10 +271,9 @@ export default {
       }
       saveArticle(data).then(
         res => {
-          this.id = res.data
           this.loading = false
           this.$message({
-            message: status === 0 ? '文章发布成功' : '文章保存成功',
+            message: '文章提交成功',
             type: 'success'
           })
         },
@@ -289,21 +290,6 @@ export default {
 <style lang="scss" scoped>
 .edit-container {
   font-size: 15px;
-
-  .cover-pre {
-    color: #fff;
-    height: 150px;
-  }
-
-  .cover-pre:after {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    content: "";
-    height: 20px;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.6);
-  }
 
   .edit-head {
     height: 50px;
@@ -342,6 +328,27 @@ export default {
         }
       }
     }
+  }
+
+  .quill-editor {
+    margin: 20px;
+  }
+
+  & /deep/ .ql-toolbar.ql-snow + .ql-container.ql-snow {
+    border: none;
+  }
+
+  & /deep/ .ql-editor {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+    height: 55vh;
+    border: 1px #ccc solid;
+    border-top: none;
+  }
+  // 链接弹框
+  & /deep/ .ql-snow .ql-tooltip {
+    left: 0px !important;
+    top: 50px !important;
   }
 }
 </style>

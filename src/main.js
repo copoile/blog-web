@@ -11,7 +11,6 @@ import locale from 'element-ui/lib/locale/lang/en'
 import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
 
 // 全局样式
 import '@/styles/index.scss'

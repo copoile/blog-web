@@ -32,3 +32,10 @@ export function pagePublishedArticle(params) {
   return request.get('/article/published/page', { params })
 }
 
+/**
+ * @description 推荐列表
+ */
+export function recommendList() {
+  return request.get('/article/recommend/list')
+}
+

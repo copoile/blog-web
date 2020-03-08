@@ -1,32 +1,47 @@
 <template>
   <div class="container">
     <div class="head">推荐阅读</div>
-    <ul class="content-list">
-      <li class="list-item">
-        <p class="content-row title">Centos7系统安装mysql教程</p>
-        <p class="content-row">阅读&ensp;100</p>
-      </li>
-      <li class="list-item">
-        <p class="content-row title">程序员过年如何向亲戚朋友介绍自己的职业？</p>
-        <p class="content-row">阅读&ensp;120</p>
-      </li>
-      <li class="list-item">
-        <p class="content-row title">彻底弄懂Session、Cookie、Token看这篇文章就够了！！！</p>
-        <p class="content-row">阅读&ensp;190</p>
-      </li>
-      <li class="list-item">
-        <p class="content-row title">程序员过年如何向亲戚朋友介绍自己的职业？</p>
-        <p class="content-row">阅读&ensp;120</p>
-      </li>
-      <li class="list-item">
-        <p class="content-row title">彻底弄懂Session、Cookie、Token看这篇文章就够了！！！</p>
-        <p class="content-row">阅读&ensp;190</p>
+    <ul
+      v-loading="loading"
+      class="content-list"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="#fff"
+    >
+      <li v-for="(item, index) in list" :key="index" class="list-item">
+        <p class="content-row title">{{ item.title }}</p>
+        <p class="content-row">阅读&ensp;{{ item.viewCount }}</p>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { recommendList } from '@/api/article.js'
+export default {
+  data() {
+    return {
+      loading: true,
+      list: []
+    }
+  },
+
+  mounted() {
+    this.init()
+  },
+
+  methods: {
+
+    init() {
+      recommendList().then(
+        res => {
+          this.loading = false
+          this.list = res.data
+        }
+      )
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -46,6 +61,8 @@
   .content-list {
     margin: 10px;
     padding: 0;
+    min-height: 120px;
+
     .list-item {
       list-style: none;
       line-height: 15px;

@@ -23,7 +23,8 @@ import Layout from '@/layout'
 /**
  * 常量路由，所有用户可见
  */
-export const constantRoutes = [{
+export const constantRoutes = [
+  {
     path: '/',
     component: () => import('@/views/index/index'),
     hidden: true
@@ -85,7 +86,8 @@ export const constantRoutes = [{
 /**
  * 根据用户角色动态加载路由
  */
-export const asyncRoutes = [{
+export const asyncRoutes = [
+  {
     path: '/user-manage',
     component: Layout,
     children: [{
@@ -123,7 +125,7 @@ export const asyncRoutes = [{
         component: () => import('@/views/article-manage/list'),
         meta: {
           title: '文章',
-          icon: 'art-list'
+          icon: 'art-list',
         }
       }
     ]

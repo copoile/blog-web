@@ -550,6 +550,12 @@ export default {
                   font-weight: normal;
                   font-size: 12px;
                 }
+
+                .el-tag--mini {
+                  height: 18px;
+                  line-height: 17px;
+                  padding: 0 3px;
+                }
               }
 
               .date {
