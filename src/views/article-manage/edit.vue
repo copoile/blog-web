@@ -34,6 +34,7 @@
       ref="md"
       v-model="content"
       style="min-height: 600px"
+      :ishljs="true"
       @imgAdd="mdImgUpload"
       @imgDel="mdImgDel"
       @change="change"
@@ -61,14 +62,14 @@
 </template>
 
 <script>
-import { mavonEditor } from 'mavon-editor'
-import 'mavon-editor/dist/css/index.css'
 import DynamicTags from './components/DynamicTags'
 import ImgUpload from './components/ImgUpload'
 import { deleteFile } from '@/api/file'
 import { categoryList } from '@/api/category.js'
 import request from '@/utils/request'
 import { saveArticle, articleDetail } from '@/api/article.js'
+import { mavonEditor } from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 export default {
   name: 'Edit',
   components: {
@@ -290,6 +291,10 @@ export default {
 <style lang="scss" scoped>
 .edit-container {
   font-size: 15px;
+
+  /deep/ .hljs {
+    background: none!important;
+  }
 
   .cover-pre {
     color: #fff;

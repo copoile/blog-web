@@ -18,7 +18,7 @@
             </div>
           </div>
         </div>
-        <div class="text-container markdown-body" v-html="artilce.htmlContent" />
+        <p class="text-container markdown-body" v-html="artilce.htmlContent" />
       </div>
       <div class="layout-right-side">
         sss
@@ -30,7 +30,7 @@
 <script>
 import AppHeader from '@/components/Header/index'
 import { viewArtilce } from '@/api/article.js'
-import 'mavon-editor/dist/css/index.css'
+import './styles/github.css'
 export default {
   components: {
     AppHeader
