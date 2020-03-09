@@ -109,7 +109,7 @@
     <el-dialog
       :visible.sync="reEditVisible"
       title="提示"
-      width="700px"
+      :width="reEditWith"
       top="45vh"
       :modal="false"
       :show-close="false"
@@ -132,6 +132,7 @@ import { mapGetters } from 'vuex'
 import '@/assets/quill-emoji/quill-emoji.js'
 import AppHeader from '@/components/Header/index'
 import { pageMessage, addMessage, addReply, deleteO } from '@/api/message.js'
+import { isMBrowser } from '@/utils/user-agent.js'
 
 export default {
   components: {
@@ -178,7 +179,14 @@ export default {
     ...mapGetters([
       'userInfo',
       'defaultAvatar'
-    ])
+    ]),
+    reEditWith() {
+      if (isMBrowser()) {
+        return '95%'
+      } else {
+        return '700px'
+      }
+    }
   },
 
   mounted() {
@@ -406,6 +414,10 @@ export default {
     margin-top: 15px;
     border-radius: 2px;
 
+    @media screen and (max-width: 960px){
+      margin-top: 0;
+    }
+
     .content-head {
       padding: 10px 20px;
 
@@ -429,6 +441,10 @@ export default {
       .edit-container {
         margin: 0 auto;
         padding: 0 50px;
+
+        @media screen and (max-width: 960px){
+          padding: 0;
+        }
 
         /deep/ .ql-container.ql-snow {
           border: none;
@@ -459,6 +475,10 @@ export default {
         flex-direction: row-reverse;
         padding: 10px;
         padding-right: 50px;
+
+        @media screen and (max-width: 960px){
+          padding-right: 0;
+        }
 
         .submit-btn {
           text-align: center;
@@ -529,6 +549,10 @@ export default {
             margin-left: 15px;
             width: 850px;
             float: left;
+
+            @media screen and (max-width: 960px){
+              width: 82.9%;
+            }
 
             .top {
               height: 25px;

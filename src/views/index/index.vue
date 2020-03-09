@@ -135,10 +135,18 @@ export default {
     color: #909090;
     align-items: flex-start;
 
+    @media screen and (max-width: 960px){
+      margin-top: 0;
+    }
+
     .side-left {
       flex: 1;
       background: #fff;
       border-radius: 2px;
+
+      @media screen and (max-width: 960px){
+        width: 100%;
+      }
 
       .list-header {
         margin: 0;

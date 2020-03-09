@@ -148,11 +148,19 @@ export default {
     display: flex;
     align-items: flex-start;
 
+    @media screen and (max-width: 960px){
+      margin-top: 0;
+    }
+
     .left-side {
       flex: 1;
       background: #fff;
       border-radius: 2px;
       margin-right: 260px;
+
+      @media screen and (max-width: 960px){
+        margin-right: 0;
+      }
 
       .content-head {
         padding: 45px 30px;

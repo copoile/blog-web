@@ -75,12 +75,20 @@ export default {
   height: 100vh;
   overflow-x: hidden;
 
+  @media screen and (max-width: 960px){
+    background: #fff;
+  }
+
   .content-container {
     max-width: $ContentContainerW;
     margin: 0 auto;
     margin-top: 50px;
     box-sizing: border-box;
     display: flex;
+
+    @media screen and (max-width: 960px){
+      margin-top: 20px;
+    }
 
     .left-side {
       position: fixed;
@@ -138,6 +146,10 @@ export default {
       margin-left: 240px;
       flex: 1;
 
+      @media screen and (max-width: 960px){
+        margin-left: 0;
+      }
+
       #first {
         width: 100%;
         height: 70px;
@@ -154,14 +166,26 @@ export default {
           height: 23px;
         }
       }
-      // 左边连线的样式
-      /deep/ .el-timeline-item__tail {
-        border-left: 2px solid #C0C4CC;
+
+      @media screen and (max-width: 960px){
+        /deep/ .el-timeline {
+          padding: 15px;
+        }
       }
+
+      // 左边连线的样式
+      @media screen and (min-width: 960px){
+        /deep/ .el-timeline-item__tail {
+          border-left: 2px solid #C0C4CC;
+        }
+      }
+
       // 右边日期的样式
-      /deep/ .el-timeline-item__timestamp {
-        color: #444;
-        font-weight: 700;
+      @media screen and (min-width: 960px){
+        /deep/ .el-timeline-item__timestamp {
+          color: #444;
+          font-weight: 700;
+        }
       }
     }
   }

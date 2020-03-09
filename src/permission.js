@@ -5,10 +5,11 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getAccessToken } from '@/utils/auth'
 import getPageTitle from '@/utils/get-page-title'
+import pathToRegexp from 'path-to-regexp'
 
 NProgress.configure({ showSpinner: false })
 // 免登录白名单
-const whiteList = ['/login', '/', '/tag', '/category', '/archives', '/message']
+const whiteList = ['/login', '/', '/tag', '/category', '/archives', '/message', '/article/:id']
 
 router.beforeEach(async(to, from, next) => {
   // 进度条开始
@@ -47,8 +48,10 @@ router.beforeEach(async(to, from, next) => {
         }
       }
   } else {
+
     // 未登录，并且路径存在免登录白名单中
-    if (whiteList.indexOf(to.path) !== -1) {
+    const included = whiteList.some( ele => pathToRegexp(ele).exec(to.path) )
+    if (included) {
       next()
     } else {
       // 跳回首页

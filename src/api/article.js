@@ -39,3 +39,11 @@ export function recommendList() {
   return request.get('/article/recommend/list')
 }
 
+/**
+ * @description 浏览文章
+ * @param {Object} id
+ */
+export function viewArtilce(id) {
+  return request.get('/article/view/' + id)
+}
+

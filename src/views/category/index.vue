@@ -127,6 +127,10 @@ export default {
     display: flex;
     align-items: flex-start;
 
+    @media screen and (max-width: 960px){
+      margin-top: 0;
+    }
+
     .left-list {
       background: #fff;
       width: 112px;
@@ -190,6 +194,10 @@ export default {
       box-sizing: border-box;
       border-radius: 2px;
       margin-left: 122px;
+
+      @media screen and (max-width: 960px){
+        margin-left: 0;
+      }
 
       .el-pagination {
         text-align: center;

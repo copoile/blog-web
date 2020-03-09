@@ -86,7 +86,7 @@ export default {
       summary: '',
       reproduce: '',
       content: '',
-      html: '',
+      htmlContent: '',
       cover: '',
       coverVisible: false,
       imgUploadVisible: false,
@@ -119,7 +119,7 @@ export default {
 
     // 监控编辑器
     change(value, render) {
-      this.html = render
+      this.htmlContent = render
     },
 
     // 加载编辑文章
@@ -260,6 +260,7 @@ export default {
         status: status,
         title: this.title,
         content: this.content,
+        htmlContent: this.htmlContent,
         cover: this.cover,
         summary: this.summary,
         original: this.original,

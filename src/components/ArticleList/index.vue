@@ -125,6 +125,11 @@ export default {
       border-radius: 4px;
       border: 1px solid rgba(0, 0, 0, 0.1);
 
+      @media screen and (max-width: 960px){
+        width: 100px;
+        height: 60px;
+      }
+
       img {
         width: 100%;
         height: 100%;
@@ -162,6 +167,10 @@ export default {
       width: 100%;
       padding-right: 180px;
 
+      @media screen and (max-width: 960px){
+       padding-right: 120px;
+      }
+
       .title {
         margin: -7px 0 4px;
         display: inline-block;
@@ -169,6 +178,10 @@ export default {
         font-weight: 700;
         line-height: 1.5;
         color: #2f2f2f;
+
+        @media screen and (max-width: 960px){
+          font-size: 15px;
+        }
 
         &:hover {
           text-decoration: underline;
@@ -181,6 +194,14 @@ export default {
         line-height: 24px;
         color: #999;
         margin-bottom: 5px;
+
+        @media screen and (max-width: 960px){
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
       }
 
       .tags-wrapper {
