@@ -18,22 +18,25 @@
             </div>
           </div>
         </div>
-        <p class="text-container markdown-body" v-html="artilce.htmlContent" />
-      </div>
-      <div class="layout-right-side">
-        sss
+        <div class="text-container markdown-body" v-html="artilce.htmlContent" />
+        <copy-right />
+        <comment-list />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import './styles/github.css'
 import AppHeader from '@/components/Header/index'
 import { viewArtilce } from '@/api/article.js'
-import './styles/github.css'
+import CommentList from './components/CommentList'
+import CopyRight from './components/CopyRight'
 export default {
   components: {
-    AppHeader
+    AppHeader,
+    CommentList,
+    CopyRight
   },
   data() {
     return {
@@ -66,17 +69,31 @@ export default {
   overflow-x: hidden;
 
   .content-container {
-    max-width: $ContentContainerW;
+    width: 100%;
+    max-width: 800px;
+    box-sizing: border-box;
     margin: 0 auto;
+    position: relative;
     margin-top: 15px;
-    border-radius: 2px;
     display: flex;
+    color: #909090;
     align-items: flex-start;
+
+    @media screen and (max-width: 960px){
+      margin-top: 0;
+    }
 
     .layout-left-side {
       background: #fff;
+      border-radius: 2px;
+      width: 800px;
       flex: 1;
-      padding: 0 24px 24px 24px;
+      box-sizing: border-box;
+      padding: 0 15px 0 15px;
+
+      @media screen and (max-width: 960px){
+        width: 100%;
+      }
 
       .art-title {
         font-size: 28px;
@@ -88,8 +105,8 @@ export default {
         display: flex;
 
         .avatar-wrapper {
-          width: 40px;
-          height: 40px;
+          width: 45px;
+          height: 45px;
           border-radius: 50%;
           border: 1px solid rgba(0,0,0,.1);
           overflow: hidden;
@@ -102,13 +119,13 @@ export default {
         }
 
         .author-info-box {
-          flex-grow: 1;
 
           .nickename {
             font-weight: 700;
-            font-size: 14px;
+            font-size: 15px;
             display: inline-block;
             margin: 5px;
+            color: #000;
           }
 
           .meta-box {
@@ -123,21 +140,8 @@ export default {
       }
 
       .text-container {
-        font-size: 14px;
+        font-size: 15px;
         margin-top: 24px;
-      }
-    }
-
-    .layout-right-side {
-      width: $ContentRightSideW;
-      background: #fff;
-      box-sizing: border-box;
-      margin-left: 15px;
-      font-size: 14px;
-      position: relative;
-
-      @media screen and (max-width: 960px){
-        display: none;
       }
     }
   }

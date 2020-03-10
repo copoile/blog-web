@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="head">推荐阅读</div>
+  <div class="v-container">
+    <div class="head">相关阅读</div>
     <ul
       v-loading="loading"
       class="content-list"
@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.v-container {
   width: 100%;
   background: #fff;
   border-radius: 2px;
@@ -56,6 +56,7 @@ export default {
     color: #2e3135;
     border-bottom: 1px solid hsla(0,0%,59.2%,.2);
     padding: 12px 10px;
+    font-size: 14px;
   }
 
   .content-list {
