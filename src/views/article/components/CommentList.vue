@@ -1,13 +1,12 @@
 <template>
   <div class="c-container">
-    <app-header :nav-item-active="4" />
     <div class="content-container">
       <div class="content-head">
         <div class="edit-container">
           <quill-editor ref="editor" v-model="content" :options="editorOption" />
         </div>
         <div class="main-tools-box">
-          <el-button :loading="cloading" type="danger" size="mini" @click="messageSubmit">评论下</el-button>
+          <el-button :loading="cloading" type="danger" size="mini" @click="messageSubmit">评论</el-button>
         </div>
       </div>
       <div class="content-box">
@@ -128,14 +127,10 @@
 <script>
 import { mapGetters } from 'vuex'
 import '@/assets/quill-emoji/quill-emoji.js'
-import AppHeader from '@/components/Header/index'
 import { pageMessage, addMessage, addReply, deleteO } from '@/api/message.js'
 import { isMBrowser } from '@/utils/user-agent.js'
 
 export default {
-  components: {
-    AppHeader
-  },
   data() {
     return {
       content: '',
@@ -149,7 +144,7 @@ export default {
           'emoji-toolbar': true,
           'emoji-shortname': true
         },
-        placeholder: '客官，来都来了，怎么不给博主留个言呢 ？'
+        placeholder: '你好呀,不打算占楼层吗 ？'
       },
       reEditVisible: false,
       reEditorOption: {

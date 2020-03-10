@@ -20,6 +20,11 @@
         </div>
         <div class="text-container markdown-body" v-html="artilce.htmlContent" />
         <copy-right />
+        <art-tags />
+        <ul class="pre-next">
+          <li><a href="/">上一篇:程序员的日常是怎么样的</a></li>
+          <li><a href="/">下一篇:Centos7环境安装Mysql</a></li>
+        </ul>
         <comment-list />
       </div>
     </div>
@@ -32,11 +37,13 @@ import AppHeader from '@/components/Header/index'
 import { viewArtilce } from '@/api/article.js'
 import CommentList from './components/CommentList'
 import CopyRight from './components/CopyRight'
+import ArtTags from './components/ArtTags'
 export default {
   components: {
     AppHeader,
     CommentList,
-    CopyRight
+    CopyRight,
+    ArtTags
   },
   data() {
     return {
@@ -121,7 +128,7 @@ export default {
         .author-info-box {
 
           .nickename {
-            font-weight: 700;
+            font-weight: 500;
             font-size: 15px;
             display: inline-block;
             margin: 5px;
@@ -142,6 +149,24 @@ export default {
       .text-container {
         font-size: 15px;
         margin-top: 24px;
+      }
+
+      .pre-next {
+        padding: 0;
+        margin: 0;
+        margin-top: 15px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #007fff;
+
+       li {
+         list-style: none;
+         margin: 5px;
+
+         a:hover {
+           text-decoration: underline;
+         }
+       }
       }
     }
   }
