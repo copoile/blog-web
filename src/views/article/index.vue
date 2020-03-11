@@ -98,7 +98,7 @@ export default {
 
   .content-container {
     width: 100%;
-    max-width: 1000px;
+    max-width: 960px;
     box-sizing: border-box;
     margin: 0 auto;
     position: relative;
@@ -116,7 +116,7 @@ export default {
       border-radius: 2px;
       flex: 1;
       width: 750px;
-      margin-right: 240px;
+      margin-right: 170px;
       box-sizing: border-box;
       padding: 0 15px 0 15px;
 
@@ -199,7 +199,7 @@ export default {
       border-radius: 2px;
       position: fixed;
       top: 75px;
-      right: calc(calc(100% - 1010px)/2);
+      right: calc(calc(100% - 1145px)/2);
 
       @media screen and (max-width: 960px) {
         display: none;

@@ -29,7 +29,7 @@
   position: fixed;
   width: 45px;
   top: 200px;
-  left: calc(calc(100% - 1170px) / 2);
+  left: calc(calc(100% - 1145px) / 2);
   text-align: center;
   margin: 0;
   padding: 0;
