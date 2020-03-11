@@ -14,6 +14,7 @@
             @click="tabClick(index,tab)"
           >2019年01月</li>
         </ul>
+        <i class="el-icon-arrow-left el-icon" /><i class="el-icon-arrow-right el-icon" />
       </div>
 
       <div class="right-side">
@@ -93,10 +94,12 @@ export default {
     .left-side {
       position: fixed;
       top: 110px;
-      left: calc(calc(100% - 750px)/2);
+      left: calc(calc(100% - 850px)/2);
       z-index: 999;
       padding: 20px;
+      padding-bottom: 5px;
       background: #fff;
+      text-align: center;
 
       .left-side-title {
         margin: 0;
@@ -140,10 +143,18 @@ export default {
           }
         }
       }
+
+      .el-icon {
+        cursor: pointer;
+
+        &:hover {
+          color: #007fff;
+        }
+      }
     }
 
     .right-side {
-      margin-left: 240px;
+      margin-left: 200px;
       flex: 1;
 
       @media screen and (max-width: 960px){

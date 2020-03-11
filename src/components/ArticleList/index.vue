@@ -14,7 +14,7 @@
       </div>
 
       <div class="content">
-        <router-link to="/" class="title">{{ item.title }}</router-link>
+        <router-link :to="'/article/' + item.id" class="title">{{ item.title }}</router-link>
         <p class="abstract multi-ellipsis--l3">{{ item.summary }}</p>
         <div class="tags-wrapper">
           <span

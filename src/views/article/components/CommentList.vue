@@ -401,17 +401,12 @@ export default {
 
   .content-container {
     background: #fff;
-    max-width: $ContentContainerW;
     margin: 0 auto;
     margin-top: 15px;
     border-radius: 2px;
 
-    @media screen and (max-width: 960px){
-      margin-top: 0;
-    }
-
     .content-head {
-      padding: 10px 20px;
+      padding: 0 20px;
 
       .main-tip-label {
         border-left: 5px solid #00a77c;
@@ -480,7 +475,6 @@ export default {
     }
 
     .content-box {
-       padding: 10px 20px;
 
       .main-tip-label {
         border-left: 5px solid #00a77c;
@@ -532,8 +526,8 @@ export default {
 
           .cmt-li-r {
             margin-left: 15px;
-            width: 850px;
             float: left;
+            width: 92%;
 
             @media screen and (max-width: 960px){
               width: 82.9%;
@@ -692,7 +686,7 @@ export default {
 
 </style>
 
-<style scoped>
+<style scoped lang="scss">
 .rely-dialog >>> .el-button--text {
   color: #999;
 }
@@ -724,5 +718,13 @@ export default {
   border: 1px #e74851 solid;
   border-radius: 5px;
   min-height: 80px;
+}
+
+.rely-dialog {
+  margin-right: 255px;
+
+  @media screen and (max-width: 960px) {
+    margin-right: 0;
+  }
 }
 </style>
