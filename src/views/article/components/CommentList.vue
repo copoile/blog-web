@@ -6,7 +6,7 @@
           <quill-editor ref="editor" v-model="content" :options="editorOption" />
         </div>
         <div class="main-tools-box">
-          <el-button :loading="cloading" type="danger" size="mini" @click="messageSubmit">评论</el-button>
+          <el-button :loading="cloading" type="danger" size="mini" @click="commentSubmit">评论</el-button>
         </div>
       </div>
       <div class="content-box">
@@ -24,24 +24,27 @@
             </div>
             <div class="cmt-li-r">
               <div class="top">
-                <p class="nickname" :style="comment.fromUser.admin === 1 ? 'color:#e74851' : ''">
+                <p class="nickname" :style="comment.fromUser.id === authorId ? 'color:#e74851' : ''">
                   {{ comment.fromUser.nickname }}
 
-                  <el-tag v-if="comment.fromUser.admin === 1" type="info" size="mini" effect="light">狗管理</el-tag>
+                  <el-tag v-if="comment.fromUser.id === authorId" type="info" size="mini" effect="light">作者</el-tag>
                 </p>
-                <p class="date">{{ comment.createTime }}</p>
+                <p class="date">{{ comment.commentTime }}</p>
               </div>
               <p class="body-text" v-html="comment.content" />
               <div class="btns-bar">
                 <el-popover
-                  v-if="userInfo && (userInfo.id === comment.fromUser.id || userInfo.roles.includes('admin'))"
+                  v-if="userInfo && (
+                    userInfo.id === comment.fromUser.id
+                    || userInfo.id === authorId
+                    || userInfo.roles.includes('admin'))"
                   v-model="comment.del_visible"
                   placement="bottom"
                 >
                   <p style="margin: 8px;">确定删除这一条评论吗？</p>
                   <div style="text-align: right; margin: 0">
                     <el-button size="mini" type="text" @click="comment.del_visible = false">取消</el-button>
-                    <el-button type="primary" size="mini" @click="delSubmit(comment)">确定</el-button>
+                    <el-button type="primary" size="mini" @click="delCommentSubmit(comment)">确定</el-button>
                   </div>
                   <span slot="reference" class="reply-btn">删除</span>
                 </el-popover>
@@ -51,7 +54,7 @@
               <!-- 回复列表 -->
               <ul class="reply-list">
                 <li v-for="(reply, index2) in comment.replyList" :key="index2" class="reply-item">
-                  <div class="reply-date">{{ reply.createTime }}</div>
+                  <div class="reply-date">{{ reply.replyTime }}</div>
                   <div class="reply-content">
                     <div class="headimg">
                       <img :src="reply.fromUser.avatar || defaultAvatar">
@@ -65,14 +68,17 @@
                   </div>
                   <div class="btns-bar">
                     <el-popover
-                      v-if="userInfo && (userInfo.id === reply.fromUser.id || userInfo.roles.includes('admin'))"
+                      v-if="userInfo &&
+                        (userInfo.id === reply.fromUser.id
+                        || userInfo.id === authorId
+                        || userInfo.roles.includes('admin'))"
                       v-model="reply.del_visible"
                       placement="bottom"
                     >
                       <p style="margin: 8px;">确定删除这一条回复吗？</p>
                       <div style="text-align: right; margin: 0">
                         <el-button size="mini" type="text" @click="reply.del_visible = false">取消</el-button>
-                        <el-button type="primary" size="mini" @click="delSubmit(reply)">确定</el-button>
+                        <el-button type="primary" size="mini" @click="delReplySubmit(reply)">确定</el-button>
                       </div>
                       <span slot="reference" class="reply-btn">删除</span>
                     </el-popover>
@@ -92,12 +98,14 @@
           style="color: #fff;width: 100%;height: 100px;"
         >正在加载</div>
       </div>
+      <div v-if="!loading && commentList.length === 0" class="list-empty">还没有评论哦~</div>
     </div>
     <el-pagination
       background
       layout="prev, pager, next"
       :page-size="size"
       :current-page="current"
+      :hide-on-single-page="true"
       :total="total"
       @current-change="currentChange"
     />
@@ -127,10 +135,20 @@
 <script>
 import { mapGetters } from 'vuex'
 import '@/assets/quill-emoji/quill-emoji.js'
-import { pageMessage, addMessage, addReply, deleteO } from '@/api/message.js'
+import { pageComment, addComment, addReply, deleteComment, deleteReply } from '@/api/comment.js'
 import { isMBrowser } from '@/utils/user-agent.js'
 
 export default {
+  props: {
+    articleId: {
+      type: [String, Number],
+      required: true
+    },
+    authorId: {
+      type: [String, Number],
+      required: true
+    }
+  },
   data() {
     return {
       content: '',
@@ -161,7 +179,7 @@ export default {
       size: 10,
       total: 0,
       commentList: [],
-      pid: 0,
+      commentId: 0,
       toUserId: 0,
       cloading: false,
       rloading: false
@@ -183,14 +201,14 @@ export default {
   },
 
   mounted() {
-    this.pageMessage()
+    this.pageComment()
   },
 
   methods: {
 
     // 回复弹框关闭事件
     bClose() {
-      this.pid = 0
+      this.commentId = 0
       this.toUserId = 0
       this.reEditVisible = false
       this.recontent = ''
@@ -199,17 +217,18 @@ export default {
     // 监听分页
     currentChange(current) {
       this.current = current
-      this.pageMessage()
+      this.pageComment()
     },
 
     // 获取分页数据
-    pageMessage() {
+    pageComment() {
       this.loading = true
       const params = {
+        articleId: this.articleId,
         current: this.current,
         size: this.size
       }
-      pageMessage(params).then(
+      pageComment(params).then(
         res => {
           this.loading = false
           this.total = res.data.total
@@ -235,11 +254,11 @@ export default {
     // 重载
     reload() {
       this.current = 1
-      this.pageMessage()
+      this.pageComment()
     },
 
-    // 留言提交
-    messageSubmit() {
+    // 评论提交
+    commentSubmit() {
       const userInfo = this.userInfo
       if (!userInfo) {
         this.$store.commit('login/CHANGE_VISIBLE', true)
@@ -250,7 +269,10 @@ export default {
         this.$message('还没输入内容呢~')
         return
       }
-      const params = { content: content }
+      const params = {
+        content: content,
+        articleId: this.articleId
+      }
       const email = userInfo.email
       if (!email) {
         this.$confirm('没绑定邮箱接收不到回复提醒哦~', '提示', {
@@ -262,11 +284,11 @@ export default {
           this.$router.push('/email-binding')
         }).catch(() => {
           this.cloading = true
-          addMessage(params).then(
+          addComment(params).then(
             res => {
               this.cloading = false
               this.$message({
-                message: '留言成功',
+                message: '评论成功',
                 type: 'success'
               })
               this.content = ''
@@ -280,11 +302,11 @@ export default {
         })
       } else {
         this.cloading = true
-        addMessage(params).then(
+        addComment(params).then(
           res => {
             this.cloading = false
             this.$message({
-              message: '留言成功',
+              message: '评论成功',
               type: 'success'
             })
             this.content = ''
@@ -298,9 +320,24 @@ export default {
       }
     },
 
-    // 删除提交
-    delSubmit(item) {
-      deleteO(item.id).then(
+    // 删除评论提交
+    delCommentSubmit(comment) {
+      const params = { commentId: comment.id }
+      deleteComment(params).then(
+        res => {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+          this.reload()
+        }
+      )
+    },
+
+    // 删除回复提交
+    delReplySubmit(reply) {
+      const params = { replyId: reply.id }
+      deleteReply(params).then(
         res => {
           this.$message({
             message: '删除成功',
@@ -312,14 +349,14 @@ export default {
     },
 
     // 点击回复
-    reClick(pid, toUserId) {
+    reClick(commentId, toUserId) {
       const userInfo = this.userInfo
       if (!userInfo) {
         this.$store.commit('login/CHANGE_VISIBLE', true)
         return
       }
       this.reEditVisible = true
-      this.pid = pid
+      this.commentId = commentId
       this.toUserId = toUserId
     },
 
@@ -332,7 +369,8 @@ export default {
       }
 
       const params = {
-        pid: this.pid,
+        commentId: this.commentId,
+        articleId: this.articleId,
         toUserId: this.toUserId,
         content: content
       }
@@ -503,7 +541,7 @@ export default {
           list-style: none;
           border-bottom: 1px dashed #e5e5e5;
           margin-bottom: 2px;
-          padding-bottom: 0px;
+          padding-bottom: 0;
           overflow: hidden;
           margin-top: 15px;
 
@@ -610,6 +648,10 @@ export default {
                   float: right;
                   color: silver;
                   font-size: 12px;
+
+                  @media screen and (max-width: 960px){
+                    display: none;
+                  }
                 }
 
                 .reply-content {
@@ -651,6 +693,26 @@ export default {
                     font-size: 14px;
                     color: #333;
                   }
+
+                  @media screen and (max-width: 960px){
+                    display: block;
+                    float: left;
+                    padding: 5px 0;
+
+                    .headimg {
+                      display: inline-block;
+                    }
+
+                    .nickname {
+                      display: inline-block;
+                      position: relative;
+                      bottom: 12px;
+                    }
+
+                    .reply-text {
+                      padding-top: 5px;
+                    }
+                  }
                 }
 
                 .btns-bar {
@@ -675,6 +737,11 @@ export default {
           }
         }
       }
+    }
+
+    .list-empty {
+      text-align: center;
+      line-height: 50px;
     }
   }
 

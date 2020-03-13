@@ -2,38 +2,52 @@
   <div class="container">
     <app-header :nav-item-active="-1" />
     <div v-if="!loading" class="content-container">
-
       <div class="layout-left-side">
         <h2 class="art-title">
-          {{ artilce.title }}
+          {{ article.title }}
         </h2>
         <div class="author-info-block">
           <div class="avatar-wrapper">
-            <img :src="artilce.user.avatar || defaultAvatar" class="avatar">
+            <img :src="article.user.avatar || defaultAvatar" class="avatar">
           </div>
           <div class="author-info-box">
-            <p class="nickename">小姚同学</p>
+            <p class="nickename">{{ article.user.nickname }}</p>
             <div class="meta-box">
               <span class="time">2020年03月09日</span>
-              <span class="views-count">浏览&ensp;{{ artilce.viewCount }}</span>
+              <span class="views-count">浏览&ensp;{{ article.viewCount }}</span>
             </div>
           </div>
         </div>
-        <div class="text-container markdown-body" v-html="artilce.htmlContent" />
-        <copy-right />
-        <art-tags />
+        <div class="text-container markdown-body" v-html="article.htmlContent" />
+        <copy-right :url="url" :author-nickname="article.user.nickname" />
+        <art-tags :tags="article.tagList" />
         <ul class="pre-next">
-          <li><a href="/">上一篇:程序员的日常是怎么样的</a></li>
-          <li><a href="/">下一篇:Centos7环境安装Mysql</a></li>
+          <li v-if="article.previous">
+            <router-link :to="'/article/' + article.previous.id">
+              上一篇&ensp;:&ensp;{{ article.previous.title }}
+            </router-link>
+          </li>
+          <li v-if="article.next">
+            <router-link :to="'/article/' + article.next.id">
+              下一篇&ensp;:&ensp;{{ article.next.title }}
+            </router-link>
+          </li>
         </ul>
-        <comment-list />
+        <comment-list :article-id="id" :author-id="article.user.id" />
       </div>
 
       <div class="layout-right-side">
-        <interrelated-list />
+        <interrelated-list :article-id="id" />
       </div>
     </div>
-    <suspended-panel />
+    <suspended-panel
+      ref="spanel"
+      :title="article.title"
+      :like-count="article.likeCount"
+      :collect-count="article.collectCount"
+      @likeCountChanges="likeCountChanges"
+      @collectCountChanges="collectCountChanges"
+    />
   </div>
 </template>
 
@@ -59,9 +73,10 @@ export default {
   },
   data() {
     return {
-      artilce: '',
+      article: '',
       loading: true,
-      id: 0
+      id: 0,
+      url: ''
     }
   },
 
@@ -74,16 +89,47 @@ export default {
   mounted() {
     this.id = this.$route.params && this.$route.params.id
     this.initArticle()
+    this.url = window.location.href
   },
+
+  // 路由变化，用于当前页进当前页
+  beforeRouteUpdate(to, from, next) {
+    this.id = to.params && to.params.id
+    this.loading = true
+    this.url = 'http://www.poile.cn/article/' + this.id
+    this.$refs.spanel.changeUrl(this.url)
+    this.$refs.spanel.changeId(this.id)
+    this.$refs.spanel.isLiked()
+    this.$refs.spanel.isCollected()
+    viewArtilce(this.id).then(
+      res => {
+        this.loading = false
+        this.article = res.data
+      }
+    )
+    next()
+  },
+
   methods: {
+
     // 加载文章数据
     initArticle() {
       viewArtilce(this.id).then(
         res => {
           this.loading = false
-          this.artilce = res.data
+          this.article = res.data
         }
       )
+    },
+
+    // 点赞数自增、自减
+    likeCountChanges(val) {
+      this.article.likeCount = this.article.likeCount + val
+    },
+
+    // 收藏数自增、自减
+    collectCountChanges(val) {
+      this.article.collectCount = this.article.collectCount + val
     }
   }
 }
@@ -114,14 +160,16 @@ export default {
     .layout-left-side {
       background: #fff;
       border-radius: 2px;
-      flex: 1;
       width: 750px;
       margin-right: 170px;
       box-sizing: border-box;
       padding: 0 15px 0 15px;
+      margin-bottom: 25px;
 
       @media screen and (max-width: 960px){
         width: 100%;
+        margin-right: 0;
+        margin-bottom: 0;
       }
 
       .art-title {

@@ -631,6 +631,10 @@ export default {
                   float: right;
                   color: silver;
                   font-size: 12px;
+
+                  @media screen and (max-width: 960px){
+                    display: none;
+                  }
                 }
 
                 .reply-content {
@@ -671,6 +675,26 @@ export default {
                     flex: 1;
                     font-size: 14px;
                     color: #333;
+                  }
+
+                  @media screen and (max-width: 960px){
+                    display: block;
+                    float: left;
+                    padding: 5px 0;
+
+                    .headimg {
+                      display: inline-block;
+                    }
+
+                    .nickname {
+                      display: inline-block;
+                      position: relative;
+                      bottom: 12px;
+                    }
+
+                    .reply-text {
+                      padding-top: 5px;
+                    }
                   }
                 }
 

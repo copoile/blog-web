@@ -1,54 +1,25 @@
 <template>
   <div class="container">
-    <div class="head">最近评论</div>
-    <ul class="content-list">
-      <li class="list-item">
-        <div class="avatar-wrapper">
-          <img class="user-avatar" src="https://poile-img.nos-eastchina1.126.net/me.png">
-        </div>
-        <div class="content-box">
-          <p class="content-row text-ellipsis">爱江山不爱美人&emsp;1天前(6月18日)</p>
-          <p class="content-row text text-ellipsis">小伙子，来玩下啊！！！尼玛的，来玩下啊！！！尼玛的，来玩下啊！！！</p>
-        </div>
-      </li>
+    <div class="head">文章评论</div>
+    <ul
+      v-loading="loading"
+      class="content-list"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="#fff"
+    >
 
-      <li class="list-item">
+      <li v-for="(item, index) in list" :key="index" class="list-item">
         <div class="avatar-wrapper">
-          <img class="user-avatar" src="https://poile-img.nos-eastchina1.126.net/me.png">
+          <img class="user-avatar" :src="item.fromUser.avatar || defaultAvatar">
         </div>
         <div class="content-box">
-          <p class="content-row">校园同学&emsp;1天前(6月18日)</p>
-          <p class="content-row text">小伙子，来玩下啊！！！</p>
-        </div>
-      </li>
-
-      <li class="list-item">
-        <div class="avatar-wrapper">
-          <img class="user-avatar" src="https://poile-img.nos-eastchina1.126.net/me.png">
-        </div>
-        <div class="content-box">
-          <p class="content-row">校园同学&emsp;1天前(6月18日)</p>
-          <p class="content-row text">小伙子，来玩下啊！！！</p>
-        </div>
-      </li>
-
-      <li class="list-item">
-        <div class="avatar-wrapper">
-          <img class="user-avatar" src="https://poile-img.nos-eastchina1.126.net/me.png">
-        </div>
-        <div class="content-box">
-          <p class="content-row">校园同学&emsp;1天前(6月18日)</p>
-          <p class="content-row text">小伙子，来玩下啊！！！</p>
-        </div>
-      </li>
-
-      <li class="list-item">
-        <div class="avatar-wrapper">
-          <img class="user-avatar" src="https://poile-img.nos-eastchina1.126.net/me.png">
-        </div>
-        <div class="content-box">
-          <p class="content-row">校园同学&emsp;1天前(6月18日)</p>
-          <p class="content-row text">小伙子，来玩下啊！！！</p>
+          <p class="content-row text-ellipsis">{{ item.fromUser.nickname }}&emsp;{{ item.commentTime }}</p>
+          <router-link
+            class="content-row text text-ellipsis"
+            :to="'/article/' + item.article.id"
+            v-html="item.content"
+          />
         </div>
       </li>
     </ul>
@@ -57,6 +28,39 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { latestCommentList } from '@/api/comment.js'
+export default {
+  data() {
+    return {
+      loading: true,
+      list: []
+    }
+  },
+
+  computed: {
+    ...mapGetters([
+      'defaultAvatar'
+    ])
+  },
+
+  mounted() {
+    this.init()
+  },
+
+  methods: {
+
+    init() {
+      const params = { limit: 10 }
+      latestCommentList(params).then(
+        res => {
+          this.loading = false
+          this.list = res.data
+        }
+      )
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -79,6 +83,7 @@
     margin: 0px;
     box-sizing: border-box;
     padding: 10px;
+    min-height: 120px;
 
     .list-item {
       width: 100%;

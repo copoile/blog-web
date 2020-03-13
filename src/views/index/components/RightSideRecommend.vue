@@ -9,8 +9,8 @@
       element-loading-background="#fff"
     >
       <li v-for="(item, index) in list" :key="index" class="list-item">
-        <p class="content-row title">{{ item.title }}</p>
-        <p class="content-row">阅读&ensp;{{ item.viewCount }}</p>
+        <router-link class="content-row title" :to="'/article/' + item.id">{{ item.title }}</router-link>
+        <p class="content-row">浏览&ensp;{{ item.viewCount }}</p>
       </li>
     </ul>
   </div>

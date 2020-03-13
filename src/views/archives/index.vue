@@ -14,7 +14,12 @@
             @click="tabClick(index,tab)"
           >2019年01月</li>
         </ul>
-        <i class="el-icon-arrow-left el-icon" /><i class="el-icon-arrow-right el-icon" />
+        <el-button type="text">
+          <i class="el-icon-arrow-left el-icon" />
+        </el-button>
+        <el-button type="text">
+          <i class="el-icon-arrow-right el-icon" />
+        </el-button>
       </div>
 
       <div class="right-side">

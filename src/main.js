@@ -12,6 +12,9 @@ import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 
+// 点击复制
+import VueClipboard from 'vue-clipboard2'
+
 // 全局样式
 import '@/styles/index.scss'
 
@@ -37,6 +40,7 @@ if (process.env.NODE_ENV === 'production') {
 
 Vue.use(ElementUI, { locale })
 Vue.use(VueQuillEditor)
+Vue.use(VueClipboard)
 
 Vue.config.productionTip = false
 

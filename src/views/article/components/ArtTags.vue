@@ -1,12 +1,30 @@
 <template>
   <div class="tags">
-    <span class="tag">Mysql</span>
-    <span class="tag">Redis</span>
-    <span class="tag">程序日常</span>
+    <span v-for="(tag, index) in tags" :key="index" class="tag" @click="tagClick(tag.id)">{{ tag.name }}</span>
   </div>
 </template>
 
 <script>
+export default {
+  props: {
+    tags: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
+  methods: {
+    tagClick(id) {
+      this.$router.push(
+        {
+          path: '/tag',
+          query: { id: id }
+        }
+      )
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

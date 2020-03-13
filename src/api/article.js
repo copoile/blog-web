@@ -47,3 +47,11 @@ export function viewArtilce(id) {
   return request.get('/article/view/' + id)
 }
 
+/** 
+ * @description 相关文章
+ * @param {Object} params
+ */
+export function interrelated(params) {
+  return request.get('/article/interrelated/list', { params } )
+}
+

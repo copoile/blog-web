@@ -9,7 +9,7 @@
       element-loading-background="#fff"
     >
       <li v-for="(item, index) in list" :key="index" class="list-item">
-        <p class="content-row title">{{ item.title }}</p>
+        <router-link class="content-row title" :to="'/article/' + item.id">{{ item.title }}</router-link>
         <p class="content-row">阅读&ensp;{{ item.viewCount }}</p>
       </li>
     </ul>
@@ -17,8 +17,14 @@
 </template>
 
 <script>
-import { recommendList } from '@/api/article.js'
+import { interrelated } from '@/api/article.js'
 export default {
+  props: {
+    articleId: {
+      type: [String, Number],
+      required: true
+    }
+  },
   data() {
     return {
       loading: true,
@@ -33,7 +39,8 @@ export default {
   methods: {
 
     init() {
-      recommendList().then(
+      const params = { articleId: this.articleId, limit: 8 }
+      interrelated(params).then(
         res => {
           this.loading = false
           this.list = res.data
@@ -62,7 +69,7 @@ export default {
   .content-list {
     margin: 10px;
     padding: 0;
-    min-height: 120px;
+    min-height: 50px;
 
     .list-item {
       list-style: none;
