@@ -163,8 +163,8 @@ export default {
     .layout-left-side {
       background: #fff;
       border-radius: 2px;
-      width: 750px;
-      margin-right: 170px;
+      width: 720px;
+      margin-left: 50px;
       box-sizing: border-box;
       padding: 0 15px 0 15px;
       margin-bottom: 25px;
@@ -172,6 +172,7 @@ export default {
       @media screen and (max-width: 960px){
         width: 100%;
         margin-right: 0;
+        margin-left: 0;
         margin-bottom: 0;
       }
 
@@ -250,8 +251,8 @@ export default {
       border-radius: 2px;
       position: fixed;
       top: 75px;
-      left: calc(100% - 680px);
-      right: calc(calc(100% - 1060px)/2);
+      // left: calc(100% - 680px);
+      right: calc(calc(100% - 1100px)/2);
 
       @media screen and (max-width: 960px) {
         display: none;

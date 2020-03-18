@@ -565,7 +565,7 @@ export default {
           .cmt-li-r {
             margin-left: 15px;
             float: left;
-            width: 92%;
+            width: 91%;
 
             @media screen and (max-width: 960px){
               width: 82.9%;

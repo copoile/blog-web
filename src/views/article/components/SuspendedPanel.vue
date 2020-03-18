@@ -212,7 +212,7 @@ export default {
   width: 45px;
   top: 200px;
   right: calc(100% - 420px);
-  left: calc(calc(100% - 1145px) / 2);
+  left: calc(calc(100% - 1040px) / 2);
   text-align: center;
   margin: 0;
   padding: 0;
