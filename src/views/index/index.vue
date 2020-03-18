@@ -124,6 +124,8 @@ export default {
   @import '~@/styles/variables';
 	width: 100%;
 	overflow-x: hidden;
+  overflow-y: -webkit-overlay;
+  overflow-y: overlay;
 
   .content-container {
     width: 100%;

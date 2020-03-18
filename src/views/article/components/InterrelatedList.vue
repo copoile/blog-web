@@ -1,5 +1,5 @@
 <template>
-  <div class="v-container">
+  <div class="in-container">
     <div class="head">相关阅读</div>
     <ul
       v-loading="loading"
@@ -52,7 +52,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-container {
+.in-container {
   width: 100%;
   background: #fff;
   border-radius: 2px;

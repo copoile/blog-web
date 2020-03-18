@@ -117,6 +117,8 @@ export default {
   width: 100%;
   height: 100vh;
   overflow-x: hidden;
+  overflow-y: -webkit-overlay;
+  overflow-y: overlay;
 
   .content-container {
     position: relative;

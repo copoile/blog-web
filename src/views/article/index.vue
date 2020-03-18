@@ -141,6 +141,9 @@ export default {
   width: 100%;
   height: 100vh;
   overflow-x: hidden;
+  overflow-y: auto;
+  overflow-y: -webkit-overlay;
+  overflow-y: overlay;
 
   .content-container {
     width: 100%;
@@ -247,7 +250,8 @@ export default {
       border-radius: 2px;
       position: fixed;
       top: 75px;
-      right: calc(calc(100% - 1145px)/2);
+      left: calc(100% - 680px);
+      right: calc(calc(100% - 1060px)/2);
 
       @media screen and (max-width: 960px) {
         display: none;
