@@ -114,7 +114,7 @@
     <el-dialog
       :visible.sync="reEditVisible"
       title="提示"
-      :width="reEditWith"
+      :width="device === 'desktop'?'600px':'95%'"
       top="45vh"
       :modal="false"
       :show-close="false"
@@ -136,9 +136,10 @@
 import { mapGetters } from 'vuex'
 import '@/assets/quill-emoji/quill-emoji.js'
 import { pageComment, addComment, addReply, deleteComment, deleteReply } from '@/api/comment.js'
-import { isMBrowser } from '@/utils/user-agent.js'
+import ResizeMixin from '@/layout/mixin/ResizeHandler'
 
 export default {
+  mixins: [ResizeMixin],
   props: {
     articleId: {
       type: [String, Number],
@@ -189,15 +190,9 @@ export default {
   computed: {
     ...mapGetters([
       'userInfo',
-      'defaultAvatar'
-    ]),
-    reEditWith() {
-      if (isMBrowser()) {
-        return '95%'
-      } else {
-        return '700px'
-      }
-    }
+      'defaultAvatar',
+      'device'
+    ])
   },
 
   mounted() {
@@ -656,6 +651,7 @@ export default {
 
                 .reply-content {
                   float: left;
+                  width: 100%;
                   padding-top: 10px;
                   display: flex;
                   align-items: flex-start;
@@ -788,7 +784,7 @@ export default {
 }
 
 .rely-dialog {
-  margin-right: 255px;
+  margin-right: 140px;
 
   @media screen and (max-width: 960px) {
     margin-right: 0;

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 /**
  * 账号登录
- * @param {Object} username
+ * @param {Object} params
  */
 export function accountLogin(params) {
   return request({
@@ -33,7 +33,7 @@ export function codeLogin(params) {
 
 /**
  * @description 获取用户信息
- * @param {Object} token
+ * @param {String} token
  */
 export function getUserInfo(token) {
   return request({
@@ -55,4 +55,12 @@ export function logout(params) {
     method: 'delete',
     params: params
   })
+}
+
+/**
+ * 用户注册
+ * @param {Object} data
+ */
+export function register(data) {
+  return request.post('/user/register', data)
 }

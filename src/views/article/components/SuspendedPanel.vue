@@ -210,7 +210,7 @@ export default {
 .panel {
   position: fixed;
   width: 45px;
-  top: 200px;
+  top: 180px;
   right: calc(100% - 420px);
   left: calc(calc(100% - 1040px) / 2);
   text-align: center;
@@ -231,8 +231,8 @@ export default {
       list-style: none;
       background: #fff;
       border-radius: 50%;
-      width: 42px;
-      height: 42px;
+      width: 38px;
+      height: 38px;
       text-align: center;
       margin-top: 10px;
       color: #b2bac2;
@@ -244,8 +244,8 @@ export default {
       }
 
       .svg-icon {
-        width: 18px;
-        height: 18px;
+        width: 15px;
+        height: 15px;
         cursor: pointer;
         fill: currentcolor;
         margin: 0 auto;
@@ -296,8 +296,8 @@ export default {
       }
 
       .svg-icon {
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
         cursor: pointer;
         fill: currentcolor;
       }

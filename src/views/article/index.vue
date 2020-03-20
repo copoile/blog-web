@@ -251,7 +251,6 @@ export default {
       border-radius: 2px;
       position: fixed;
       top: 75px;
-      // left: calc(100% - 680px);
       right: calc(calc(100% - 1100px)/2);
 
       @media screen and (max-width: 960px) {

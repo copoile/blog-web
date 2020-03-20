@@ -1,8 +1,4 @@
 /**
- * Created by PanJiaChen on 16/11/18.
- */
-
-/**
  * Parse the time to string
  * @param {(Object|string|number)} time
  * @param {string} cFormat
@@ -37,7 +33,9 @@ export function parseTime(time, cFormat) {
   const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
     const value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    if (key === 'a') {
+      return ['日', '一', '二', '三', '四', '五', '六'][value]
+    }
     return value.toString().padStart(2, '0')
   })
   return time_str
@@ -97,11 +95,112 @@ export function param2Obj(url) {
   }
   return JSON.parse(
     '{"' +
-      decodeURIComponent(search)
-        .replace(/"/g, '\\"')
-        .replace(/&/g, '","')
-        .replace(/=/g, '":"')
-        .replace(/\+/g, ' ') +
-      '"}'
+    decodeURIComponent(search)
+    .replace(/"/g, '\\"')
+    .replace(/&/g, '","')
+    .replace(/=/g, '":"')
+    .replace(/\+/g, ' ') +
+    '"}'
   )
+}
+
+
+/**
+ * formatDate
+ * @param { date } date
+ * @param { fmt} fmt
+ */
+export function formatDate(date, fmt) {
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+  }
+  let o = {
+    'M+': date.getMonth() + 1,
+    'd+': date.getDate(),
+    'h+': date.getHours(),
+    'm+': date.getMinutes(),
+    's+': date.getSeconds()
+  }
+  for (let k in o) {
+    if (new RegExp(`(${k})`).test(fmt)) {
+      let str = o[k] + ''
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str))
+    }
+  }
+  return fmt;
+}
+
+function padLeftZero(str) {
+  return ('00' + str).substr(str.length)
+}
+
+/**
+ * 时间格式化
+ * @param {*} timeStamp
+ */
+export function parseTimeStamp(timeStamp) {
+  var result
+  var minute = 1000 * 60 //把分，时，天，周，半个月，一个月用毫秒表示
+  var hour = minute * 60
+  var day = hour * 24
+  var week = day * 7
+  var halfamonth = day * 15
+  var month = day * 30
+  var now = new Date().getTime() //获取当前时间毫秒
+  var diffValue = now - timeStamp //时间差
+
+  if (diffValue < 0) {
+    result = '刚刚'
+    return result;
+  }
+  var minC = diffValue / minute //计算时间差的分，时，天，周，月
+  var hourC = diffValue / hour
+  var dayC = diffValue / day
+  var weekC = diffValue / week
+  var monthC = diffValue / month
+  if (monthC >= 1 && monthC <= 3) {
+    result = ' ' + parseInt(monthC) + '月前'
+    return result
+  } else if (weekC >= 1 && weekC < 5) {
+    result = ' ' + parseInt(weekC) + '周前'
+    return result;
+  } else if (dayC >= 1 && dayC < 7) {
+    result = ' ' + parseInt(dayC) + '天前'
+    return result;
+  } else if (hourC >= 1 && hourC < 24) {
+    result = ' ' + parseInt(hourC) + '小时前'
+    return result;
+  } else if (minC >= 1 && minC < 60) {
+    result = ' ' + parseInt(minC) + '分钟前'
+    return result
+  } else if (diffValue >= 0 && diffValue <= minute) {
+    result = '刚刚'
+    return result
+  } else {
+    var datetime = new Date()
+    datetime.setTime(timeStamp)
+    var Nyear = datetime.getFullYear()
+    var Nmonth =
+      datetime.getMonth() + 1 < 10 ?
+      '0' + (datetime.getMonth() + 1) :
+      datetime.getMonth() + 1;
+    var Ndate =
+      datetime.getDate() < 10 ?
+      '0' + datetime.getDate() :
+      datetime.getDate();
+    var Nhour =
+      datetime.getHours() < 10 ?
+      '0' + datetime.getHours() :
+      datetime.getHours();
+    var Nminute =
+      datetime.getMinutes() < 10 ?
+      '0' + datetime.getMinutes() :
+      datetime.getMinutes();
+    var Nsecond =
+      datetime.getSeconds() < 10 ?
+      '0' + datetime.getSeconds() :
+      datetime.getSeconds()
+    result = Nyear + '-' + Nmonth + '-' + Ndate
+  }
+  return result
 }

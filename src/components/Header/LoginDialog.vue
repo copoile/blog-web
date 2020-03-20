@@ -1,67 +1,67 @@
 <!-- 登录弹框组件 -->
 <template>
-  <el-dialog
-    top="25vh"
-    width="318px"
-    custom-class="login-dialog"
-    :close-on-click-modal="false"
-    :show-close="false"
-    :visible="login_visible"
-    :lock-scroll="false"
-  >
+  <el-dialog top="25vh" width="318px" custom-class="login-dialog" :close-on-click-modal="false" :show-close="false" :visible="login_visible" :lock-scroll="false">
     <span slot="title">
-      <span
-        v-for="(item, index) in tabs"
-        :key="index"
-        class="btn tab"
-        :class="{ 'active': active === index }"
-        @click="tabClick(index)"
-      >{{ item }}</span>
-      <button type="button" aria-label="Close" class="el-dialog__headerbtn" @click="bClose">
-        <i class="el-dialog__close el-icon el-icon-close" />
-      </button>
+      <span v-for="(item, index) in tabs" :key="index" class="btn tab" :class="{ active: active === index }" @click="tabClick(index)">{{ item }}</span>
+      <button type="button" aria-label="Close" class="el-dialog__headerbtn" @click="bClose"><i class="el-dialog__close el-icon el-icon-close" /></button>
     </span>
 
     <el-input v-if="active === 0" v-model="username" placeholder="用户名或手机号" />
     <el-input v-else v-model="mobile" placeholder="手机号" />
     <el-input v-if="active === 0" v-model="password" placeholder="密码" />
-    <el-input
-      v-else
-      v-model="code"
-      placeholder="验证码"
-    >
-      <span slot="suffix" class="code-btn btn">获取验证码</span>
+    <el-input v-else v-model="code" placeholder="验证码">
+      <span v-show="!codeCount" slot="suffix" class="code-btn btn" @click="sendCode">获取验证码</span>
+      <el-button
+        v-show="codeCount"
+        slot="suffix"
+        type="primary"
+        size="mini"
+        disabled
+        style="margin-top: 6px;"
+      >{{ codeCount }}s</el-button>
     </el-input>
     <el-button type="primary" size="medium" :loading="loading" @click="login">登录</el-button>
     <p class="tip">
       <el-checkbox v-if="active === 0" v-model="checked">记住密码</el-checkbox>
-      <span class="active btn" :class="{'right': active === 0}">忘记密码^_^?</span>
+      <span class="active btn" :class="{ right: active === 0 }">忘记密码^_^?</span>
     </p>
-    <p style="clear: both;">注册登录即表示同意<a href="#" style="color: #007fff;">用户协议、隐私政策</a></p>
+    <p style="clear: both;">
+      注册登录即表示同意
+      <a href="#" style="color: #007fff;">用户协议、隐私政策</a>
+    </p>
   </el-dialog>
 </template>
 
 <script>
 import { validMobile } from '@/utils/validate.js'
 import { mapGetters } from 'vuex'
+import { setRemember, getRemember } from '@/utils/auth.js'
+import { sendCode } from '@/api/code.js'
 export default {
   data() {
     return {
-      username: 'admin',
-      password: '123456',
+      username: '',
+      password: '',
       mobile: '',
       code: '',
       tabs: ['密码登录', '免密登录'],
       active: 0,
       checked: false,
-      loading: false
+      loading: false,
+      codeCount: 0,
+      timer: null
     }
   },
   computed: {
-    ...mapGetters([
-      'login_visible'
-    ])
+    ...mapGetters(['login_visible', 'login_username', 'login_password'])
   },
+
+  mounted() {
+    this.username = this.login_username || ''
+    this.password = this.login_password || ''
+    this.checked = getRemember() === '1'
+  },
+
   methods: {
     // 关闭弹框事件
     bClose() {
@@ -108,6 +108,13 @@ export default {
           const { roles } = await this.$store.dispatch('user/getUserInfo')
           const accessRoutes = await this.$store.dispatch('permission/generateRoutes', roles)
           this.$router.addRoutes(accessRoutes)
+          const checked = this.checked
+          setRemember(checked ? '1' : '0')
+          if (checked) {
+            this.$store.dispatch('login/setUsernameAndPassword', params)
+          } else {
+            this.$store.dispatch('login/clearUsernameAndPassword')
+          }
           this.loading = false
           this.bClose()
           resolve()
@@ -116,8 +123,7 @@ export default {
           console.error(error)
           reject(error)
         }
-      }
-      )
+      })
     },
 
     // 验证码登录
@@ -154,7 +160,42 @@ export default {
           console.error(error)
           reject(error)
         }
+      })
+    },
+
+    // 发送验证码
+    sendCode() {
+      const mobile = this.mobile
+      if (mobile === '') {
+        this.$message('请输入手机号')
+        return
       }
+      if (!validMobile(mobile)) {
+        this.$message('手机号格式不正确')
+        return
+      }
+
+      // 120倒数计时
+      const TIME_COUNT = 120
+      if (!this.timer) {
+        this.codeCount = TIME_COUNT
+        this.timer = setInterval(() => {
+          if (this.codeCount > 0 && this.codeCount <= TIME_COUNT) {
+            this.codeCount--
+          } else {
+            clearInterval(this.timer)
+            this.timer = null
+          }
+        }, 1000)
+      }
+      const params = { mobile: mobile }
+      sendCode(params).then(
+        res => {
+          this.$message({
+            message: '发送成功',
+            type: 'success'
+          })
+        }
       )
     }
   }
@@ -197,6 +238,5 @@ export default {
       float: right;
     }
   }
-
 }
 </style>

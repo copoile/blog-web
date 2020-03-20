@@ -123,7 +123,7 @@ export default {
       cursor: pointer;
       overflow: hidden;
       border-radius: 4px;
-      border: 1px solid rgba(0, 0, 0, 0.1);
+      border: 1px solid #f3f7fa;
 
       @media screen and (max-width: 960px){
         width: 100px;
