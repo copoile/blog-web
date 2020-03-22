@@ -8,10 +8,12 @@
       element-loading-spinner="el-icon-loading"
       element-loading-background="#fff"
     >
-      <li v-for="(item, index) in list" :key="index" class="list-item">
-        <router-link class="content-row title" :to="'/article/' + item.id">{{ item.title }}</router-link>
-        <p class="content-row">浏览&ensp;{{ item.viewCount }}</p>
-      </li>
+      <transition-group name="fade-list">
+        <li v-for="(item, index) in list" :key="index" class="list-item">
+          <router-link class="content-row title" :to="'/article/' + item.id">{{ item.title }}</router-link>
+          <p class="content-row">浏览&ensp;{{ item.viewCount }}</p>
+        </li>
+      </transition-group>
     </ul>
   </div>
 </template>

@@ -28,3 +28,11 @@ export function addCollect(params){
 export function cancelCollected(params) {
   return request.delete('/article/collect/delete', { params })
 }
+
+/**
+ * @description 分页获取收藏
+ * @param {Object} params
+ */
+export function pageCollect(params) {
+  return request.get('/article/collect/page', { params })
+}

@@ -44,7 +44,7 @@ export default {
     return {
       categoryId: 0,
       categorys: [],
-      loading: false,
+      loading: true,
       artList: [],
       current: 1,
       size: 10,

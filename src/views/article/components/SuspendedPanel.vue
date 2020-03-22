@@ -27,7 +27,7 @@
       <li class="wx-warpper">
         <el-popover placement="left" trigger="hover">
           <img
-            style="width:90px;height:90px;margin-left: 15px;"
+            style="width:90px;height:90px;margin: 5px;"
             :src="'https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=' + codedUrl"
           >
           <svg-icon slot="reference" icon-class="wx" class="svg-icon" />

@@ -47,6 +47,14 @@ export function viewArtilce(id) {
   return request.get('/article/view/' + id)
 }
 
+/**
+ * 自增浏览次数
+ * @param {Object} id
+ */
+export function incrementView(id) {
+  return request.put('/article/increment_view/' + id)
+}
+
 /** 
  * @description 相关文章
  * @param {Object} params

@@ -27,6 +27,17 @@
   transform: translateX(30px);
 }
 
+/* fade list transition */
+.fade-list-enter-active,
+.fade-list-leave-active {
+  transition: opacity 0.4s;
+}
+
+.fade-list-enter,
+.fade-list-leave-active {
+  opacity: 0;
+}
+
 /* breadcrumb transition */
 .breadcrumb-enter-active,
 .breadcrumb-leave-active {

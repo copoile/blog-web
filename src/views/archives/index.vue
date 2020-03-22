@@ -7,17 +7,17 @@
         <p class="left-side-title">Archives</p>
         <ul class="tab-list">
           <li
-            v-for="(tab,index) in leftTabs"
+            v-for="(tab,index) in tabs"
             :key="index"
             class="list-tab"
             :class="{'tab-active':tabActive === index}"
             @click="tabClick(index,tab)"
-          >2019年01月</li>
+          >{{ tab.date }}</li>
         </ul>
-        <el-button type="text">
+        <el-button type="text" :disabled="tabCurrent === 1" @click="tabPageChange(-1)">
           <i class="el-icon-arrow-left el-icon" />
         </el-button>
-        <el-button type="text">
+        <el-button type="text" :disabled="tabPages === tabCurrent" @click="tabPageChange(1)">
           <i class="el-icon-arrow-right el-icon" />
         </el-button>
       </div>
@@ -29,29 +29,50 @@
             color="#0bbd87"
             icon="el-icon-date"
             size="large"
-            timestamp="#很好！目前共计35篇文章,继续加油!"
+            :timestamp="'# 继续加油啊！当前月份一共' + total +'篇文章！'"
             placement="top"
           />
-          <el-timeline-item
-            v-for="(item,index) in dataList"
-            :key="index"
-            color="#0bbd87"
-            :timestamp="temp"
-            placement="top"
-          >
-            <el-card>
-              <h4>程序员如何向自己的亲戚朋友介绍自己的职业?</h4>
-              <p>小姚同学 发表于 2020-01-15</p>
-            </el-card>
-          </el-timeline-item>
+          <transition-group name="fade-list">
+            <el-timeline-item
+              v-for="(item,index) in artList"
+              :key="index"
+              color="#0bbd87"
+              :timestamp="item.date"
+              placement="top"
+            >
+              <el-card shadow="hover">
+                <router-link :to="'/article/' + item.id" class="title">{{ item.title }}</router-link>
+                <div class="content">
+                  <p class="abstract multi-ellipsis--l3">
+                    {{ item.summary }}
+                  </p>
+                  <div class="wrap-img">
+                    <img :src="item.cover">
+                  </div>
+                </div>
+              </el-card>
+            </el-timeline-item>
+          </transition-group>
         </el-timeline>
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :page-size="size"
+          :current-page="current"
+          :total="total"
+          :hide-on-single-page="true"
+          @current-change="currentChange"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { pageArchives } from '@/api/archives.js'
 import AppHeader from '@/components/Header/index'
+import { formatDate } from '@/utils/index.js'
+import { pagePublishedArticle } from '@/api/article.js'
 export default {
   components: {
     AppHeader
@@ -59,16 +80,86 @@ export default {
   data() {
     return {
       tabActive: 0,
+      loading: true,
       temp: '2019-09-03',
-      leftTabs: [1, 2, 3, 4, 5],
-      dataList: [1, 2, 3, 4, 5]
+      tabs: [],
+      tabSize: 12,
+      tabCurrent: 1,
+      tabPages: 1,
+      yearMonth: '',
+      current: 1,
+      size: 8,
+      total: 0,
+      artList: []
     }
   },
+
+  mounted() {
+    this.pageArchives()
+  },
+
   methods: {
+
+    pageArchives() {
+      this.loading = true
+      const params = { size: this.tabSize, current: this.tabCurrent }
+      pageArchives(params).then(
+        res => {
+          const records = res.data.records
+          records.forEach(
+            ele => {
+              const arr = ele.yearMonth.split('-')
+              ele.date = arr[0] + '年' + arr[1] + '月'
+            }
+          )
+          this.tabs = records
+          this.tabPages = res.data.pages
+          this.tabClick(0, this.tabs[0])
+        }
+      )
+    },
+
+    // 获取文章列表
+    pageArticle() {
+      this.loading = true
+      const params = {
+        current: this.current,
+        size: this.size,
+        yearMonth: this.yearMonth
+      }
+      pagePublishedArticle(params).then(
+        res => {
+          const records = res.data.records
+          records.forEach(ele => { ele.date = formatDate(new Date(ele.publishTime), 'yyyy-MM-dd') })
+          this.artList = records
+          this.total = res.data.total
+          this.loading = false
+        },
+        error => {
+          console.error(error)
+          this.loading = false
+        }
+      )
+    },
+
+    // 文章分页
+    currentChange(current) {
+      this.current = current
+      this.pageArticle()
+    },
+
+    // 归档tab分页
+    tabPageChange(val) {
+      this.tabCurrent = this.tabCurrent + val
+      this.pageArchives()
+    },
+
     // 左边tab点击事件
     tabClick(index, tab) {
       this.tabActive = index
-      console.log(tab)
+      this.yearMonth = tab.yearMonth
+      this.current = 1
+      this.pageArticle()
     }
   }
 }
@@ -120,49 +211,100 @@ export default {
       .tab-list {
         margin: 0;
         padding: 0;
-        font-size: 18px;
+        font-size: 15px;
         text-align: center;
-        color: #616161;
+        color: #909090;;
 
         .list-tab {
           list-style: none;
           position: relative;
-          margin: 12px 0;
+          padding: 5px;
+          border-radius: 3px;
           cursor: pointer;
+          margin-top: 5px;
 
           &:hover {
             color: #007fff;
+            background: #f4f5f5;
           }
         }
 
         .tab-active {
-          color: #007fff;
+          color: #fff;
+          background: #007fff;
 
-          &:after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            bottom: 0;
-            height: 1px;
+          &:hover {
+            color: #fff;
             background: #007fff;
-            width: 95px;
           }
         }
       }
 
       .el-icon {
-        cursor: pointer;
-
-        &:hover {
-          color: #007fff;
-        }
+        font-weight: 700;
       }
     }
 
     .right-side {
       margin-left: 200px;
       flex: 1;
+
+      .el-card {
+        position: relative;
+
+        .title {
+          margin: 0;
+          font-size: 14px;
+          font-weight: 700;
+          color: #2f2f2f;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .content {
+          display: flex;
+
+          .abstract {
+            flex: 1;
+            margin: 0;
+            margin-top: 8px;
+            padding-right: 200px;
+            line-height: 20px;
+            color: #999;
+
+            @media screen and (max-width: 960px){
+              padding-right: 0;
+            }
+          }
+
+          .wrap-img {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 150px;
+            height: 90px;
+            border-radius: 4px;
+            border: 1px solid #f3f7fa;
+            overflow: hidden;
+
+            @media screen and (max-width: 960px){
+              display: none;
+            }
+
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+      }
+
+      .el-pagination {
+        text-align: center;
+      }
 
       @media screen and (max-width: 960px){
         margin-left: 0;

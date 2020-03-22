@@ -1,48 +1,48 @@
 <template>
-  <ul class="note-list">
-    <li v-for="(item, index) in list" :key="index" class="list-item">
-      <router-link to="/" class="wrap-img">
-        <img :src="item.cover">
-      </router-link>
-      <div class="wrapper-meta">
-        <div class="avatar-wrapper">
-          <img class="user-avatar" :src="item.user.avatar">
+  <ul
+    v-loading="loading"
+    class="note-list"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="#fff"
+  >
+    <transition-group name="fade-list">
+      <li v-for="(item, index) in list" :key="index" class="list-item">
+        <router-link to="/" class="wrap-img">
+          <img :src="item.cover">
+        </router-link>
+        <div class="wrapper-meta">
+          <div class="avatar-wrapper">
+            <img class="user-avatar" :src="item.user.avatar">
+          </div>
+          <span class="right-solt">{{ item.user.nickname }}</span>
+          <span class="right-solt">02月23</span>
+          <span class="active" @click="categoryClick(item.categoryId)">{{ item.categoryName }}</span>
         </div>
-        <span class="right-solt">{{ item.user.nickname }}</span>
-        <span class="right-solt">02月23</span>
-        <span class="active" @click="categoryClick(item.categoryId)">{{ item.categoryName }}</span>
-      </div>
 
-      <div class="content">
-        <router-link :to="'/article/' + item.id" class="title">{{ item.title }}</router-link>
-        <p class="abstract multi-ellipsis--l3">{{ item.summary }}</p>
-        <div class="tags-wrapper">
-          <span
-            v-for="(tag, index2) in item.tagList"
-            :key="index2"
-            class="tag active btn"
-            @click="tagClick(tag.id)"
-          >
-            {{ tag.name }}
-          </span>
+        <div class="content">
+          <router-link :to="'/article/' + item.id" class="title"><span v-if="item.original !== 1">【转载】</span> {{ item.title }}</router-link>
+          <p class="abstract multi-ellipsis--l3">{{ item.summary }}</p>
+          <div class="tags-wrapper">
+            <span
+              v-for="(tag, index2) in item.tagList"
+              :key="index2"
+              class="tag active btn"
+              @click="tagClick(tag.id)"
+            >
+              {{ tag.name }}
+            </span>
+          </div>
+          <div class="meta">
+            <span>{{ item.commentCount }}&ensp;评论</span>
+            <span>{{ item.likeCount }}&ensp;点赞</span>
+            <span>{{ item.collectCount }}&ensp;收藏</span>
+            <span>{{ item.viewCount }}&ensp;浏览</span>
+          </div>
         </div>
-        <div class="meta">
-          <span>{{ item.commentCount }}&ensp;评论</span>
-          <span>{{ item.likeCount }}&ensp;点赞</span>
-          <span>{{ item.collectCount }}&ensp;收藏</span>
-          <span>{{ item.viewCount }}&ensp;浏览</span>
-        </div>
-      </div>
-    </li>
+      </li>
+    </transition-group>
     <div v-show="list.length === 0 && !loading" class="list-empty">列表为空</div>
-    <div
-      v-show="loading"
-      v-loading="loading"
-      element-loading-text="拼命加载中"
-      element-loading-spinner="el-icon-loading"
-      element-loading-background="#fff"
-      style="color: #fff;width: 100%;height: 100px;"
-    >加载中</div>
   </ul>
 </template>
 
@@ -95,6 +95,7 @@ export default {
   padding: 0;
   box-sizing: border-box;
   color: #999;
+  min-height: 50px;
 
   .list-item {
     list-style: none;

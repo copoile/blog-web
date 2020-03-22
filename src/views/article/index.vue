@@ -1,45 +1,48 @@
 <template>
   <div class="container">
     <app-header :nav-item-active="-1" />
-    <div v-if="!loading" class="content-container">
-      <div class="layout-left-side">
-        <h2 class="art-title">
-          {{ article.title }}
-        </h2>
-        <div class="author-info-block">
-          <div class="avatar-wrapper">
-            <img :src="article.user.avatar || defaultAvatar" class="avatar">
-          </div>
-          <div class="author-info-box">
-            <p class="nickename">{{ article.user.nickname }}</p>
-            <div class="meta-box">
-              <span class="time">2020年03月09日</span>
-              <span class="views-count">浏览&ensp;{{ article.viewCount }}</span>
+    <transition name="fade">
+      <div v-if="!loading" class="content-container">
+        <div class="layout-left-side">
+          <h2 class="art-title">
+            <span v-if="article.original !== 1">【转载】</span>
+            {{ article.title }}
+          </h2>
+          <div class="author-info-block">
+            <div class="avatar-wrapper">
+              <img :src="article.user.avatar || defaultAvatar" class="avatar">
+            </div>
+            <div class="author-info-box">
+              <p class="nickename">{{ article.user.nickname }}</p>
+              <div class="meta-box">
+                <span class="time">2020年03月09日</span>
+                <span class="views-count">浏览&ensp;{{ article.viewCount }}</span>
+              </div>
             </div>
           </div>
+          <div class="text-container markdown-body" v-html="article.htmlContent" />
+          <copy-right :url="article.original === 1 ? url : article.reproduce" :original="article.original" />
+          <art-tags :tags="article.tagList" />
+          <ul class="pre-next">
+            <li v-if="article.previous">
+              <router-link :to="'/article/' + article.previous.id">
+                上一篇&ensp;:&ensp;{{ article.previous.title }}
+              </router-link>
+            </li>
+            <li v-if="article.next">
+              <router-link :to="'/article/' + article.next.id">
+                下一篇&ensp;:&ensp;{{ article.next.title }}
+              </router-link>
+            </li>
+          </ul>
+          <comment-list :article-id="id" :author-id="article.user.id" />
         </div>
-        <div class="text-container markdown-body" v-html="article.htmlContent" />
-        <copy-right :url="url" :author-nickname="article.user.nickname" />
-        <art-tags :tags="article.tagList" />
-        <ul class="pre-next">
-          <li v-if="article.previous">
-            <router-link :to="'/article/' + article.previous.id">
-              上一篇&ensp;:&ensp;{{ article.previous.title }}
-            </router-link>
-          </li>
-          <li v-if="article.next">
-            <router-link :to="'/article/' + article.next.id">
-              下一篇&ensp;:&ensp;{{ article.next.title }}
-            </router-link>
-          </li>
-        </ul>
-        <comment-list :article-id="id" :author-id="article.user.id" />
-      </div>
 
-      <div class="layout-right-side">
-        <interrelated-list :article-id="id" />
+        <div class="layout-right-side">
+          <interrelated-list :article-id="id" />
+        </div>
       </div>
-    </div>
+    </transition>
     <suspended-panel
       ref="spanel"
       :title="article.title"
@@ -55,13 +58,12 @@
 import './styles/github.css'
 import { mapGetters } from 'vuex'
 import AppHeader from '@/components/Header/index'
-import { viewArtilce } from '@/api/article.js'
+import { viewArtilce, incrementView } from '@/api/article.js'
 import CommentList from './components/CommentList'
 import CopyRight from './components/CopyRight'
 import ArtTags from './components/ArtTags'
 import InterrelatedList from './components/InterrelatedList'
 import SuspendedPanel from './components/SuspendedPanel'
-
 export default {
   components: {
     AppHeader,
@@ -101,12 +103,7 @@ export default {
     this.$refs.spanel.changeId(this.id)
     this.$refs.spanel.isLiked()
     this.$refs.spanel.isCollected()
-    viewArtilce(this.id).then(
-      res => {
-        this.loading = false
-        this.article = res.data
-      }
-    )
+    this.initArticle()
     next()
   },
 
@@ -114,10 +111,23 @@ export default {
 
     // 加载文章数据
     initArticle() {
+      this.loading = true
       viewArtilce(this.id).then(
         res => {
           this.loading = false
           this.article = res.data
+          this.incrementView()
+        }
+      )
+    },
+
+    // 浏览次数自增
+    incrementView() {
+      incrementView(this.id).then(
+        res => {
+          if (res.data) {
+            this.article.viewCount = this.article.viewCount + 1
+          }
         }
       )
     },
@@ -156,7 +166,7 @@ export default {
     color: #909090;
     align-items: flex-start;
 
-    @media screen and (max-width: 960px){
+    @media screen and (max-width: 960px) {
       margin-top: 0;
     }
 
@@ -169,7 +179,7 @@ export default {
       padding: 0 15px 0 15px;
       margin-bottom: 25px;
 
-      @media screen and (max-width: 960px){
+      @media screen and (max-width: 960px) {
         width: 100%;
         margin-right: 0;
         margin-left: 0;
@@ -189,7 +199,7 @@ export default {
           width: 45px;
           height: 45px;
           border-radius: 50%;
-          border: 1px solid rgba(0,0,0,.1);
+          border: 1px solid rgba(0, 0, 0, .1);
           overflow: hidden;
           margin-right: 5px;
 
@@ -233,14 +243,14 @@ export default {
         font-weight: 400;
         color: #007fff;
 
-       li {
-         list-style: none;
-         margin: 5px;
+        li {
+          list-style: none;
+          margin: 5px;
 
-         a:hover {
-           text-decoration: underline;
-         }
-       }
+          a:hover {
+            text-decoration: underline;
+          }
+        }
       }
     }
 

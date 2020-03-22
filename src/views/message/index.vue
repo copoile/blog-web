@@ -19,72 +19,74 @@
 
         <!-- 留言列表 -->
         <ul class="content-list">
-          <li v-for="(comment, index1) in commentList" :key="index1" class="list-item">
-            <div class="cmt-li-title">
-              <div class="headimg">
-                <img :src="comment.fromUser.avatar || defaultAvatar">
+          <transition-group name="fade-list">
+            <li v-for="(comment, index1) in commentList" :key="index1" class="list-item">
+              <div class="cmt-li-title">
+                <div class="headimg">
+                  <img :src="comment.fromUser.avatar || defaultAvatar">
+                </div>
               </div>
-            </div>
-            <div class="cmt-li-r">
-              <div class="top">
-                <p class="nickname" :style="comment.fromUser.admin === 1 ? 'color:#e74851' : ''">
-                  {{ comment.fromUser.nickname }}
+              <div class="cmt-li-r">
+                <div class="top">
+                  <p class="nickname" :style="comment.fromUser.admin === 1 ? 'color:#e74851' : ''">
+                    {{ comment.fromUser.nickname }}
 
-                  <el-tag v-if="comment.fromUser.admin === 1" type="info" size="mini" effect="light">狗管理</el-tag>
-                </p>
-                <p class="date">{{ comment.createTime }}</p>
-              </div>
-              <p class="body-text" v-html="comment.content" />
-              <div class="btns-bar">
-                <el-popover
-                  v-if="userInfo && (userInfo.id === comment.fromUser.id || userInfo.roles.includes('admin'))"
-                  v-model="comment.del_visible"
-                  placement="bottom"
-                >
-                  <p style="margin: 8px;">确定删除这一条留言吗？</p>
-                  <div style="text-align: right; margin: 0">
-                    <el-button size="mini" type="text" @click="comment.del_visible = false">取消</el-button>
-                    <el-button type="primary" size="mini" @click="delSubmit(comment)">确定</el-button>
-                  </div>
-                  <span slot="reference" class="reply-btn">删除</span>
-                </el-popover>
-                <span class="reply-btn" @click="reClick(comment.id, comment.fromUser.id)">回复</span>
-              </div>
+                    <el-tag v-if="comment.fromUser.admin === 1" type="info" size="mini" effect="light">狗管理</el-tag>
+                  </p>
+                  <p class="date">{{ comment.createTime }}</p>
+                </div>
+                <p class="body-text" v-html="comment.content" />
+                <div class="btns-bar">
+                  <el-popover
+                    v-if="userInfo && (userInfo.id === comment.fromUser.id || userInfo.roles.includes('admin'))"
+                    v-model="comment.del_visible"
+                    placement="bottom"
+                  >
+                    <p style="margin: 8px;">确定删除这一条留言吗？</p>
+                    <div style="text-align: right; margin: 0">
+                      <el-button style="color:#999;font-size: 12px;" size="mini" type="text" @click="comment.del_visible = false">取消</el-button>
+                      <el-button style="font-size: 12px;" type="text" size="mini" @click="delSubmit(comment)">确定</el-button>
+                    </div>
+                    <span slot="reference" class="reply-btn">删除</span>
+                  </el-popover>
+                  <span class="reply-btn" @click="reClick(comment.id, comment.fromUser.id)">回复</span>
+                </div>
 
-              <!-- 留言回复列表 -->
-              <ul class="reply-list">
-                <li v-for="(reply, index2) in comment.replyList" :key="index2" class="reply-item">
-                  <div class="reply-date">{{ reply.createTime }}</div>
-                  <div class="reply-content">
-                    <div class="headimg">
-                      <img :src="reply.fromUser.avatar || defaultAvatar">
-                    </div>
-                    <div class="nickname">
-                      <span :style="reply.fromUser.admin === 1 ? 'color:#e74851' : ''">{{ reply.fromUser.nickname }}</span>
-                      <span style="color: #000000;">回复</span>
-                      <span :style="reply.toUser.admin === 1 ? 'color:#e74851' : ''">@{{ reply.toUser.nickname }}</span>
-                    </div>
-                    <p class="reply-text" v-html="reply.content" />
-                  </div>
-                  <div class="btns-bar">
-                    <el-popover
-                      v-if="userInfo && (userInfo.id === reply.fromUser.id || userInfo.roles.includes('admin'))"
-                      v-model="reply.del_visible"
-                      placement="bottom"
-                    >
-                      <p style="margin: 8px;">确定删除这一条回复吗？</p>
-                      <div style="text-align: right; margin: 0">
-                        <el-button size="mini" type="text" @click="reply.del_visible = false">取消</el-button>
-                        <el-button type="primary" size="mini" @click="delSubmit(reply)">确定</el-button>
+                <!-- 留言回复列表 -->
+                <ul class="reply-list">
+                  <li v-for="(reply, index2) in comment.replyList" :key="index2" class="reply-item">
+                    <div class="reply-date">{{ reply.createTime }}</div>
+                    <div class="reply-content">
+                      <div class="headimg">
+                        <img :src="reply.fromUser.avatar || defaultAvatar">
                       </div>
-                      <span slot="reference" class="reply-btn">删除</span>
-                    </el-popover>
-                    <span class="reply-btn" @click="reClick(comment.id, reply.fromUser.id)">回复</span>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </li>
+                      <div class="nickname">
+                        <span :style="reply.fromUser.admin === 1 ? 'color:#e74851' : ''">{{ reply.fromUser.nickname }}</span>
+                        <span style="color: #000000;">回复</span>
+                        <span :style="reply.toUser.admin === 1 ? 'color:#e74851' : ''">@{{ reply.toUser.nickname }}</span>
+                      </div>
+                      <p class="reply-text" v-html="reply.content" />
+                    </div>
+                    <div class="btns-bar">
+                      <el-popover
+                        v-if="userInfo && (userInfo.id === reply.fromUser.id || userInfo.roles.includes('admin'))"
+                        v-model="reply.del_visible"
+                        placement="bottom"
+                      >
+                        <p style="margin: 8px;">确定删除这一条回复吗？</p>
+                        <div style="text-align: right; margin: 0">
+                          <el-button style="color:#999;font-size: 12px;" size="mini" type="text" @click="reply.del_visible = false">取消</el-button>
+                          <el-button style="font-size: 12px;" type="text" size="mini" @click="delSubmit(reply)">确定</el-button>
+                        </div>
+                        <span slot="reference" class="reply-btn">删除</span>
+                      </el-popover>
+                      <span class="reply-btn" @click="reClick(comment.id, reply.fromUser.id)">回复</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </transition-group>
         </ul>
         <div
           v-show="current === 1 && loading"
