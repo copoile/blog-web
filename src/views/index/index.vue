@@ -96,7 +96,6 @@ export default {
 
     // 获取文章列表
     getArtList() {
-      this.artList = []
       this.loading = true
       const params = {
         current: this.current,

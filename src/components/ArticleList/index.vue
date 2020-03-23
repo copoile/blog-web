@@ -16,7 +16,7 @@
             <img class="user-avatar" :src="item.user.avatar">
           </div>
           <span class="right-solt">{{ item.user.nickname }}</span>
-          <span class="right-solt">02月23</span>
+          <span class="right-solt">{{ formatDate(item.publishTime) }}</span>
           <span class="active" @click="categoryClick(item.categoryId)">{{ item.categoryName }}</span>
         </div>
 
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { formatDate } from '@/utils/index.js'
 export default {
   props: {
     list: {
@@ -61,6 +62,14 @@ export default {
     }
   },
   methods: {
+
+    // 日期格式化
+    formatDate(str) {
+      const date = new Date(str)
+      const now = new Date()
+      return date.getFullYear() === now.getFullYear()
+        ? formatDate(new Date(str), 'MM月dd日') : formatDate(new Date(str), 'yyyy年MM月dd日')
+    },
 
     // 分类点击
     categoryClick(id) {

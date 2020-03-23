@@ -136,9 +136,10 @@ function padLeftZero(str) {
 
 /**
  * 时间格式化
- * @param {*} timeStamp
+ * @param {Date} date
  */
-export function parseTimeStamp(timeStamp) {
+export function parseDate(datetime) {
+  var timeStamp = datetime.getTime()
   var result
   var minute = 1000 * 60 //把分，时，天，周，半个月，一个月用毫秒表示
   var hour = minute * 60
@@ -151,7 +152,7 @@ export function parseTimeStamp(timeStamp) {
 
   if (diffValue < 0) {
     result = '刚刚'
-    return result;
+    return result
   }
   var minC = diffValue / minute //计算时间差的分，时，天，周，月
   var hourC = diffValue / hour
@@ -177,8 +178,6 @@ export function parseTimeStamp(timeStamp) {
     result = '刚刚'
     return result
   } else {
-    var datetime = new Date()
-    datetime.setTime(timeStamp)
     var Nyear = datetime.getFullYear()
     var Nmonth =
       datetime.getMonth() + 1 < 10 ?

@@ -103,7 +103,7 @@ export default {
         },
         {
           name: '友链',
-          to: '/'
+          to: '/friend-link'
         },
         {
           name: '留言',

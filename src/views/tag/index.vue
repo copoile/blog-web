@@ -99,7 +99,6 @@ export default {
     tagClick(id) {
       this.tagId = id
       this.current = 1
-      this.artList = []
       this.getArtList()
     },
 

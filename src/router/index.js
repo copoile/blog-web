@@ -50,6 +50,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/friend-link',
+    component: () => import('@/views/friend-link/index'),
+    hidden: true
+  },
+  {
     path: '/article/:id',
     component: () => import('@/views/article/index'),
     hidden: true
@@ -178,12 +183,12 @@ export const asyncRoutes = [
     }]
   },
   {
-    path: '/friend-chain/manage',
+    path: '/friend-link/manage',
     component: Layout,
     children: [{
       path: 'index',
       name: 'FriendChainManage',
-      component: () => import('@/views/friend-chain-manage/index'),
+      component: () => import('@/views/friend-link-manage/index'),
       meta: {
         title: '友链管理',
         icon: 'friend-chain-manage',

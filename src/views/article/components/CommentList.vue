@@ -30,7 +30,7 @@
 
                     <el-tag v-if="comment.fromUser.id === authorId" type="info" size="mini" effect="light">作者</el-tag>
                   </p>
-                  <p class="date">{{ comment.commentTime }}</p>
+                  <p class="date">{{ parseDate(comment.commentTime) }}评论</p>
                 </div>
                 <p class="body-text" v-html="comment.content" />
                 <div class="btns-bar">
@@ -55,7 +55,7 @@
                 <!-- 回复列表 -->
                 <ul class="reply-list">
                   <li v-for="(reply, index2) in comment.replyList" :key="index2" class="reply-item">
-                    <div class="reply-date">{{ reply.replyTime }}</div>
+                    <div class="reply-date">{{ parseDate(reply.replyTime) }}回复</div>
                     <div class="reply-content">
                       <div class="headimg">
                         <img :src="reply.fromUser.avatar || defaultAvatar">
@@ -136,6 +136,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { parseDate } from '@/utils/index.js'
 import '@/assets/quill-emoji/quill-emoji.js'
 import { pageComment, addComment, addReply, deleteComment, deleteReply } from '@/api/comment.js'
 import ResizeMixin from '@/layout/mixin/ResizeHandler'
@@ -202,6 +203,11 @@ export default {
   },
 
   methods: {
+
+    // 日期转换
+    parseDate(str) {
+      return parseDate(new Date(str))
+    },
 
     // 回复弹框关闭事件
     bClose() {

@@ -32,7 +32,7 @@
             :timestamp="'# 继续加油啊！当前月份一共' + total +'篇文章！'"
             placement="top"
           />
-          <transition-group name="fade-list">
+          <transition-group name="fade">
             <el-timeline-item
               v-for="(item,index) in artList"
               :key="index"

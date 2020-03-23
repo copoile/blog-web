@@ -15,7 +15,7 @@
             <div class="author-info-box">
               <p class="nickename">{{ article.user.nickname }}</p>
               <div class="meta-box">
-                <span class="time">2020年03月09日</span>
+                <span class="time">{{ formatDate(article.publishTime) }}</span>
                 <span class="views-count">浏览&ensp;{{ article.viewCount }}</span>
               </div>
             </div>
@@ -57,6 +57,7 @@
 <script>
 import './styles/github.css'
 import { mapGetters } from 'vuex'
+import { formatDate } from '@/utils/index.js'
 import AppHeader from '@/components/Header/index'
 import { viewArtilce, incrementView } from '@/api/article.js'
 import CommentList from './components/CommentList'
@@ -119,6 +120,11 @@ export default {
           this.incrementView()
         }
       )
+    },
+    
+    // 日期格式化
+    formatDate(str) {
+      return formatDate(new Date(str), 'yyyy年MM月dd日')
     },
 
     // 浏览次数自增

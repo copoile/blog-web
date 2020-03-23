@@ -28,9 +28,12 @@
 }
 
 /* fade list transition */
-.fade-list-enter-active,
-.fade-list-leave-active {
+.fade-list-enter-active {
   transition: opacity 0.4s;
+}
+
+.fade-list-leave-active {
+  transition: opacity 0s;
 }
 
 .fade-list-enter,

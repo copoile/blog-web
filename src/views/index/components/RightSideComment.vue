@@ -14,7 +14,7 @@
           <img class="user-avatar" :src="item.fromUser.avatar || defaultAvatar">
         </div>
         <div class="content-box">
-          <p class="content-row text-ellipsis">{{ item.fromUser.nickname }}&emsp;{{ item.commentTime }}</p>
+          <p class="content-row text-ellipsis">{{ item.fromUser.nickname }}&emsp;<span style="float: right;">{{ parseDate(item.commentTime) }}</span></p>
           <router-link
             class="content-row text text-ellipsis"
             :to="'/article/' + item.article.id"
@@ -29,6 +29,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { parseDate } from '@/utils/index.js'
 import { latestCommentList } from '@/api/comment.js'
 export default {
   data() {
@@ -58,6 +59,11 @@ export default {
           this.list = res.data
         }
       )
+    },
+
+    // 日期转换
+    parseDate(str) {
+      return parseDate(new Date(str))
     }
   }
 }
@@ -71,6 +77,18 @@ export default {
   margin-bottom: 10px;
   padding-bottom: 5px;
   color: #2e3135;
+  position: relative;
+
+  &:before {
+    content: "";
+    z-index: 999;
+    position: absolute;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #e1244e transparent transparent #e1244e;
+    top: 0;
+    left: 0;
+  }
 
   .head {
     border-bottom: 1px solid hsla(0,0%,59.2%,.2);

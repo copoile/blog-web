@@ -75,7 +75,6 @@ export default {
 
     // tab更改
     chageTab(categoryId) {
-      this.artList = []
       this.total = 0
       this.current = 1
       this.categoryId = categoryId
