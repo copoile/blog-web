@@ -4,7 +4,14 @@
     <div class="content-container">
       <div class="content-head">
         <p class="main-tip-label">温馨提示</p>
-        <p class="main-tip-text">本站欢迎交换友链，请在下面留言备注即可，请先在您博客上添加本站的友链。</p>
+        <p class="main-tip-text">
+          本站欢迎交换友链，请在下面留言备注即可，请先在您博客上添加本站的友链。
+          <span data-name="kissing_heart">
+            ﻿<span contenteditable="false"><span class="ap ap-kissing_heart">?
+            </span>
+            </span>
+          ﻿</span>
+        </p>
         <div class="edit-container">
           <quill-editor ref="editor" v-model="content" :options="editorOption" />
         </div>

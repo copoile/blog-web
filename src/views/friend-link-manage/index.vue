@@ -2,17 +2,23 @@
   <div class="container">
     <!-- 头部 -->
     <div class="head">
-      <el-button type="primary" size="small">+AddFriendLink</el-button>
+      <el-button
+        type="primary"
+        size="small"
+        @click="dialogVisible=true"
+      >+AddFriendLink</el-button>
     </div>
 
     <el-table
       v-loading="loading"
       :data="tableData"
+      border
       style="width: 100%"
     >
       <el-table-column
         label="序号"
-        width="180"
+        width="110"
+        align="center"
       >
         <template slot-scope="scope">
           {{ scope.$index + 1 }}
@@ -20,7 +26,8 @@
       </el-table-column>
       <el-table-column
         label="ID"
-        width="180"
+        width="110"
+        align="center"
       >
         <template slot-scope="scope">
           {{ scope.row.id }}
@@ -28,14 +35,25 @@
       </el-table-column>
 
       <el-table-column
+        prop="name"
         label="名称"
         width="180"
-      >
-        <template slot-scope="scope">
-          {{ scope.row.name }}
-        </template>
-      </el-table-column>
+        align="center"
+      />
 
+      <el-table-column
+        prop="url"
+        label="链接"
+        width="180"
+        align="center"
+      />
+
+      <el-table-column
+        prop="icon"
+        label="图标"
+        width="220"
+        align="center"
+      />
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
@@ -57,11 +75,38 @@
       :total="total"
       @current-change="currentChange"
     />
+
+    <el-dialog
+      title="保存友链"
+      top="30vh"
+      width="400px"
+      :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
+      :show-close="false"
+      :lock-scroll="false"
+      @closed="handleClosed"
+    >
+      <el-form ref="form" label-position="left" label-width="50px" :model="form" :rules="rules">
+        <el-form-item label="名称" prop="name">
+          <el-input v-model="form.name" />
+        </el-form-item>
+        <el-form-item label="链接" prop="url">
+          <el-input v-model="form.url" />
+        </el-form-item>
+        <el-form-item label="图标">
+          <el-input v-model="form.icon" />
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveSubmit">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { addTag, pageTag } from '@/api/tag.js'
+import { saveFriendLink, pageFriendLink, deleteFriendLink } from '@/api/friend-link.js'
 export default {
   data() {
     return {
@@ -69,24 +114,70 @@ export default {
       pageNum: 1,
       pageSize: 5,
       total: 10,
-      loading: true
+      loading: true,
+      dialogVisible: false,
+      form: {
+        icon: '',
+        id: null,
+        name: '',
+        url: ''
+      },
+      rules: {
+        name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
+        url: [{ required: true, message: '请输入链接', trigger: 'blur' }]
+      }
     }
   },
+
   mounted() {
     this.loadData()
   },
+
   methods: {
+
+    // 编辑
     handleEdit(index, row) {
-      console.log(index, row)
+      this.form = JSON.parse(JSON.stringify(row))
+      this.dialogVisible = true
     },
+
+    // 删除
     handleDelete(index, row) {
-      console.log(index, row)
+      deleteFriendLink(row.id).then(
+        res => {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+          this.pageNum = 1
+          this.loadData()
+        }
+      )
     },
+
+    // 弹框关闭
+    handleClosed() {
+      this.form.id = null
+      this.form.icon = ''
+      this.form.name = ''
+      this.form.url = ''
+    },
+
+    // 保存提交
+    saveSubmit() {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          this.saveFriendLink()
+        }
+      })
+    },
+
     // 分页页码更改事件
     currentChange(val) {
       this.pageNum = val
       this.loadData()
     },
+
     // 加载数据
     loadData() {
       this.loading = true
@@ -94,7 +185,7 @@ export default {
         current: this.pageNum,
         size: this.pageSize
       }
-      pageTag(params).then(
+      pageFriendLink(params).then(
         res => {
           this.total = res.data.total
           this.tableData = res.data.records
@@ -107,17 +198,21 @@ export default {
       )
     },
 
-    // 动态输入框回车事件
-    inputConfirm(val) {
-      if (!val) {
-        this.$message.error('标签名称不能为空')
-        return
+    // 保存友链
+    saveFriendLink() {
+      const data = {
+        id: this.form.id,
+        icon: this.form.icon,
+        name: this.form.name,
+        url: this.form.url
       }
-      const params = {
-        tagName: val
-      }
-      addTag(params).then(
+      saveFriendLink(data).then(
         res => {
+          this.$message({
+            message: '保存成功',
+            type: 'success'
+          })
+          this.dialogVisible = false
           this.pageNum = 1
           this.loadData()
         }
@@ -129,7 +224,7 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  text-align: center;
+  width: 100%;
 
   .head {
     height: 50px;
@@ -145,6 +240,7 @@ export default {
   }
 
   .el-pagination {
+    text-align: center;
     margin-top: 10px;
   }
 }

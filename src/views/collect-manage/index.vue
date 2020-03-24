@@ -39,6 +39,9 @@
       :hide-on-single-page="true"
       @current-change="currentChange"
     />
+    <div v-if="!loading && artList.length === 0" class="list-none">
+      <img src="http://tva1.sinaimg.cn/large/9150e4e5gy1ftwxi6tc2lg204i04mjra.gif">
+    </div>
   </div>
 </template>
 
@@ -104,6 +107,11 @@ export default {
 <style lang="scss" scoped>
 .app-container {
   margin: 10px;
+
+  .list-none {
+    margin-top: 20vh;
+    margin-left: 40vw;
+  }
 
   .card-container {
     width: 100%;

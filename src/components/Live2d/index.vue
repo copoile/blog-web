@@ -1,12 +1,14 @@
 <template>
   <div id="live2d-container">
-    <!-- <div class="message-box">
-      <span class="live2d-msg" />
-    </div>
-    -->
-    <canvas v-show="visible" id="live2d" width="220" height="300" class="live2d" />
+    <canvas
+      id="live2d"
+      :style="!visible?'visibility:hidden':''"
+      width="220"
+      height="300"
+      class="live2d"
+    />
     <div class="btn visible-btn" @click="visible=!visible">
-      <img src="https://poile-img.nos-eastchina1.126.net/1584865141362.png" >
+      <img src="https://poile-img.nos-eastchina1.126.net/1584865141362.png">
       <svg-icon v-show="visible" icon-class="line" class="line-icon" />
     </div>
   </div>
@@ -14,7 +16,6 @@
 
 <script>
 import $ from 'jquery'
-// import '@/assets/js/live2d-message.js'
 // 拖动
 $(function() { $('#live2d').draggable() })
 export default {
@@ -23,6 +24,7 @@ export default {
       visible: true
     }
   },
+
   mounted() {
     setTimeout(() => {
       loadlive2d('live2d', 'https://poile-img.nos-eastchina1.126.net/live2d/model.json')
@@ -72,8 +74,8 @@ export default {
 
   .visible-btn {
     position: fixed;
-    right: 5px;
-    bottom: 5px;
+    right: 10px;
+    bottom: 10px;
     background:  rgba(74, 59, 114, 0.9);
     font-size: 12px;
     color: #fff;

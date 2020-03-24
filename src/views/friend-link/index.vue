@@ -2,60 +2,49 @@
   <div class="container">
     <app-header :nav-item-active="3" />
     <div class="content-container">
-      <ul class="list">
-        <li class="item">
-          <a href="/" target="_blank">
-            <div class="logo-box">
-              <img src="https://poile-img.nos-eastchina1.126.net/friend-link/cunjieweixiao.ico">
-            </div>
-            <div class="content-box">纯洁的微笑</div>
-          </a>
-        </li>
-
-        <li class="item">
-          <div class="logo-box">
-            <img src="https://poile-img.nos-eastchina1.126.net/friend-link/spring4all.ico">
-          </div>
-          <div class="content-box">spring4all</div>
-        </li>
-
-        <li class="item">
-          <div class="logo-box">
-            <img src="https://poile-img.nos-eastchina1.126.net/friend-link/chengxunyuandd.ico">
-          </div>
-          <div class="content-box">程序员DD</div>
-        </li>
-
-        <li class="item">
-          <div class="logo-box">
-            <img src="https://poile-img.nos-eastchina1.126.net/friend-link/cunjieweixiao.ico">
-          </div>
-          <div class="content-box">纯洁的微笑</div>
-        </li>
-
-        <li class="item">
-          <div class="logo-box">
-            <img src="https://poile-img.nos-eastchina1.126.net/friend-link/spring4all.ico">
-          </div>
-          <div class="content-box">spring4all</div>
-        </li>
-
-        <li class="item">
-          <div class="logo-box">
-            <img src="https://poile-img.nos-eastchina1.126.net/friend-link/jc.ico">
-          </div>
-          <div class="content-box">南城往事</div>
-        </li>
-      </ul>
+      <transition name="fade">
+        <ul class="list">
+          <li v-for="(item, index) in list" :key="index" class="item">
+            <a :href="item.url" target="_blank">
+              <div class="logo-box">
+                <img :src="item.icon">
+              </div>
+              <div class="content-box">{{ item.name }}</div>
+            </a>
+          </li>
+        </ul>
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
+import { listFriendLink } from '@/api/friend-link.js'
 import AppHeader from '@/components/Header/index'
 export default {
   components: {
     AppHeader
+  },
+
+  data() {
+    return {
+      list: []
+    }
+  },
+
+  mounted() {
+    this.init()
+  },
+
+  methods: {
+
+    init() {
+      listFriendLink().then(
+        res => {
+          this.list = res.data
+        }
+      )
+    }
   }
 }
 </script>

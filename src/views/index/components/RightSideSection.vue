@@ -39,7 +39,7 @@
             <router-link to="/">隐私政策</router-link>
           </li>
           <li class="item">
-            <router-link to="/">友情链接</router-link>
+            <router-link to="/friend-link">友情链接</router-link>
           </li>
         </ul>
         <ul class="more-list">
@@ -122,7 +122,7 @@
 
       .solt-item {
         list-style: none;
-        
+
         &:after {
           content: "·";
           margin: 0 6px;

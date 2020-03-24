@@ -55,17 +55,6 @@ export default {
   padding-bottom: 10px;
   position: relative;
 
-  &:before {
-    content: "";
-    z-index: 999;
-    position: absolute;
-    border-width: 4px;
-    border-style: solid;
-    border-color: #e1244e transparent transparent #e1244e;
-    top: 0;
-    left: 0;
-  }
-
   .head {
     color: #2e3135;
     border-bottom: 1px solid hsla(0,0%,59.2%,.2);

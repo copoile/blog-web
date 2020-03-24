@@ -121,7 +121,7 @@ export default {
         }
       )
     },
-    
+
     // 日期格式化
     formatDate(str) {
       return formatDate(new Date(str), 'yyyy年MM月dd日')
