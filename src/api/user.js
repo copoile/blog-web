@@ -64,3 +64,11 @@ export function logout(params) {
 export function register(data) {
   return request.post('/user/register', data)
 }
+
+/**
+ * 更新用户（非空项更新）
+ * @param {Object} data
+ */
+export function updateUser(data) {
+  return request.post('/user/update', data)
+}
