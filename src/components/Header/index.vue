@@ -3,10 +3,27 @@
   <div class="main-header-box">
     <header class="main-header">
       <div class="container">
-        <router-link to="/" class="logo">
+        <div class="logo">
+          <div v-if="device !== 'desktop'" class="menu-wrapper">
+            <el-dropdown trigger="click" placement="bottom">
+              <span style="color: #007fff;font-weight: 700;">{{
+                navItemActive === 0?'首页'
+                :navItemActive===1?'分类'
+                  :navItemActive===2?'归档'
+                    :navItemActive===3?'友链'
+                      :navItemActive===4?'留言':'首页'
+              }}</span>
+              <i class="el-icon-caret-bottom" />
+              <el-dropdown-menu slot="dropdown">
+                <a v-for="(nav,index) in navItems" :key="index" @click="$router.push(nav.to)">
+                  <el-dropdown-item>{{ nav.name }}</el-dropdown-item>
+                </a>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
           <svg-icon icon-class="logo" class="logo-svg" />
           <span class="logo-title">个人阅读分享</span>
-        </router-link>
+        </div>
 
         <nav class="main-nav">
           <!-- 导航栏目 -->
@@ -115,22 +132,38 @@ export default {
   computed: {
     ...mapGetters([
       'userInfo',
-      'defaultAvatar'
+      'defaultAvatar',
+      'device'
     ])
   },
+
   methods: {
+
+    // 抽屉关闭
+    drawerClose() {
+      this.drawer = false
+    },
+
+    // 搜索框聚焦
     inputFocus() {
       this.inputIconColor = '#1989fa'
     },
+
+    // 搜索框失焦
     inputBlur() {
       this.inputIconColor = ''
     },
+
+    // 注册点击
     reClick() {
       this.$refs.reDialog.open()
     },
+
+    // 登录点击
     loClick() {
       this.$store.commit('login/CHANGE_VISIBLE', true)
     },
+
     // 退出
     logout() {
       this.$store.dispatch('user/logout').then(res => { this.$router.push('/') })
@@ -160,11 +193,16 @@ export default {
 
     .container {
       height: 100%;
-      max-width: 960px;
+      max-width: 100%;
+      width: 960px;
       margin: auto;
       display: flex;
       align-items: center;
       overflow: hidden;
+
+      @media screen and (max-width: 922px){
+        padding: 0 15px;
+      }
 
       .logo {
         min-width: 80px;
@@ -172,19 +210,32 @@ export default {
         display: flex;
         align-items: center;
 
-        @media screen and (max-width: 450px){
-          display: none;
+        .menu-icon {
+          margin: 5px;
+          margin-right: 10px;
+          color: #444;
+          width: 25px;
+          height: 25px;
         }
 
         .logo-svg {
           width: 32px;
           height: 32px;
+
+          @media screen and (max-width: 922px){
+            width: 25px;
+            height: 25px;
+          }
         }
 
         .logo-title {
           font-size: 20px;
           display: inline-block;
           font-weight: bold;
+
+          @media screen and (max-width: 922px){
+            font-size: 18px;
+          }
         }
       }
 
@@ -194,6 +245,10 @@ export default {
         align-items: center;
         display: flex;
         flex-wrap: nowrap;
+
+        @media screen and (max-width: 922px){
+          justify-content: flex-end;
+        }
 
         .main-nav-list {
           margin: 0;
@@ -215,6 +270,10 @@ export default {
           .main-nav-item-active {
             color: #007fff;
           }
+
+          @media screen and (max-width: 922px){
+            display: none;
+          }
         }
 
         .search-box {
@@ -234,7 +293,7 @@ export default {
             cursor: pointer;
           }
 
-          @media screen and (max-width: 750px){
+          @media screen and (max-width: 922px){
             display: none;
           }
         }
@@ -245,8 +304,8 @@ export default {
           width: 150px;
           flex-direction: row-reverse;
 
-          @media screen and (max-width: 900px){
-            display: none;
+          @media screen and (max-width: 922px){
+            width: auto;
           }
 
           .nologin {
@@ -286,22 +345,23 @@ export default {
               border-right: 1px solid hsla(0,0%,59.2%,.2);
             }
 
-              .avatar-wrapper {
-                margin-top: 5px;
-                position: relative;
+            .avatar-wrapper {
+              margin-top: 5px;
+              position: relative;
 
-                .user-avatar {
-                  cursor: pointer;
-                  width: 40px;
-                  height: 40px;
-                  border-radius: 50%;
-                  border: 1px solid rgba(0, 0, 0, 0.1);
-                }
+              .user-avatar {
+                cursor: pointer;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 1px solid rgba(0, 0, 0, 0.1);
               }
+            }
           }
         }
       }
     }
   }
 }
+
 </style>

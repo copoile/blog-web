@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie'
+import { Base64 } from 'js-base64'
 
 const AccessTokenKey = 'access_token'
 const UsernameKey = 'username'
@@ -16,7 +17,7 @@ export function getAccessToken() {
  * @param {String} token
  */
 export function setAccessToken(token) {
-  return Cookies.set(AccessTokenKey, token)
+  return Cookies.set(AccessTokenKey, token, { expires: 2/24 })
 }
 
 /**
@@ -31,14 +32,14 @@ export function removeAccessToken() {
  * @param {String} username
  */
 export function setUsername(username) {
-  return Cookies.set(UsernameKey, username)
+  return Cookies.set(UsernameKey, escape(username), { expires: 15 })
 }
 
 /**
  * 获取用户名
  */
 export function getUsername() {
-  return Cookies.get(UsernameKey)
+  return unescape(Cookies.get(UsernameKey))
 }
 
 /**
@@ -53,14 +54,14 @@ export function removeUsername() {
  * @param {String} password
  */
 export function setPassword(password) {
-  return Cookies.set(PasswordKey, password)
+  return Cookies.set(PasswordKey, Base64.encode(password), { expires: 15 })
 }
 
 /**
  * 获取密码
  */
 export function getPassword() {
-  return Cookies.get(PasswordKey)
+  return Base64.decode(Cookies.get(PasswordKey))
 }
 
 /**
@@ -74,7 +75,7 @@ export function removePassword() {
  * 设置记住密码
  */
 export function setRemember(checked) {
-  return Cookies.set(RememberKey, checked)
+  return Cookies.set(RememberKey, checked, { expires: 15 })
 }
 
 /**

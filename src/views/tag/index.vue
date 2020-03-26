@@ -2,6 +2,15 @@
 <template>
   <div class="container">
     <app-header :nav-item-active="-1" />
+    <ul v-if="device !== 'desktop'" class="list-header">
+      <li
+        v-for="(tag, index) in tags"
+        :key="index"
+        class="list-header-item"
+        :class="{'header-item-active': tagId === tag.id}"
+        @click="tagClick(tag.id)"
+      >{{ tag.name }}</li>
+    </ul>
     <div class="content-container">
       <!-- 左边 -->
       <div class="left-side">
@@ -11,6 +20,7 @@
         </div>
         <div />
         <div class="content-list">
+
           <article-list :list="artList" :loading="loading" />
           <el-pagination
             background
@@ -24,7 +34,7 @@
         </div>
       </div>
       <!-- 右边 -->
-      <div class="right-side">
+      <div v-if="device === 'desktop'" class="right-side">
         <div class="tag-box">
           <div class="box-head">
             全部标签
@@ -48,6 +58,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { tagList } from '@/api/tag.js'
 import AppHeader from '@/components/Header/index'
 import ArticleList from '@/components/ArticleList'
@@ -73,7 +84,10 @@ export default {
     tagName() {
       const tag = this.tags.find(ele => ele.id === this.tagId)
       return tag ? tag.name : null
-    }
+    },
+    ...mapGetters([
+      'device'
+    ])
   },
 
   mounted() {
@@ -149,8 +163,9 @@ export default {
     display: flex;
     align-items: flex-start;
 
-    @media screen and (max-width: 960px){
+    @media screen and (max-width: 922px){
       margin-top: 0;
+      width: 100%;
     }
 
     .left-side {
@@ -159,7 +174,7 @@ export default {
       border-radius: 2px;
       margin-right: 260px;
 
-      @media screen and (max-width: 960px){
+      @media screen and (max-width: 922px){
         margin-right: 0;
       }
 
@@ -242,11 +257,39 @@ export default {
         }
       }
 
-      @media screen and (max-width: 960px){
+      @media screen and (max-width: 922px){
         display: none;
       }
     }
 
+  }
+
+  .list-header {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    white-space: nowrap;
+    overflow-x: scroll;
+    font-size: 14px;
+    background: #fff;
+    border-bottom: 1px solid hsla(0,0%,59.2%,.1);
+
+    &:first-child {
+      margin-left: 5px;
+    }
+
+    .list-header-item {
+      list-style: none;
+      cursor: pointer;
+      padding: 15px;
+      margin-right: 5px;
+    }
+
+    .header-item-active {
+      color: #007fff;
+    }
   }
 }
 </style>

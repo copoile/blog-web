@@ -139,10 +139,7 @@ import { mapGetters } from 'vuex'
 import { parseDate } from '@/utils/index.js'
 import '@/assets/quill-emoji/quill-emoji.js'
 import { pageComment, addComment, addReply, deleteComment, deleteReply } from '@/api/comment.js'
-import ResizeMixin from '@/layout/mixin/ResizeHandler'
-
 export default {
-  mixins: [ResizeMixin],
   props: {
     articleId: {
       type: [String, Number],

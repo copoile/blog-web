@@ -107,19 +107,31 @@ export default {
 <style lang="scss" scoped>
 .app-container {
   margin: 10px;
+  position: relative;
+
+  @media screen and (max-width: 922px){
+    padding: 0;
+    margin: 0;
+  }
 
   .list-none {
-    margin-top: 20vh;
-    margin-left: 40vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,50%);
   }
 
   .card-container {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
     justify-content: flex-start;
     align-items: flex-start;
+
+    @media screen and (max-width: 922px){
+      padding-top: 15px;
+      justify-content: space-around;
+    }
 
     .el-card {
       position: relative;
@@ -129,6 +141,12 @@ export default {
       min-height: 260px;
       margin-bottom: 20px;
       margin-right: 20px;
+
+      @media screen and (max-width: 922px){
+        max-width: 46%;
+        margin: 0px;
+        margin-bottom: 15px;
+      }
 
       /deep/ .more-popper {
         padding: 0!important;

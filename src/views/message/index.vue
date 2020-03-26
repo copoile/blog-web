@@ -142,13 +142,10 @@ import { parseDate } from '@/utils/index.js'
 import '@/assets/quill-emoji/quill-emoji.js'
 import AppHeader from '@/components/Header/index'
 import { pageMessage, addMessage, addReply, deleteO } from '@/api/message.js'
-import ResizeMixin from '@/layout/mixin/ResizeHandler'
-
 export default {
   components: {
     AppHeader
   },
-  mixins: [ResizeMixin],
   data() {
     return {
       content: '',

@@ -2,7 +2,8 @@
   <div class="container">
     <app-header :nav-item-active="1" />
     <div class="content-container">
-      <ul class="left-list">
+
+      <ul v-if="device === 'desktop'" class="left-list">
         <li
           v-for="(category,index) in categorys"
           :key="index"
@@ -14,6 +15,15 @@
         </li>
       </ul>
       <div class="content-list">
+        <ul v-if="device !== 'desktop'" class="list-header">
+          <li
+            v-for="(category,index) in categorys"
+            :key="index"
+            class="list-header-item"
+            :class="{ 'header-item-active': categoryId === category.id }"
+            @click="chageTab(category.id)"
+          >{{ category.name }}</li>
+        </ul>
         <article-list :list="artList" :loading="loading" />
 
         <el-pagination
@@ -31,6 +41,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { categoryList } from '@/api/category.js'
 import AppHeader from '@/components/Header/index'
 import ArticleList from '@/components/ArticleList'
@@ -50,6 +61,12 @@ export default {
       size: 10,
       total: 0
     }
+  },
+
+  computed: {
+    ...mapGetters([
+      'device'
+    ])
   },
 
   mounted() {
@@ -195,6 +212,33 @@ export default {
       box-sizing: border-box;
       border-radius: 2px;
       margin-left: 122px;
+
+      .list-header {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        width: 100vw;
+        white-space: nowrap;
+        overflow-x: scroll;
+        font-size: 14px;
+        border-bottom: 1px solid hsla(0,0%,59.2%,.1);
+
+        &:first-child {
+          margin-left: 5px;
+        }
+
+        .list-header-item {
+          list-style: none;
+          cursor: pointer;
+          padding: 15px;
+          margin-right: 5px;
+        }
+
+        .header-item-active {
+          color: #007fff;
+        }
+      }
 
       @media screen and (max-width: 960px){
         margin-left: 0;

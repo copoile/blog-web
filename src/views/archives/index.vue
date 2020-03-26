@@ -252,6 +252,10 @@ export default {
       .el-card {
         position: relative;
 
+        @media screen and (max-width: 922px){
+          width: 80vw;
+        }
+
         .title {
           margin: 0;
           font-size: 14px;

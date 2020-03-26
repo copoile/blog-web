@@ -398,6 +398,11 @@ export default {
   min-height: calc(100vh - 50px);
   position: relative;
 
+  @media screen and (max-width: 922px){
+    padding: 0;
+    margin: 0;
+  }
+
   .setting-box {
     margin-top: 2vh;
     margin-left: 50%;

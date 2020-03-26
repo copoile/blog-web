@@ -115,6 +115,11 @@ export default {
     padding: 15px 2px 15px 30px;
     margin-top: 5px;
 
+    @media screen and (max-width: 922px){
+      padding-left: 15px;
+      width: 100vw;
+    }
+
     .active {
       cursor: pointer;
 
@@ -128,14 +133,14 @@ export default {
       width: 150px;
       height: 90px;
       top: 50%;
-      margin-top: -55px;
+      transform: translateY(-50%);
       right: 18px;
       cursor: pointer;
       overflow: hidden;
       border-radius: 4px;
       border: 1px solid #f3f7fa;
 
-      @media screen and (max-width: 960px){
+      @media screen and (max-width: 922px){
         width: 100px;
         height: 60px;
       }
@@ -177,7 +182,7 @@ export default {
       width: 100%;
       padding-right: 180px;
 
-      @media screen and (max-width: 960px){
+      @media screen and (max-width: 922px){
        padding-right: 120px;
       }
 
@@ -189,8 +194,12 @@ export default {
         line-height: 1.5;
         color: #2f2f2f;
 
-        @media screen and (max-width: 960px){
+        @media screen and (max-width: 922px){
+          width: 100%;
           font-size: 15px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
 
         &:hover {
@@ -205,7 +214,7 @@ export default {
         color: #999;
         margin-bottom: 5px;
 
-        @media screen and (max-width: 960px){
+        @media screen and (max-width: 922px){
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
