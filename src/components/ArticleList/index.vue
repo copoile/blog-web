@@ -143,6 +143,7 @@ export default {
       @media screen and (max-width: 922px){
         width: 100px;
         height: 60px;
+        right: 10px;
       }
 
       img {

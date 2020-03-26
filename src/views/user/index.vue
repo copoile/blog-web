@@ -41,7 +41,7 @@
           </div>
           <div class="action-box">
             <el-button type="text" disabled style="color: #C0C4CC;">
-              <span><i class="el-icon-edit" />修改</span>
+              <span><i class="el-icon-lock" />不可修改</span>
             </el-button>
           </div>
         </li>
@@ -94,6 +94,7 @@
               ref="birthdayIput"
               v-model="form.birthday"
               type="date"
+              :prefix-icon="''"
               placeholder="选择日期"
               :clearable="false"
               @focus="birthdayIputFocus"
@@ -451,6 +452,10 @@ export default {
             border: none;
             border-bottom: none;
             border-radius: 0;
+          }
+
+          & /deep/ .el-input__prefix {
+            display: none;
           }
         }
 

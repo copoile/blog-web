@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <app-header :nav-item-active="-1" />
-    <transition name="fade">
+    <transition name="el-fade-in">
       <div v-if="!loading" class="content-container">
         <div class="layout-left-side">
           <h2 class="art-title">

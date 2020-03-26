@@ -238,6 +238,7 @@ export default {
       color: #b2bac2;
       box-sizing: border-box;
       padding-top: 10px;
+      cursor: pointer;
 
       /deep/ .el-badge__content {
         background: #b2bac2;

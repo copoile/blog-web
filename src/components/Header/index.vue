@@ -340,9 +340,14 @@ export default {
 
             .console {
               font-size: 12px;
+              font-weight: 600;
               padding: 0 8px;
               margin-right: 8px;
               border-right: 1px solid hsla(0,0%,59.2%,.2);
+              
+              @media screen and (max-width: 922px){
+                font-weight: 700;
+              }
             }
 
             .avatar-wrapper {

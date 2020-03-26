@@ -32,14 +32,15 @@ export function removeAccessToken() {
  * @param {String} username
  */
 export function setUsername(username) {
-  return Cookies.set(UsernameKey, escape(username), { expires: 15 })
+  return Cookies.set(UsernameKey, Base64.encode(username), { expires: 15 })
 }
 
 /**
  * 获取用户名
  */
 export function getUsername() {
-  return unescape(Cookies.get(UsernameKey))
+  const v = Cookies.get(UsernameKey)
+  return v ? Base64.decode(v) : v
 }
 
 /**
@@ -61,7 +62,8 @@ export function setPassword(password) {
  * 获取密码
  */
 export function getPassword() {
-  return Base64.decode(Cookies.get(PasswordKey))
+  const v = Cookies.get(PasswordKey)
+  return v ? Base64.decode(v) : v
 }
 
 /**
