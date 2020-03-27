@@ -25,7 +25,7 @@
         />
       </div>
 
-      <div class="content-right-side-container">
+      <div v-if="device === 'desktop'" class="content-right-side-container">
         <right-side-about />
         <right-side-tags />
         <right-side-comment />
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import AppHeader from '@/components/Header/index'
 import ArticleList from '@/components/ArticleList'
 import RightSideAbout from './components/RightSideAbout'
@@ -71,7 +72,10 @@ export default {
   computed: {
     orderBy() {
       return this.mainActive === 0 ? 'publish_time' : 'view_count'
-    }
+    },
+    ...mapGetters([
+      'device'
+    ])
   },
 
   mounted() {

@@ -38,12 +38,13 @@
           <comment-list :article-id="id" :author-id="article.user.id" />
         </div>
 
-        <div class="layout-right-side">
+        <div v-if="device === 'desktop'" class="layout-right-side">
           <interrelated-list :article-id="id" />
         </div>
       </div>
     </transition>
     <suspended-panel
+      v-if="device === 'desktop'"
       ref="spanel"
       :title="article.title"
       :like-count="article.likeCount"
@@ -85,7 +86,8 @@ export default {
 
   computed: {
     ...mapGetters([
-      'defaultAvatar'
+      'defaultAvatar',
+      'device'
     ])
   },
 

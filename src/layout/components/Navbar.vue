@@ -16,15 +16,42 @@
               首页
             </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="#">
+          <span class="btn" @click="visible=true">
             <el-dropdown-item>修改密码</el-dropdown-item>
-          </a>
+          </span>
           <el-dropdown-item divided>
             <span style="display:block;" @click="logout">退 出</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <el-dialog
+      title="修改密码"
+      top="30vh"
+      width="400px"
+      :modal="true"
+      :visible.sync="visible"
+      :modal-append-to-body="false"
+      :close-on-click-modal="false"
+      :show-close="false"
+      :lock-scroll="true"
+    >
+      <el-form ref="form" label-position="left" label-width="80px" :model="form" :rules="rules">
+        <el-form-item label="原密码" prop="oldpwd">
+          <el-input v-model="form.oldpwd" />
+        </el-form-item>
+        <el-form-item label="新密码" prop="newpwd">
+          <el-input v-model="form.newpwd" />
+        </el-form-item>
+        <el-form-item label="确认密码" prop="newpwd2">
+          <el-input v-model="form.newpwd2" />
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogClose">取 消</el-button>
+        <el-button type="primary" @click="saveSubmit">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -38,6 +65,31 @@ export default {
     Breadcrumb,
     Hamburger
   },
+  data() {
+    var validatePass2 = (rule, value, callback) => {
+      if (value !== this.form.newpwd) {
+        callback(new Error('两次输入密码不一致'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      visible: false,
+      form: {
+        oldpwd: '',
+        newpwd: '',
+        newpwd2: ''
+      },
+      rules: {
+        oldpwd: [{ required: true, message: '请输入原密码', trigger: 'blur' }],
+        newpwd: [{ required: true, message: '请输入新密码', trigger: 'blur' }],
+        newpwd2: [
+          { required: true, message: '请输入新密码', trigger: 'blur' },
+          { validator: validatePass2, trigger: 'blur' }
+        ]
+      }
+    }
+  },
   computed: {
     ...mapGetters([
       'sidebar',
@@ -46,9 +98,28 @@ export default {
     ])
   },
   methods: {
+    // 切换SideBar
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
+
+    // 关闭修改密码弹框
+    dialogClose() {
+      this.$refs['form'].resetFields()
+      this.$refs['form'].clearValidate()
+      this.visible = false
+    },
+
+    // 保存提交
+    saveSubmit() {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          console.log('sss')
+        }
+      })
+    },
+
+    // 退出
     logout() {
       this.$store.dispatch('user/logout').then(res => { this.$router.push('/') })
     }

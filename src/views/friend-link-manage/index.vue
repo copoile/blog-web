@@ -37,21 +37,21 @@
       <el-table-column
         prop="name"
         label="名称"
-        width="180"
+        width="150"
         align="center"
       />
 
       <el-table-column
         prop="url"
         label="链接"
-        width="180"
+        width="200"
         align="center"
       />
 
       <el-table-column
         prop="icon"
         label="图标"
-        width="220"
+        width="420"
         align="center"
       />
       <el-table-column label="操作">
