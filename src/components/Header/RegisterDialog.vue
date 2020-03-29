@@ -58,8 +58,9 @@ export default {
       this.visible = true
     },
 
+    // 提交
     submit() {
-      if (!this.vsubmit()) {
+      if (this.vsubmit()) {
         const data = {
           username: this.username,
           password: this.password,
@@ -98,6 +99,7 @@ export default {
       }
     },
 
+    // 提交验证
     vsubmit() {
       const username = this.username
       if (username === '') {
@@ -135,6 +137,7 @@ export default {
         this.$message('密码不能少于6位数')
         return false
       }
+      return true
     },
 
     // 发送验证码

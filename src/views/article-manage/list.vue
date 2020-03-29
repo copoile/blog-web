@@ -32,7 +32,7 @@
       <el-table-column
         prop="title"
         label="标题"
-        min-width="110"
+        min-width="350"
         align="center"
       />
       <el-table-column
@@ -112,7 +112,7 @@ export default {
   data() {
     return {
       loading: false,
-      pageSize: 5,
+      pageSize: 10,
       pageNum: 1,
       total: 10,
       title: '',

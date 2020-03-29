@@ -6,14 +6,16 @@
         <div class="logo">
           <div v-if="device !== 'desktop'" class="menu-wrapper">
             <el-dropdown trigger="click" placement="bottom">
-              <span style="color: #007fff;font-weight: 700;">{{
-                navItemActive === 0?'首页'
-                :navItemActive===1?'分类'
-                  :navItemActive===2?'归档'
-                    :navItemActive===3?'友链'
-                      :navItemActive===4?'留言':'首页'
-              }}</span>
-              <i class="el-icon-caret-bottom" />
+              <span style="color: #007fff;font-weight: 700;">
+                {{
+                  navItemActive === 0?'首页'
+                  :navItemActive===1?'分类'
+                    :navItemActive===2?'归档'
+                      :navItemActive===3?'友链'
+                        :navItemActive===4?'留言':'首页'
+                }}
+                <i class="el-icon-caret-bottom" />
+              </span>
               <el-dropdown-menu slot="dropdown">
                 <a v-for="(nav,index) in navItems" :key="index" @click="$router.push(nav.to)">
                   <el-dropdown-item>{{ nav.name }}</el-dropdown-item>
@@ -64,12 +66,9 @@
                   <img :src="userInfo.avatar || defaultAvatar" class="user-avatar">
                 </div>
                 <el-dropdown-menu slot="dropdown">
-                  <a target="_blank" href="#">
-                    <el-dropdown-item>修改密码</el-dropdown-item>
-                  </a>
-                  <a target="_blank" href="#">
+                  <router-link to="/email-validate">
                     <el-dropdown-item>绑定邮箱</el-dropdown-item>
-                  </a>
+                  </router-link>
                   <el-dropdown-item divided>
                     <span style="display:block;" @click="logout">退 出</span>
                   </el-dropdown-item>
@@ -344,7 +343,7 @@ export default {
               padding: 0 8px;
               margin-right: 8px;
               border-right: 1px solid hsla(0,0%,59.2%,.2);
-              
+
               @media screen and (max-width: 922px){
                 font-weight: 700;
               }

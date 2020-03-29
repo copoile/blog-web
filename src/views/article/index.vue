@@ -101,11 +101,13 @@ export default {
   beforeRouteUpdate(to, from, next) {
     this.id = to.params && to.params.id
     this.loading = true
+    if (this.device === 'desktop') {
+      this.$refs.spanel.changeUrl(this.url)
+      this.$refs.spanel.changeId(this.id)
+      this.$refs.spanel.isLiked()
+      this.$refs.spanel.isCollected()
+    }
     this.url = 'http://www.poile.cn/article/' + this.id
-    this.$refs.spanel.changeUrl(this.url)
-    this.$refs.spanel.changeId(this.id)
-    this.$refs.spanel.isLiked()
-    this.$refs.spanel.isCollected()
     this.initArticle()
     next()
   },

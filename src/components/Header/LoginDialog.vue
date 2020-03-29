@@ -23,7 +23,7 @@
     <el-button type="primary" size="medium" :loading="loading" @click="login">登录</el-button>
     <p class="tip">
       <el-checkbox v-if="active === 0" v-model="checked">记住密码</el-checkbox>
-      <span class="active btn" :class="{ right: active === 0 }">忘记密码^_^?</span>
+      <span class="active btn" :class="{ right: active === 0 }" @click="forgetClick">忘记密码^_^?</span>
     </p>
     <p style="clear: both;">
       注册登录即表示同意
@@ -197,6 +197,12 @@ export default {
           })
         }
       )
+    },
+
+    // 忘记密码点击
+    forgetClick() {
+      this.$store.commit('login/CHANGE_VISIBLE', false)
+      this.$router.push('/reset-password')
     }
   }
 }

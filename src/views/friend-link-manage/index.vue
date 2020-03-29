@@ -86,15 +86,15 @@
       :lock-scroll="false"
       @closed="handleClosed"
     >
-      <el-form ref="form" label-position="left" label-width="50px" :model="form" :rules="rules">
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="form.name" />
+      <el-form ref="form" label-position="left" :model="form" :rules="rules">
+        <el-form-item prop="name">
+          <el-input v-model="form.name" placeholder="输入名称"/>
         </el-form-item>
-        <el-form-item label="链接" prop="url">
-          <el-input v-model="form.url" />
+        <el-form-item prop="url">
+          <el-input v-model="form.url" placeholder="输入链接"/>
         </el-form-item>
-        <el-form-item label="图标">
-          <el-input v-model="form.icon" />
+        <el-form-item prop="icon">
+          <el-input v-model="form.icon" placeholder="输入图标"/>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -124,7 +124,8 @@ export default {
       },
       rules: {
         name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
-        url: [{ required: true, message: '请输入链接', trigger: 'blur' }]
+        url: [{ required: true, message: '请输入链接', trigger: 'blur' }],
+        icon: [{ required: true, message: '请输入链接', trigger: 'blur' }]
       }
     }
   },

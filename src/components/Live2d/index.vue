@@ -34,46 +34,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 #live2d-container {
-  position: fixed;
-  right: 0;
-  bottom: -15px;
-  z-index: 9999;
 
-  .message-box {
-    opacity: 0;
-    color: #fff;
-    box-sizing: border-box;
-    width: 200px;
-    height: auto;
-    margin: 0;
-    padding: 2px;
-    top: -25px;
-    text-align: center;
-    border: 2px solid rgba(75, 127, 199, 0.9);
-    border-radius: 5px;
-    background-color: rgba(74, 59, 114, 0.9);
-    font-size: 12px;
-    text-overflow: ellipsis;
-    text-transform: uppercase;
-    overflow: hidden;
-    position: absolute;
-
-    .live2d-msg {
-      display: block;
-      line-height: 20px;
-      padding: 0 20px;
-      color: #fff;
-      font-size: 13px;
-      word-wrap: break-spaces;
-      font-weight: 400;
-      user-select: none;
-      position: relative;
-    }
+  .live2d {
+    position: fixed;
+    right: 0;
+    bottom: -15px;
+    z-index: 99;
   }
 
   .visible-btn {
     position: fixed;
+    z-index: 999;
     right: 10px;
     bottom: 10px;
     background:  rgba(74, 59, 114, 0.9);
@@ -114,10 +87,6 @@ export default {
       transform: translate(-50%,-50%);
       opacity: .6;
     }
-  }
-
-  @media screen and (max-width: 960px) {
-    display: none;
   }
 }
 </style>

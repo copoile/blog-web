@@ -72,3 +72,52 @@ export function register(data) {
 export function updateUser(data) {
   return request.post('/user/update', data)
 }
+
+/**
+ * 更新密码
+ * @param {Object} params
+ */
+export function updatePassword(params) {
+  return request({
+      url: '/user/password/update',
+      method: 'post',
+      params: params
+    })
+}
+
+/**
+ * 重置密码
+ * @param {Object} params
+ */
+export function resetPassword(params) {
+  return request({
+      url: '/user/password/reset',
+      method: 'post',
+      params: params
+    })
+}
+
+/**
+ * 验证邮箱（发送验证链接）
+ * @param {Object} params
+ */
+export function validateEmail(params) {
+  return request({
+      url: '/user/email/validate',
+      method: 'post',
+      params: params
+    })
+}
+
+/**
+ * code绑定邮箱
+ * @param {Object} params
+ */
+export function bindEmail(params) {
+  return request({
+      url: '/user/email/bind',
+      method: 'post',
+      params: params
+    })
+}
+

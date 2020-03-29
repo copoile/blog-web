@@ -28,28 +28,28 @@
     <el-dialog
       title="修改密码"
       top="30vh"
-      width="400px"
+      width="300px"
       :modal="true"
       :visible.sync="visible"
       :modal-append-to-body="false"
       :close-on-click-modal="false"
       :show-close="false"
-      :lock-scroll="true"
+      :lock-scroll="false"
     >
-      <el-form ref="form" label-position="left" label-width="80px" :model="form" :rules="rules">
-        <el-form-item label="原密码" prop="oldpwd">
-          <el-input v-model="form.oldpwd" />
+      <el-form ref="form" label-position="left" :model="form" :rules="rules">
+        <el-form-item prop="oldpwd">
+          <el-input v-model="form.oldpwd" placeholder="输入原密码"/>
         </el-form-item>
-        <el-form-item label="新密码" prop="newpwd">
-          <el-input v-model="form.newpwd" />
+        <el-form-item prop="newpwd">
+          <el-input v-model="form.newpwd" placeholder="输入新密码"/>
         </el-form-item>
-        <el-form-item label="确认密码" prop="newpwd2">
-          <el-input v-model="form.newpwd2" />
+        <el-form-item prop="newpwd2">
+          <el-input v-model="form.newpwd2" placeholder="确认密码"/>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogClose">取 消</el-button>
-        <el-button type="primary" @click="saveSubmit">确 定</el-button>
+        <el-button type="primary" :loading="btnLoading" @click="saveSubmit">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -59,7 +59,7 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-
+import { updatePassword } from '@/api/user.js'
 export default {
   components: {
     Breadcrumb,
@@ -75,6 +75,7 @@ export default {
     }
     return {
       visible: false,
+      btnLoading: false,
       form: {
         oldpwd: '',
         newpwd: '',
@@ -114,7 +115,24 @@ export default {
     saveSubmit() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          console.log('sss')
+          this.btnLoading = true
+          const params = { oldPassword: this.form.oldpwd, newPassword: this.form.newpwd2 }
+          updatePassword(params).then(
+            res => {
+              this.btnLoading = false
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              })
+              this.$refs['form'].resetFields()
+              this.$refs['form'].clearValidate()
+              this.visible = false
+            },
+            error => {
+              console.error(error)
+              this.btnLoading = false
+            }
+          )
         }
       })
     },

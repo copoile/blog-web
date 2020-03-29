@@ -82,9 +82,9 @@
             <el-input v-model="form.email" disabled placeholder="未绑定邮箱" />
           </div>
           <div class="action-box">
-            <el-button type="text">
-              <span><i class="el-icon-message" />立即绑定</span>
-            </el-button>
+            <router-link type="text" to="/email-validate">
+              <span><i class="el-icon-message" />{{ form.email?'更改绑定':'立即绑定' }}</span>
+            </router-link>
           </div>
         </li>
         <li class="item">
@@ -104,7 +104,7 @@
             <el-button v-show="!opVisible.birthday" type="text" @click="birthdayIputFocus">
               <span><i class="el-icon-date" />修改</span>
             </el-button>
-            <span v-show="opVisible.birthday">
+            <span v-show="opVisible.birthday" style="display: flex;">
               <el-button type="text" style="color: #999;" @click="cancelBirthday">取消</el-button>
               <el-button type="text" @click="saveBirthday">保存</el-button>
             </span>

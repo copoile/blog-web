@@ -273,7 +273,7 @@ export default {
           showClose: false,
           type: 'warning'
         }).then(() => {
-          this.$router.push('/email-binding')
+          this.$router.push('/email-validate')
         }).catch(() => {
           this.cloading = true
           addMessage(params).then(
@@ -358,7 +358,7 @@ export default {
           showClose: false,
           type: 'warning'
         }).then(() => {
-          this.$router.push('/email-binding')
+          this.$router.push('/email-validate')
         }).catch(() => {
           this.rloading = true
           addReply(params).then(
