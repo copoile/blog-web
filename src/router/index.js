@@ -96,6 +96,11 @@ export const constantRoutes = [
     component: () => import('@/views/email-validate/index'),
     hidden: true
   },
+  {
+    path: '/rebind-mobile',
+    component: () => import('@/views/rebind-mobile/index'),
+    hidden: true
+  },
   // 邮箱绑定路由
   emailBindRoute,
   {

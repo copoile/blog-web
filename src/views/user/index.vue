@@ -71,9 +71,9 @@
             <el-input v-model="form.mobile" disabled placeholder="绑定你的手机号" />
           </div>
           <div class="action-box">
-            <el-button type="text">
+            <router-link to="/rebind-mobile">
               <span><i class="el-icon-mobile-phone" />更改绑定</span>
-            </el-button>
+            </router-link>
           </div>
         </li>
         <li class="item">

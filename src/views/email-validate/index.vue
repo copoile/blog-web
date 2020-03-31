@@ -75,7 +75,6 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  @import '~@/styles/variables';
    width: 100%;
    height: 100vh;
    overflow-x: hidden;
