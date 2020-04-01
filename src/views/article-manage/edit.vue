@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import '@/styles/heilingt.css'
 import DynamicTags from './components/DynamicTags'
 import ImgUpload from './components/ImgUpload'
 import { deleteFile } from '@/api/file'

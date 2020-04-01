@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import './styles/github.css'
+import '@/styles/heilingt.css'
 import { mapGetters } from 'vuex'
 import { formatDate } from '@/utils/index.js'
 import AppHeader from '@/components/Header/index'

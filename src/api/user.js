@@ -121,3 +121,26 @@ export function bindEmail(params) {
     })
 }
 
+/**
+ * 验证原手机号
+ * @param {Object} params
+ */
+export function validateMobile(params) {  
+  return request({
+      url: '/user/mobile/validate',
+      method: 'post',
+      params: params
+    })
+}
+
+/**
+ * 绑定新手机号
+ * @param {Object} params
+ */
+export function bindMobile(params) {  
+  return request({
+      url: '/user/mobile/rebind',
+      method: 'post',
+      params: params
+    })
+}

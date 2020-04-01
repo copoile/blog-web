@@ -98,7 +98,7 @@ export default {
       text-align: center;
       margin: 0;
       padding: 0;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
     }
 
     .el-form {
