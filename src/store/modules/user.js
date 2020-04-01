@@ -66,14 +66,11 @@ const actions = {
         if (!data) {
           reject('获取用户信息失败，请重新登录')
         }
-
         const { roles } = data
-
         // 角色列表校验
         if (!roles || roles.length <= 0) {
           reject('角色列表要求非null列表')
         }
-
         commit('SET_ROLES', roles)
         commit('SET_USER_INFO', data)
         resolve(data)

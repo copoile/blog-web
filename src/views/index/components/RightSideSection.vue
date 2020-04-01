@@ -30,7 +30,7 @@
       <section class="more-section">
         <ul class="more-list">
           <li class="solt-item">
-            <router-link to="/">关于</router-link>
+            <router-link to="/about">关于</router-link>
           </li>
           <li class="solt-item">
             <router-link to="/">用户协议</router-link>
