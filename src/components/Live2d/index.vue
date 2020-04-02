@@ -66,12 +66,12 @@ export default {
     position: fixed;
     right: 0;
     bottom: -15px;
-    z-index: 99;
+    z-index: 9999;
   }
 
   .visible-btn {
     position: fixed;
-    z-index: 999;
+    z-index: 9999;
     right: 10px;
     bottom: 10px;
     background:  rgba(74, 59, 114, 0.9);

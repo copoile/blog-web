@@ -71,6 +71,7 @@
 
     <el-pagination
       layout="prev, pager, next"
+      hide-on-single-page
       :page-size="pageSize"
       :total="total"
       @current-change="currentChange"

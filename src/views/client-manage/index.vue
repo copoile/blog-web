@@ -6,7 +6,7 @@
         type="primary"
         size="small"
         @click="dialogVisible=true"
-      >+AddFriendLink</el-button>
+      >+AddClient</el-button>
     </div>
 
     <el-table
@@ -15,15 +15,6 @@
       border
       style="width: 100%"
     >
-      <el-table-column
-        label="序号"
-        width="110"
-        align="center"
-      >
-        <template slot-scope="scope">
-          {{ scope.$index + 1 }}
-        </template>
-      </el-table-column>
       <el-table-column
         label="ID"
         width="110"
@@ -35,25 +26,46 @@
       </el-table-column>
 
       <el-table-column
-        prop="name"
-        label="名称"
+        prop="clientId"
+        label="客户端ID"
         width="150"
         align="center"
       />
 
       <el-table-column
-        prop="url"
-        label="链接"
-        width="200"
+        prop="clientSecret"
+        label="客户端密钥"
+        width="130"
         align="center"
       />
 
       <el-table-column
-        prop="icon"
-        label="图标"
-        width="430"
+        prop="accessTokenExpire"
+        label="accessToken时效"
+        width="150"
         align="center"
       />
+      <el-table-column
+        prop="refreshTokenExpire"
+        label="refreshToken时效"
+        width="150"
+        align="center"
+      />
+      <el-table-column
+        label="启用refreshToken"
+        width="150"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.enable"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            @change="enableChange(scope.row)"
+          >
+          </el-switch>
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
@@ -71,6 +83,7 @@
 
     <el-pagination
       layout="prev, pager, next"
+      hide-on-single-page
       :page-size="pageSize"
       :total="total"
       @current-change="currentChange"
@@ -106,7 +119,8 @@
 </template>
 
 <script>
-import { saveFriendLink, pageFriendLink, deleteFriendLink } from '@/api/friend-link.js'
+import { pageClient } from '@/api/client.js'
+import { saveFriendLink, deleteFriendLink } from '@/api/friend-link.js'
 export default {
   data() {
     return {
@@ -140,6 +154,11 @@ export default {
     handleEdit(index, row) {
       this.form = JSON.parse(JSON.stringify(row))
       this.dialogVisible = true
+    },
+
+    // 启用开关
+    enableChange(row) {
+      console.log(row.enable)
     },
 
     // 删除
@@ -186,10 +205,12 @@ export default {
         current: this.pageNum,
         size: this.pageSize
       }
-      pageFriendLink(params).then(
+      pageClient(params).then(
         res => {
           this.total = res.data.total
-          this.tableData = res.data.records
+          const records = res.data.records
+          records.forEach(ele => { ele.enable = ele.enableRefreshToken?true:false })
+          this.tableData = records
           this.loading = false
         },
         error => {

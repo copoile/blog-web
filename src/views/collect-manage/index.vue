@@ -53,7 +53,7 @@ export default {
     return {
       loading: true,
       current: 1,
-      size: 15,
+      size: 10,
       total: 0,
       artList: []
     }
