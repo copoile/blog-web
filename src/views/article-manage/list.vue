@@ -32,7 +32,7 @@
       <el-table-column
         prop="title"
         label="标题"
-        min-width="350"
+        min-width="320"
         align="center"
       />
       <el-table-column
@@ -41,7 +41,7 @@
         width="110"
         align="center"
       />
-      <el-table-column label="标签" width="110" align="center">
+      <el-table-column label="标签" width="120" align="center">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
             <el-tag
@@ -114,7 +114,7 @@ export default {
       loading: false,
       pageSize: 10,
       pageNum: 1,
-      total: 10,
+      total: 0,
       title: '',
       categoryId: null,
       tagId: null,

@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <router-view />
-    <!-- <live2d v-if="device === 'desktop'" /> -->
-    <live2d v-if="false" />
+    <live2d v-if="device === 'desktop'" />
   </div>
 </template>
 

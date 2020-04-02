@@ -93,9 +93,10 @@ export default {
       cancelCollected(params).then(
         res => {
           this.$message({
-            message: '复制成功',
+            message: '删除成功',
             type: 'success'
           })
+          this.current = 1
           this.pageCollect()
         }
       )

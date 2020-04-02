@@ -21,3 +21,23 @@ export function pageCategory(params) {
 export function categoryList() {
 	return request.get('/category/list')
 }
+
+/**
+ * 更新分类
+ * @param {Object} params
+ */
+export function updateCategory(params) {
+  return request({
+      url: '/category/update',
+      method: 'post',
+      params: params
+    })
+}
+
+/**
+ * 删除分类
+ * @param {Object} id
+ */
+export function deleteCategory(id) {
+  return request.delete('/category/delete/' + id)
+}

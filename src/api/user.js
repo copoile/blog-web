@@ -125,7 +125,7 @@ export function bindEmail(params) {
  * 验证原手机号
  * @param {Object} params
  */
-export function validateMobile(params) {  
+export function validateMobile(params) {
   return request({
       url: '/user/mobile/validate',
       method: 'post',
@@ -137,9 +137,29 @@ export function validateMobile(params) {
  * 绑定新手机号
  * @param {Object} params
  */
-export function bindMobile(params) {  
+export function bindMobile(params) {
   return request({
       url: '/user/mobile/rebind',
+      method: 'post',
+      params: params
+    })
+}
+
+/**
+ * 分页获取用户
+ * @param {Object} params
+ */
+export function pageUser(params) {
+  return request.get('/user/page', params)
+}
+
+/**
+ * 修改用户状态
+ * @param {Object} params
+ */
+export function updateStatus(params) {
+  return request({
+      url: '/user/status/update',
       method: 'post',
       params: params
     })

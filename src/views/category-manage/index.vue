@@ -9,10 +9,12 @@
       v-loading="loading"
       :data="tableData"
       style="width: 100%"
+      border
     >
       <el-table-column
         label="序号"
         width="180"
+        align="center"
       >
         <template slot-scope="scope">
           {{ scope.$index + 1 }}
@@ -21,6 +23,7 @@
       <el-table-column
         label="ID"
         width="180"
+        align="center"
       >
         <template slot-scope="scope">
           {{ scope.row.id }}
@@ -29,23 +32,35 @@
 
       <el-table-column
         label="名称"
-        width="180"
+        width="200"
+        align="center"
       >
         <template slot-scope="scope">
-          {{ scope.row.name }}
+          <span v-if="!scope.row.edit">{{ scope.row.name }}</span>
+          <el-input
+            v-else
+            v-model="tempCategory.name"
+            size="small"
+            placeholder="输入名称"
+          />
         </template>
       </el-table-column>
 
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
+            v-if="!scope.row.edit"
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)"
+            @click="handleEdit(scope.row)"
           >编辑</el-button>
+          <span v-else>
+            <el-button type="info" size="mini" @click="scope.row.edit=false">取消</el-button>
+            <el-button type="primary" size="mini" @click="saveSubmit">保存</el-button>
+          </span>
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
+            @click="handleDelete(scope.row)"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -62,7 +77,7 @@
 
 <script>
 import DynamicInput from '@/components/DynamicInput/index.vue'
-import { addCategory, pageCategory } from '@/api/category.js'
+import { addCategory, pageCategory, updateCategory, deleteCategory } from '@/api/category.js'
 export default {
   components: {
     DynamicInput
@@ -70,9 +85,10 @@ export default {
   data() {
     return {
       tableData: [],
+      tempCategory: null,
       pageNum: 1,
-      pageSize: 5,
-      total: 10,
+      pageSize: 10,
+      total: 0,
       loading: true
     }
   },
@@ -80,17 +96,52 @@ export default {
     this.loadData()
   },
   methods: {
-    handleEdit(index, row) {
-      console.log(index, row)
+
+    // 编辑
+    handleEdit(row) {
+      this.tempCategory = JSON.parse(JSON.stringify(row))
+      row.edit = true
     },
-    handleDelete(index, row) {
-      console.log(index, row)
+
+    // 修改提交
+    saveSubmit() {
+      if (this.tempCategory.name === '') {
+        this.$message('没有内容呢')
+        return
+      }
+      const params = { id: this.tempCategory.id, name: this.tempCategory.name }
+      updateCategory(params).then(
+        res => {
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          })
+          this.pageNum = 1
+          this.loadData()
+        }
+      )
     },
+
+    // 删除
+    handleDelete(row) {
+      deleteCategory(row.id).then(
+        res => {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+          this.pageNum = 1
+          this.loadData()
+        }
+      )
+    },
+
     // 分页页码更改事件
     currentChange(val) {
       this.pageNum = val
       this.loadData()
     },
+
     // 加载数据
     loadData() {
       this.loading = true
@@ -101,7 +152,9 @@ export default {
       pageCategory(params).then(
         res => {
           this.total = res.data.total
-          this.tableData = res.data.records
+          const records = res.data.records
+          records.forEach(ele => { ele.edit = false })
+          this.tableData = records
           this.loading = false
         },
         error => {
@@ -123,6 +176,10 @@ export default {
       }
       addCategory(data).then(
         res => {
+          this.$message({
+            message: '新增成功',
+            type: 'success'
+          })
           this.pageNum = 1
           this.loadData()
         }

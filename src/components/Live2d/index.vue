@@ -15,20 +15,45 @@
 </template>
 
 <script>
+
 import $ from 'jquery'
+import { mapGetters } from 'vuex'
+import load from './dynamicLoadScript'
+import ResizeMixin from '@/components/mixin/ResizeHandler.js'
+const live2dJs = 'https://public-share-file.nos-eastchina1.126.net/js/live2d.js'
 // 拖动
 $(function() { $('#live2d').draggable() })
 export default {
+  mixins: [ResizeMixin],
   data() {
     return {
       visible: true
     }
   },
 
+  computed: {
+    ...mapGetters([
+      'device'
+    ])
+  },
+
   mounted() {
-    setTimeout(() => {
-      loadlive2d('live2d', 'https://poile-img.nos-eastchina1.126.net/live2d/model.json')
-    }, 500)
+    if (this.device !== 'mobile') {
+      this.init()
+    }
+  },
+
+  methods: {
+    init() {
+      // dynamic load live2d from cdn
+      load(live2dJs, (err) => {
+        if (err) {
+          this.$message.error(err.message)
+          return
+        }
+        loadlive2d('live2d', 'https://poile-img.nos-eastchina1.126.net/live2d/model.json')
+      })
+    }
   }
 }
 </script>

@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '个人悦读分享',
+  title: '悦读分享',
 
   /**
    * @type {boolean} true | false

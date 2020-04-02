@@ -51,7 +51,7 @@
       <el-table-column
         prop="icon"
         label="图标"
-        width="420"
+        width="430"
         align="center"
       />
       <el-table-column label="操作">
@@ -112,8 +112,8 @@ export default {
     return {
       tableData: [],
       pageNum: 1,
-      pageSize: 5,
-      total: 10,
+      pageSize: 10,
+      total: 0,
       loading: true,
       dialogVisible: false,
       form: {

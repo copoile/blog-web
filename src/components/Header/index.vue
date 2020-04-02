@@ -23,8 +23,8 @@
               </el-dropdown-menu>
             </el-dropdown>
           </div>
-          <svg-icon icon-class="logo" class="logo-svg" />
-          <span class="logo-title">个人阅读分享</span>
+          <img class="logo-img" src="https://poile-img.nos-eastchina1.126.net/logo.png">
+          <span class="logo-title">悦读分享</span>
         </div>
 
         <nav class="main-nav">
@@ -66,10 +66,10 @@
                   <img :src="userInfo.avatar || defaultAvatar" class="user-avatar">
                 </div>
                 <el-dropdown-menu slot="dropdown">
-                  <router-link to="/email-validate">
+                  <router-link v-if="!userInfo.email" to="/email-validate">
                     <el-dropdown-item>绑定邮箱</el-dropdown-item>
                   </router-link>
-                  <el-dropdown-item divided>
+                  <el-dropdown-item>
                     <span style="display:block;" @click="logout">退 出</span>
                   </el-dropdown-item>
                 </el-dropdown-menu>
@@ -86,9 +86,9 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import RegisterDialog from './RegisterDialog'
 import LoginDialog from './LoginDialog'
-import { mapGetters } from 'vuex'
 export default {
   components: {
     RegisterDialog,
@@ -217,7 +217,7 @@ export default {
           height: 25px;
         }
 
-        .logo-svg {
+        .logo-img {
           width: 32px;
           height: 32px;
 
@@ -231,6 +231,7 @@ export default {
           font-size: 20px;
           display: inline-block;
           font-weight: bold;
+          padding-left: 5px;
 
           @media screen and (max-width: 922px){
             font-size: 18px;
