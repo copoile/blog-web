@@ -67,5 +67,6 @@ export default {
 .content {
   padding: 15px;
   min-height: 70vh;
+  text-align: left;
 }
 </style>

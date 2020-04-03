@@ -82,7 +82,7 @@
       :show-close="false"
       :lock-scroll="false"
     />
-    <article-preview :visible="preview" :id="previewId" @beforeClose="previewClose" />
+    <article-preview :id="previewId" :visible="preview" @beforeClose="previewClose" />
   </div>
 </template>
 
