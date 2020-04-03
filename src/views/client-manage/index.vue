@@ -5,7 +5,7 @@
       <el-button
         type="primary"
         size="small"
-        @click="dialogVisible=true"
+        @click="visible=true"
       >+AddClient</el-button>
     </div>
 
@@ -62,20 +62,19 @@
             active-color="#13ce66"
             inactive-color="#ff4949"
             @change="enableChange(scope.row)"
-          >
-          </el-switch>
+          />
         </template>
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)"
+            @click="handleEdit(scope.row)"
           >编辑</el-button>
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
+            @click="handleDelete(scope.row)"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -90,28 +89,40 @@
     />
 
     <el-dialog
-      title="保存友链"
+      title="保存客户端"
       top="30vh"
       width="400px"
-      :visible.sync="dialogVisible"
+      :visible.sync="visible"
       :close-on-click-modal="false"
       :show-close="false"
       :lock-scroll="false"
-      @closed="handleClosed"
     >
       <el-form ref="form" label-position="left" :model="form" :rules="rules">
-        <el-form-item prop="name">
-          <el-input v-model="form.name" placeholder="输入名称"/>
+        <el-form-item prop="clientId">
+          <el-input v-model="form.clientId" placeholder="输入客户端ID" />
         </el-form-item>
-        <el-form-item prop="url">
-          <el-input v-model="form.url" placeholder="输入链接"/>
+        <el-form-item prop="clientSecret">
+          <el-input v-model="form.clientSecret" placeholder="输入客户端秘钥" />
         </el-form-item>
-        <el-form-item prop="icon">
-          <el-input v-model="form.icon" placeholder="输入图标"/>
+        <el-form-item prop="accessTokenExpire">
+          <el-input v-model="form.accessTokenExpire" type="number" placeholder="输入AccessToken时效" />
+        </el-form-item>
+        <el-form-item>
+          <el-switch
+            v-model="form.enable"
+            style="display: block"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            active-text="启用refresh"
+            inactive-text="禁用refresh"
+          />
+        </el-form-item>
+        <el-form-item v-if="form.enable" prop="refreshTokenExpire">
+          <el-input v-model="form.refreshTokenExpire" type="number" placeholder="输入RefreshToken时效" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button @click="handleClose">取 消</el-button>
         <el-button type="primary" @click="saveSubmit">确 定</el-button>
       </span>
     </el-dialog>
@@ -119,8 +130,7 @@
 </template>
 
 <script>
-import { pageClient } from '@/api/client.js'
-import { saveFriendLink, deleteFriendLink } from '@/api/friend-link.js'
+import { pageClient, saveClient, deleteClient } from '@/api/client.js'
 export default {
   data() {
     return {
@@ -129,17 +139,19 @@ export default {
       pageSize: 10,
       total: 0,
       loading: true,
-      dialogVisible: false,
+      visible: false,
       form: {
-        icon: '',
+        clientId: '',
+        clientSecret: '',
+        accessTokenExpire: null,
+        refreshTokenExpire: null,
         id: null,
-        name: '',
-        url: ''
+        enableRefreshToken: 0,
+        enable: false
       },
       rules: {
-        name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
-        url: [{ required: true, message: '请输入链接', trigger: 'blur' }],
-        icon: [{ required: true, message: '请输入链接', trigger: 'blur' }]
+        clientId: [{ required: true, message: '请输入客户端ID', trigger: 'blur' }],
+        clientSecret: [{ required: true, message: '请输入客户端秘钥', trigger: 'blur' }]
       }
     }
   },
@@ -151,19 +163,21 @@ export default {
   methods: {
 
     // 编辑
-    handleEdit(index, row) {
+    handleEdit(row) {
       this.form = JSON.parse(JSON.stringify(row))
-      this.dialogVisible = true
+      this.visible = true
     },
 
     // 启用开关
     enableChange(row) {
-      console.log(row.enable)
+      const enableRefreshToken = row.enable ? 1 : 0
+      const data = { id: row.id, enableRefreshToken: enableRefreshToken }
+      saveClient(data)
     },
 
     // 删除
-    handleDelete(index, row) {
-      deleteFriendLink(row.id).then(
+    handleDelete(row) {
+      deleteClient(row.id).then(
         res => {
           this.$message({
             message: '删除成功',
@@ -176,18 +190,17 @@ export default {
     },
 
     // 弹框关闭
-    handleClosed() {
-      this.form.id = null
-      this.form.icon = ''
-      this.form.name = ''
-      this.form.url = ''
+    handleClose() {
+      this.$refs['form'].resetFields()
+      this.$refs['form'].clearValidate()
+      this.visible = false
     },
 
     // 保存提交
     saveSubmit() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.saveFriendLink()
+          this.saveClient()
         }
       })
     },
@@ -209,7 +222,7 @@ export default {
         res => {
           this.total = res.data.total
           const records = res.data.records
-          records.forEach(ele => { ele.enable = ele.enableRefreshToken?true:false })
+          records.forEach(ele => { ele.enable = !!ele.enableRefreshToken })
           this.tableData = records
           this.loading = false
         },
@@ -221,20 +234,16 @@ export default {
     },
 
     // 保存友链
-    saveFriendLink() {
-      const data = {
-        id: this.form.id,
-        icon: this.form.icon,
-        name: this.form.name,
-        url: this.form.url
-      }
-      saveFriendLink(data).then(
+    saveClient() {
+      this.form.enableRefreshToken = this.form.enable ? 1 : 0
+      delete this.form.enable
+      saveClient(this.form).then(
         res => {
           this.$message({
             message: '保存成功',
             type: 'success'
           })
-          this.dialogVisible = false
+          this.handleClose()
           this.pageNum = 1
           this.loadData()
         }

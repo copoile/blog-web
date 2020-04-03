@@ -9,7 +9,7 @@
       </el-select>
       <el-input v-model="title" style="width: 120px;" placeholder="请输入标题" size="small" clearable />
       <el-button type="primary" size="small" icon="el-icon-search" @click="search">搜索</el-button>
-      <i class="el-icon-refresh icon-refresh" @click="refresh"/>
+      <i class="el-icon-refresh icon-refresh" @click="refresh" />
     </div>
     <el-table v-loading="loading" :data="tableData" border style="width: 100%" size="medium">
       <el-table-column type="expand">
@@ -58,7 +58,7 @@
       </el-table-column>
       <el-table-column label="操作" fixed="right" min-width="230">
         <template slot-scope="scope">
-          <el-button size="mini">预览</el-button>
+          <el-button size="mini" @click="artPreview(scope.row)">预览</el-button>
           <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
           <el-button v-if="scope.row.status != 2" size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
           <el-button v-else type="primary" size="mini" @click="handleDelete(scope.row)">恢复</el-button>
@@ -66,15 +66,35 @@
       </el-table-column>
     </el-table>
 
-    <el-pagination layout="prev, pager, next" hide-on-single-page :page-size="pageSize" :total="total" @current-change="currentChange" />
+    <el-pagination
+      layout="prev, pager, next"
+      hide-on-single-page
+      :page-size="pageSize"
+      :total="total"
+      @current-change="currentChange"
+    />
+    <el-dialog
+      title="保存客户端"
+      top="30vh"
+      width="400px"
+      :visible.sync="visible"
+      :close-on-click-modal="false"
+      :show-close="false"
+      :lock-scroll="false"
+    />
+    <article-preview :visible="preview" :id="previewId" @beforeClose="previewClose" />
   </div>
 </template>
 
 <script>
+import { tagList } from '@/api/tag.js'
 import { pageArticle } from '@/api/article.js'
 import { categoryList } from '@/api/category.js'
-import { tagList } from '@/api/tag.js'
+import ArticlePreview from './components/ArticlePreview.vue'
 export default {
+  components: {
+    ArticlePreview
+  },
   data() {
     return {
       loading: false,
@@ -85,6 +105,9 @@ export default {
       categoryId: null,
       tagId: null,
       tags: [],
+      visible: false,
+      preview: false,
+      previewId: '',
       categorys: [],
       tableData: []
     }
@@ -165,7 +188,18 @@ export default {
     handleDelete(row) {
       console.log('删除')
     },
-    
+
+    // 文章预览
+    artPreview(row) {
+      this.previewId = row.id
+      this.preview = true
+    },
+
+    // 预览关闭
+    previewClose() {
+      this.preview = false
+    },
+
     // 右边的刷新
     refresh() {
       this.title = ''
