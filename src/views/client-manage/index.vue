@@ -90,8 +90,8 @@
 
     <el-dialog
       title="保存客户端"
-      top="30vh"
-      width="400px"
+      top="25vh"
+      width="350px"
       :visible.sync="visible"
       :close-on-click-modal="false"
       :show-close="false"
@@ -122,8 +122,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="handleClose">取 消</el-button>
-        <el-button type="primary" @click="saveSubmit">确 定</el-button>
+        <el-button size="medium" @click="handleClose">取 消</el-button>
+        <el-button size="medium" type="primary" @click="saveSubmit">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -171,7 +171,12 @@ export default {
     // 启用开关
     enableChange(row) {
       const enableRefreshToken = row.enable ? 1 : 0
-      const data = { id: row.id, enableRefreshToken: enableRefreshToken }
+      const data = {
+        id: row.id,
+        enableRefreshToken: enableRefreshToken,
+        clientId: row.clientId,
+        clientSecret: row.clientSecret
+      }
       saveClient(data)
     },
 
@@ -191,7 +196,13 @@ export default {
 
     // 弹框关闭
     handleClose() {
-      this.$refs['form'].resetFields()
+      this.form.clientId = ''
+      this.form.clientSecret = ''
+      this.form.accessTokenExpire = null
+      this.form.refreshTokenExpire = null
+      this.form.id = null
+      this.form.enable = false
+      this.form.enableRefreshToken = 0
       this.$refs['form'].clearValidate()
       this.visible = false
     },

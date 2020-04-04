@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div ref="container" class="container">
     <app-header :nav-item-active="1" />
     <div class="content-container">
 
@@ -29,10 +29,10 @@
         <el-pagination
           background
           layout="prev, pager, next"
+          hide-on-single-page
           :page-size="size"
           :current-page="current"
           :total="total"
-          :hide-on-single-page="true"
           @current-change="currentChange"
         />
       </div>
@@ -47,6 +47,7 @@ import AppHeader from '@/components/Header/index'
 import ArticleList from '@/components/ArticleList'
 import { pagePublishedArticle } from '@/api/article.js'
 export default {
+  name: 'Category',
   components: {
     AppHeader,
     ArticleList
@@ -114,8 +115,10 @@ export default {
       }
       pagePublishedArticle(params).then(
         res => {
+          this.total = res.data.total
           this.artList = res.data.records
           this.loading = false
+          this.$refs.container.scrollTop = 0
         },
         error => {
           console.error(error)

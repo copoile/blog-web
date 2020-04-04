@@ -30,6 +30,7 @@
 
 <script>
 export default {
+  name: 'DynamicInput',
   props: {
     placeholder: {
       type: String,

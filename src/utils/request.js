@@ -1,18 +1,13 @@
 import axios from 'axios'
-import {
-  MessageBox,
-  Message
-} from 'element-ui'
+import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
-import {
-  getAccessToken
-} from '@/utils/auth'
+import { getAccessToken } from '@/utils/auth'
 
 // 创建 axios 实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   // withCredentials: true,
-  timeout: 5000
+  timeout: 10000
 })
 
 // 请求拦截器
@@ -45,7 +40,9 @@ service.interceptors.response.use(
           type: 'warning'
         }).then(() => {
           location.reload()
-        })
+        }).catch(() => {
+          location.reload()
+        })  
       } else {
         // 其他
         Message({

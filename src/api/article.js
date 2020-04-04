@@ -33,10 +33,38 @@ export function pagePublishedArticle(params) {
 }
 
 /**
+ * 删除文章
+ * @param {Number} id
+ */
+export function deleteArticle(id) {
+  return request.delete(`/article/delete/${id}`)
+}
+
+/**
+ * 添加或更新推荐
+ * @param {Object} params
+ */
+export function addRecommend(params) {
+  return request({
+    url: '/article/recommend/save',
+    method: 'post',
+    params: params
+  })
+}
+
+/**
  * @description 推荐列表
  */
 export function recommendList() {
   return request.get('/article/recommend/list')
+}
+
+/**
+ * 移除推荐
+ * @param {Number} id
+ */
+export function deleteRecommend(id) {
+  return request.delete('/article/recommend/delete/' + id)
 }
 
 /**
@@ -55,11 +83,10 @@ export function incrementView(id) {
   return request.put('/article/increment_view/' + id)
 }
 
-/** 
+/**
  * @description 相关文章
  * @param {Object} params
  */
 export function interrelated(params) {
   return request.get('/article/interrelated/list', { params } )
 }
-

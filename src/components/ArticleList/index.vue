@@ -49,6 +49,7 @@
 <script>
 import { formatDate } from '@/utils/index.js'
 export default {
+  name: 'ArticleList',
   props: {
     list: {
       type: Array,

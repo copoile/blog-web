@@ -1,6 +1,6 @@
 <!-- 文章归档页面 -->
 <template>
-  <div class="container">
+  <div ref="container" class="container">
     <app-header :nav-item-active="2" />
     <div class="content-container">
       <div class="left-side">
@@ -65,20 +65,52 @@
         />
       </div>
     </div>
+
+    <!-- 移动tab菜单图标 -->
+    <svg-icon v-if="device !== 'desktop'" icon-class="archives-menu" class="menu-svg" @click="drawer=!drawer"/>
+    <!-- 移动tab菜单抽屉 -->
+    <el-drawer
+      v-if="device !== 'desktop'"
+      :visible.sync="drawer"
+      direction="ltr"
+      size="40%"
+      :show-close="false"
+      >
+      <ul class="menu-list">
+        <li
+          v-for="(tab,index) in tabs"
+          :key="index"
+          class="list-tab"
+          :class="{'tab-active':tabActive === index}"
+          @click="tabClick(index,tab)"
+        >{{ tab.date }}</li>
+      </ul>
+      <div class="page-wraper">
+        <el-button type="text" :disabled="tabCurrent === 1" @click="tabPageChange(-1)">
+          <i class="el-icon-arrow-left el-icon" />
+        </el-button>
+        <el-button type="text" :disabled="tabPages === tabCurrent" @click="tabPageChange(1)">
+          <i class="el-icon-arrow-right el-icon" />
+        </el-button>
+      </div>
+    </el-drawer>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { pageArchives } from '@/api/archives.js'
 import AppHeader from '@/components/Header/index'
 import { formatDate } from '@/utils/index.js'
 import { pagePublishedArticle } from '@/api/article.js'
 export default {
+  name: 'Archives',
   components: {
     AppHeader
   },
   data() {
     return {
+      drawer: false,
       tabActive: 0,
       loading: true,
       temp: '2019-09-03',
@@ -92,6 +124,12 @@ export default {
       total: 0,
       artList: []
     }
+  },
+
+  computed: {
+    ...mapGetters([
+      'device'
+    ])
   },
 
   mounted() {
@@ -134,6 +172,7 @@ export default {
           this.artList = records
           this.total = res.data.total
           this.loading = false
+          this.$refs.container.scrollTop = 0
         },
         error => {
           console.error(error)
@@ -151,6 +190,7 @@ export default {
     // 归档tab分页
     tabPageChange(val) {
       this.tabCurrent = this.tabCurrent + val
+      this.drawer = false
       this.pageArchives()
     },
 
@@ -159,6 +199,7 @@ export default {
       this.tabActive = index
       this.yearMonth = tab.yearMonth
       this.current = 1
+      this.drawer = false
       this.pageArticle()
     }
   }
@@ -222,6 +263,7 @@ export default {
           border-radius: 3px;
           cursor: pointer;
           margin-top: 5px;
+          margin: 0 20px;
 
           &:hover {
             color: #007fff;
@@ -354,5 +396,61 @@ export default {
     }
   }
 
+  // 移动端tab menu图标
+  .menu-svg {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    fill: #333;
+    width: 25px;
+    height: 25px;
+  }
+
+  // 移动端tab
+  .menu-list {
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    text-align: center;
+    color: #909090;;
+    
+    @media screen and (max-width: 922px){
+      display: none;
+    }
+
+    .list-tab {
+      list-style: none;
+      position: relative;
+      margin: 0 auto;
+      padding: 5px;
+      border-radius: 3px;
+      cursor: pointer;
+      margin-top: 5px;
+      width: 100px;
+
+      &:hover {
+        color: #007fff;
+        background: #f4f5f5;
+      }
+    }
+
+    .tab-active {
+      color: #fff;
+      background: #007fff;
+
+      &:hover {
+        color: #fff;
+        background: #007fff;
+      }
+    }
+
+    .page-wraper {
+      text-align: center;
+    }
+  }
+
+  /deep/ .el-drawer__body>* {
+    text-align: center;
+  }
 }
 </style>

@@ -59,6 +59,7 @@
       <el-table-column label="操作" fixed="right" min-width="230">
         <template slot-scope="scope">
           <el-button size="mini" @click="artPreview(scope.row)">预览</el-button>
+          <el-button size="mini" @click="addRecommend(scope.row)">推荐</el-button>
           <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
           <el-button v-if="scope.row.status != 2" size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
           <el-button v-else type="primary" size="mini" @click="handleDelete(scope.row)">恢复</el-button>
@@ -73,22 +74,13 @@
       :total="total"
       @current-change="currentChange"
     />
-    <el-dialog
-      title="保存客户端"
-      top="30vh"
-      width="400px"
-      :visible.sync="visible"
-      :close-on-click-modal="false"
-      :show-close="false"
-      :lock-scroll="false"
-    />
     <article-preview :id="previewId" :visible="preview" @beforeClose="previewClose" />
   </div>
 </template>
 
 <script>
 import { tagList } from '@/api/tag.js'
-import { pageArticle } from '@/api/article.js'
+import { pageArticle, addRecommend, deleteArticle } from '@/api/article.js'
 import { categoryList } from '@/api/category.js'
 import ArticlePreview from './components/ArticlePreview.vue'
 export default {
@@ -105,7 +97,6 @@ export default {
       categoryId: null,
       tagId: null,
       tags: [],
-      visible: false,
       preview: false,
       previewId: '',
       categorys: [],
@@ -186,7 +177,16 @@ export default {
 
     // 删除
     handleDelete(row) {
-      console.log('删除')
+      deleteArticle(row.id).then(
+        res => {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+          this.pageNum = 1
+          this.loadData()
+        }
+      )
     },
 
     // 文章预览
@@ -198,6 +198,19 @@ export default {
     // 预览关闭
     previewClose() {
       this.preview = false
+    },
+
+    // 添加推荐
+    addRecommend(row) {
+      const params = { articleId: row.id, score: row.id }
+      addRecommend(params).then(
+        res => {
+          this.$message({
+            message: '添加成功',
+            type: 'success'
+          })
+        }
+      )
     },
 
     // 右边的刷新

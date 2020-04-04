@@ -24,6 +24,7 @@ const live2dJs = 'https://public-share-file.nos-eastchina1.126.net/js/live2d.js'
 // 拖动
 $(function() { $('#live2d').draggable() })
 export default {
+  name: 'Live2d',
   mixins: [ResizeMixin],
   data() {
     return {

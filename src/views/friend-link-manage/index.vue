@@ -79,7 +79,7 @@
 
     <el-dialog
       title="保存友链"
-      top="30vh"
+      top="25vh"
       width="400px"
       :visible.sync="dialogVisible"
       :close-on-click-modal="false"
@@ -99,8 +99,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="saveSubmit">确 定</el-button>
+        <el-button size="medium" @click="dialogVisible = false">取 消</el-button>
+        <el-button size="medium" type="primary" @click="saveSubmit">确 定</el-button>
       </span>
     </el-dialog>
   </div>

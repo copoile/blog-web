@@ -111,6 +111,7 @@ export default {
           this.loading = false
           this.total = res.data.total
           this.artList = res.data.records
+          window.scroll(0, 0)
         },
         error => {
           console.error(error)

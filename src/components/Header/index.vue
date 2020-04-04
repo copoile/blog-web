@@ -43,13 +43,18 @@
           <!-- 搜索框 -->
           <div class="search-box">
             <el-input
-              v-model="content"
+              v-model="keyword"
               size="medium"
               placeholder="搜索文章"
               @focus="inputFocus"
               @blur="inputBlur"
+              @keyup.enter.native="search"
             >
-              <i slot="suffix" class="el-input__icon el-icon-search" :style="'color:' + inputIconColor" />
+              <i slot="suffix"
+              class="el-input__icon el-icon-search"
+              :style="'color:' + inputIconColor"
+              @click="search"
+              />
             </el-input>
           </div>
           <!-- 右边box -->
@@ -80,7 +85,6 @@
         </nav>
       </div>
     </header>
-
     <register-dialog ref="reDialog" />
     <login-dialog ref="loDialog" />
   </div>
@@ -90,6 +94,7 @@ import { mapGetters } from 'vuex'
 import RegisterDialog from './RegisterDialog'
 import LoginDialog from './LoginDialog'
 export default {
+  name: 'Header',
   components: {
     RegisterDialog,
     LoginDialog
@@ -102,7 +107,7 @@ export default {
   },
   data() {
     return {
-      content: '',
+      keyword: '',
       inputIconColor: '',
       navItems: [
         {
@@ -136,6 +141,12 @@ export default {
     ])
   },
 
+  mounted() {
+    if (this.$route.path === '/search') {
+      this.keyword = this.$route.query && this.$route.query.keyword
+    }
+  },
+
   methods: {
 
     // 抽屉关闭
@@ -166,6 +177,19 @@ export default {
     // 退出
     logout() {
       this.$store.dispatch('user/logout').then(res => { this.$router.push('/') })
+    },
+
+    // 搜索
+    search() {
+      const keyword = this.keyword
+      if (keyword) {
+        this.$router.push(
+          {
+            path: '/search',
+            query: { keyword: keyword }
+          }
+        )
+      }
     }
   }
 }

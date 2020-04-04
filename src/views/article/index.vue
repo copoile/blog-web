@@ -67,6 +67,7 @@ import ArtTags from './components/ArtTags'
 import InterrelatedList from './components/InterrelatedList'
 import SuspendedPanel from './components/SuspendedPanel'
 export default {
+  name: 'Article',
   components: {
     AppHeader,
     CommentList,

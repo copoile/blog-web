@@ -48,8 +48,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogClose">取 消</el-button>
-        <el-button type="primary" :loading="btnLoading" @click="saveSubmit">确 定</el-button>
+        <el-button size="medium" @click="dialogClose">取 消</el-button>
+        <el-button size="medium" type="primary" :loading="btnLoading" @click="saveSubmit">确 定</el-button>
       </span>
     </el-dialog>
   </div>

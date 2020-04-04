@@ -29,6 +29,7 @@
 <script>
 import AppHeader from '@/components/Header/index'
 export default {
+  name: 'About',
   components: {
     AppHeader
   }

@@ -1,6 +1,6 @@
 <!-- 标签页面 -->
 <template>
-  <div class="container">
+  <div ref="container" class="container">
     <app-header :nav-item-active="-1" />
     <ul v-if="device !== 'desktop'" class="list-header">
       <li
@@ -64,6 +64,7 @@ import AppHeader from '@/components/Header/index'
 import ArticleList from '@/components/ArticleList'
 import { pagePublishedArticle } from '@/api/article.js'
 export default {
+  name: 'Tag',
   components: {
     AppHeader,
     ArticleList
@@ -135,6 +136,7 @@ export default {
           this.total = res.data.total
           this.artList = res.data.records
           this.loading = false
+          this.$refs.container.scrollTop = 0
         },
         error => {
           console.error(error)
