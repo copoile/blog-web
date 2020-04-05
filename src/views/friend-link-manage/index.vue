@@ -16,15 +16,6 @@
       style="width: 100%"
     >
       <el-table-column
-        label="序号"
-        width="110"
-        align="center"
-      >
-        <template slot-scope="scope">
-          {{ scope.$index + 1 }}
-        </template>
-      </el-table-column>
-      <el-table-column
         label="ID"
         width="110"
         align="center"
@@ -57,6 +48,12 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
+            type="success"
+            size="mini"
+          ><a :href="scope.row.url" target="_blank">打开</a>
+          </el-button>
+          <el-button
+            type="primary"
             size="mini"
             @click="handleEdit(scope.$index, scope.row)"
           >编辑</el-button>

@@ -228,8 +228,8 @@ export default {
       this.userInfo = userInfo
       this.username = userInfo.username
       this.form.nickname = userInfo.nickname
-      this.form.mobile = userInfo.mobile
-      this.form.email = userInfo.email
+      this.form.mobile = this.sensitiveMobile(userInfo.mobile)
+      this.form.email = this.sensitiveEmail(userInfo.email)
       this.form.gender = userInfo.gender
       this.originalGender = userInfo.gender
       this.form.birthday = userInfo.birthday
@@ -386,6 +386,18 @@ export default {
         this.loading = false
       }
       return isImg && isLt300KB
+    },
+    
+    // 邮箱脱敏
+    sensitiveEmail(email) {
+     return email ? email.substr(0, 2) + '****' + email.substr(email.indexOf('@')) : ''
+    },
+    
+    // 手机号脱敏
+    sensitiveMobile(mobile) {
+      var str = '' + mobile
+      var pat = /(\d{3})\d*(\d{4})/
+      return str ? str.replace(pat,'$1****$2') : ''
     }
   }
 }

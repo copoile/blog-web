@@ -12,15 +12,6 @@
       style="width: 100%"
     >
       <el-table-column
-        label="序号"
-        width="180"
-        align="center"
-      >
-        <template slot-scope="scope">
-          {{ scope.$index + 1 }}
-        </template>
-      </el-table-column>
-      <el-table-column
         label="ID"
         width="180"
         align="center"
@@ -50,12 +41,13 @@
         <template slot-scope="scope">
           <el-button
             v-if="!scope.row.edit"
+            type="primary"
             size="mini"
             @click="handleEdit(scope.row)"
           >编辑</el-button>
           <span v-else>
             <el-button type="info" size="mini" @click="scope.row.edit=false">取消</el-button>
-            <el-button type="primary" size="mini" @click="saveSubmit">保存</el-button>
+            <el-button type="success" size="mini" @click="saveSubmit">保存</el-button>
           </span>
           <el-button
             size="mini"

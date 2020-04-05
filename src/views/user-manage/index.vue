@@ -12,8 +12,8 @@
         <div class="content-box">
           <div class="row">昵称:&ensp;{{ item.nickname }}</div>
           <div class="row">用户名:&ensp;{{ item.username }}</div>
-          <div class="row">手机号:&ensp;{{ item.mobile }}<span v-if="!item.mobile" style="color: #999;">未绑定</span></div>
-          <div class="row">邮箱:&ensp;{{ item.email }}<span v-if="!item.email" style="color: #999;">未绑定</span></div>
+          <div class="row">手机号:&ensp;{{ sensitiveMobile(item.mobile) }}<span v-if="!item.mobile" style="color: #999;">未绑定</span></div>
+          <div class="row">邮箱:&ensp;{{ sensitiveEmail(item.email) }}<span v-if="!item.email" style="color: #999;">未绑定</span></div>
           <div class="row">性别:&ensp;{{ item.gender===1?'男':'女' }}</div>
           <div class="row">用户状态:&ensp;
             <el-switch
@@ -45,8 +45,8 @@
 </template>
 
 <script>
-import { formatDate } from '@/utils/index.js'
 import { mapGetters } from 'vuex'
+import { formatDate } from '@/utils/index.js'
 import { pageUser, updateStatus } from '@/api/user.js'
 export default {
   data() {
@@ -101,6 +101,18 @@ export default {
       const status = item.enable ? 0 : 2
       const params = { userId: item.id, status: status }
       updateStatus(params)
+    },
+
+    // 邮箱脱敏
+    sensitiveEmail(email) {
+     return email?email.substr(0, 2) + '****' + email.substr(email.indexOf('@')) : ''
+    },
+    
+    // 手机号脱敏
+    sensitiveMobile(mobile) {
+      var str = '' + mobile
+      var pat = /(\d{3})\d*(\d{4})/
+      return str.replace(pat,'$1****$2')
     }
   }
 }
