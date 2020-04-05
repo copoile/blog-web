@@ -24,7 +24,12 @@
     </el-input>
     <el-input v-model="password" placeholder="密码不能少于6位数" />
     <el-button type="primary" size="medium" :loading="loading" @click="submit">注册</el-button>
-    <p>注册登录即表示同意<a href="#" style="color: #007fff;">用户协议、隐私政策</a></p>
+    <p>注册登录即表示同意
+    <span style="color: #007fff;">
+      <span class="btn" @click="terms">用户协议</span>
+      <span class="btn" @click="privacy">隐私政策</span>
+    </span>
+    </p>
   </el-dialog>
 </template>
 
@@ -56,6 +61,18 @@ export default {
 
     open() {
       this.visible = true
+    },
+    
+    // 关闭弹框跳转用户协议
+    terms() {
+      this.$store.commit('login/CHANGE_VISIBLE', false)
+      this.$router.push('/terms')
+    },
+    
+    // 关闭弹框跳转隐私政策
+    privacy() {
+      this.$store.commit('login/CHANGE_VISIBLE', false)
+      this.$router.push('/privacy')
     },
 
     // 提交

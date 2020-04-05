@@ -10,7 +10,7 @@ import pathToRegexp from 'path-to-regexp'
 NProgress.configure({ showSpinner: false })
 // 免登录白名单
 const whiteList = ['/', '/tag', '/category', '/archives',
-'/message', '/friend-link', '/article/:id', '/reset-password', '/about', '/search']
+'/message', '/friend-link', '/article/:id', '/reset-password', '/about', '/search', '/terms', '/privacy']
 
 router.beforeEach(async(to, from, next) => {
   // 进度条开始

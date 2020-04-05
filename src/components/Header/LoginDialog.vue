@@ -27,7 +27,10 @@
     </p>
     <p style="clear: both;">
       注册登录即表示同意
-      <a href="#" style="color: #007fff;">用户协议、隐私政策</a>
+    <span style="color: #007fff;">
+      <span class="btn" @click="terms">用户协议</span>
+      <span class="btn" @click="privacy">隐私政策</span>
+	  </span>
     </p>
   </el-dialog>
 </template>
@@ -63,6 +66,19 @@ export default {
   },
 
   methods: {
+
+    // 关闭弹框跳转用户协议
+    terms() {
+      this.$store.commit('login/CHANGE_VISIBLE', false)
+      this.$router.push('/terms')
+    },
+    
+    // 关闭弹框跳转隐私政策
+    privacy() {
+      this.$store.commit('login/CHANGE_VISIBLE', false)
+      this.$router.push('/privacy')
+    },
+    
     // 关闭弹框事件
     bClose() {
       this.code = ''

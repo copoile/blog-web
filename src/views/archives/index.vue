@@ -233,9 +233,10 @@ export default {
     .left-side {
       position: fixed;
       top: 110px;
-      left: calc(calc(100% - 850px)/2);
+      left: calc(calc(100% - 810px)/2);
       z-index: 999;
-      padding: 20px;
+      padding: 0;
+      padding-top: 20px;
       padding-bottom: 5px;
       background: #fff;
       text-align: center;
@@ -413,8 +414,8 @@ export default {
     font-size: 15px;
     text-align: center;
     color: #909090;;
-    
-    @media screen and (max-width: 922px){
+
+    @media screen and (min-width: 922px){
       display: none;
     }
 

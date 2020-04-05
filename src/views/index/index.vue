@@ -1,5 +1,5 @@
 <template>
-  <div class="home-container">
+  <div ref="container" class="home-container">
     <app-header />
     <div class="content-container">
       <div class="side-left">
@@ -111,7 +111,7 @@ export default {
           this.loading = false
           this.total = res.data.total
           this.artList = res.data.records
-          window.scroll(0, 0)
+          this.$refs.container.scrollTop = 0
         },
         error => {
           console.error(error)
@@ -127,6 +127,7 @@ export default {
 .home-container {
   @import '~@/styles/variables';
 	width: 100%;
+  height: 100vh;
 	overflow-x: hidden;
   overflow-y: -webkit-overlay;
   overflow-y: overlay;

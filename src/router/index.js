@@ -107,6 +107,16 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/terms',
+    component: () => import('@/views/terms/index'),
+    hidden: true
+  },
+  {
+    path: '/privacy',
+    component: () => import('@/views/privacy/index'),
+    hidden: true
+  },
+  {
     path: '/search',
     component: () => import('@/views/search/index'),
     hidden: true

@@ -33,10 +33,10 @@
             <router-link to="/about">关于</router-link>
           </li>
           <li class="solt-item">
-            <router-link to="/">用户协议</router-link>
+            <router-link to="/terms">用户协议</router-link>
           </li>
           <li class="solt-item">
-            <router-link to="/">隐私政策</router-link>
+            <router-link to="/privacy">隐私政策</router-link>
           </li>
           <li class="item">
             <router-link to="/friend-link">友情链接</router-link>
