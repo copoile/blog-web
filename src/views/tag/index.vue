@@ -175,6 +175,7 @@ export default {
       background: #fff;
       border-radius: 2px;
       margin-right: 260px;
+      margin-bottom: 20px;
 
       @media screen and (max-width: 922px){
         margin-right: 0;
@@ -205,6 +206,7 @@ export default {
         .el-pagination {
           text-align: center;
           padding: 30px;
+          padding-bottom: 0;
           background: #eee;
         }
       }

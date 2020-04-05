@@ -215,6 +215,7 @@ export default {
       box-sizing: border-box;
       border-radius: 2px;
       margin-left: 122px;
+      margin-bottom: 20px;
 
       .list-header {
         margin: 0;
@@ -250,6 +251,7 @@ export default {
       .el-pagination {
         text-align: center;
         padding: 30px;
+        padding-bottom: 0;
         background: #eee;
       }
     }
