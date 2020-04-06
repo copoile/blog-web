@@ -104,7 +104,11 @@ npm run dev
 
 
 
+
+
 <img src="./images/mobile/index.png">
+
+
 
 
 
@@ -112,7 +116,11 @@ npm run dev
 
 
 
+
+
 <img src="./images/mobile/article-1.png">
+
+
 
 
 
