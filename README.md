@@ -71,7 +71,7 @@ npm run dev
 
 
 
-![](https://poile-img.nos-eastchina1.126.net/blog-web-images/--index-2.png)
+![](https://poile-img.nos-eastchina1.126.net/blog-web-images/-index-2.png)
 
 
 
@@ -81,7 +81,7 @@ npm run dev
 
 ![](https://poile-img.nos-eastchina1.126.net/blog-web-images/-category.png)
 
-![](https://poile-img.nos-eastchina1.126.net/blog-web-images/--archives.png)
+![](https://poile-img.nos-eastchina1.126.net/blog-web-images/-archives.png)
 
 
 
@@ -101,7 +101,7 @@ npm run dev
 
 
 
-![](https://poile-img.nos-eastchina1.126.net/blog-web-images/--article-manage.png)
+![](https://poile-img.nos-eastchina1.126.net/blog-web-images/-article-manage.png)
 
 
 
