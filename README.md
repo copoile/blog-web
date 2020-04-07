@@ -133,7 +133,7 @@ npm run dev
 
 ### License
 
-[MIT](https://github.com/copoile/blog-web/blob/master/LICENSE)
+[Apache License 2.0](http://apache.org/licenses/LICENSE-2.0.html)
 
 Copyright (c) 2020-present Yaohw
 
