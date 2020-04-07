@@ -36,6 +36,7 @@
 - 友链
 - 留言
 - 文章 / 收藏 / 点赞 / 评论 / 回复 / 相关推荐
+- Live2d
 - 其他
 ```
 
@@ -103,6 +104,8 @@ npm run dev
 ![](https://poile-img.nos-eastchina1.126.net/blog-web-images/--article-manage.png)
 
 
+
+![](https://poile-img.nos-eastchina1.126.net/blog-web-images/edit.png)
 
 
 
