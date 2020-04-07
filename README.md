@@ -101,7 +101,7 @@ npm run dev
 
 
 
-![](https://poile-img.nos-eastchina1.126.net/blog-web-images/-article-manage.png)
+![](https://poile-img.nos-eastchina1.126.net/blog-web-images/--article-manage.png)
 
 
 
