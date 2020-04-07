@@ -81,7 +81,7 @@ npm run dev
 
 ![](https://poile-img.nos-eastchina1.126.net/blog-web-images/-category.png)
 
-![](https://poile-img.nos-eastchina1.126.net/blog-web-images/-archives.png)
+![](https://poile-img.nos-eastchina1.126.net/blog-web-images/--archives.png)
 
 
 
