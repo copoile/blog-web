@@ -1,6 +1,7 @@
 ### 简介
 
 本项目技术栈基于[vue](https://cn.vuejs.org/index.html)、[vuex](https://vuex.vuejs.org/zh-cn/)、[vue-router](https://router.vuejs.org/zh-cn/) 、[vue-cli](https://github.com/vuejs/vue-cli) 、[axios](https://github.com/axios/axios) 和 [element-ui](https://github.com/ElemeFE/element)，是一个vue全家桶 + element-ui编写的博客前端项目，简约风格，功能完善，具备完备的后台管理和前端数据展示，同时项目通过媒体查询等技术适配移动端，是一个响应式的前端项目。
+国内Gitee:[https://gitee.com/copoile/blog-web.git](https://gitee.com/copoile/blog-web.git)
 
 > 数据通过接口Api方式获取，因此前端项目运行需启动后端项目，后端项目地址：https://github.com/copoile/blog-api.git
 
