@@ -4,25 +4,33 @@
       <header>关注我</header>
       <ul class="account-list">
         <li class="item">
-          <a href="#">
-            <img class="icon" src="https://b-gold-cdn.xitu.io/v3/static/img/weibo.0cd39f5.png">
+          <a href="https://github.com/copoile" target="_blank">
+            <img
+              class="icon"
+              style="background: #000000;border-radius: 3px;"
+              src="https://poile-img.nos-eastchina1.126.net/icon/github.png"
+            >
           </a>
         </li>
 
         <li class="item">
-          <a href="#">
-            <img class="icon" src="https://b-gold-cdn.xitu.io/v3/static/img/wechat.ce329e6.png">
-          </a>
+          <el-popover placement="bottom" trigger="hover">
+            <img
+              style="width:90px;height:90px;margin: 5px;"
+              src="https://poile-img.nos-eastchina1.126.net/icon/qrcode.jpg"
+            >
+            <img slot="reference" class="icon" src="https://b-gold-cdn.xitu.io/v3/static/img/wechat.ce329e6.png">
+          </el-popover>
         </li>
 
         <li class="item">
-          <a href="#">
+          <a href="https://www.zhihu.com/people/yaohw-53" target="_blank">
             <img class="icon" src="https://b-gold-cdn.xitu.io/v3/static/img/zhuanlan.18265c6.png">
           </a>
         </li>
 
         <li class="item">
-          <a href="#">
+          <a href="https://www.jianshu.com/u/d757e6e6c36d" target="_blank">
             <img class="icon" src="https://b-gold-cdn.xitu.io/v3/static/img/jianshu.80c1fdd.png">
           </a>
         </li>

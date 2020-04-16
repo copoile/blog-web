@@ -3,10 +3,9 @@ import Vue from 'vue'
 // 消除各浏览器差异
 import 'normalize.css/normalize.css'
 
-// ElementUI
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/en'
+// ElementUI 按需加载
+import './element-ui.js'
+
 // 富文本编辑器
 import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
@@ -32,13 +31,6 @@ import '@/icons'
 // 权限控制
 import '@/permission'
 
-// mock测试数据，生产环境请移除！！！
-import { mockXHR } from '../mock'
-if (process.env.NODE_ENV === 'production') {
-  mockXHR()
-}
-
-Vue.use(ElementUI, { locale })
 Vue.use(VueQuillEditor)
 Vue.use(VueClipboard)
 

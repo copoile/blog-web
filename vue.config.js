@@ -51,10 +51,12 @@ module.exports = {
     after: require('./mock/mock-server.js')
   },
   configureWebpack: {
-    // provide the app's title in webpack's name field, so that
-    // it can be accessed in index.html to inject the correct title.
     externals: {
-     'jquery' : '$'
+     'jquery' : '$',
+     'axios': 'axios',
+     'vue': 'Vue',
+     'vuex': 'Vuex',
+     'vue-router': 'VueRouter'
     },
     name: name,
     resolve: {

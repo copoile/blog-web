@@ -263,8 +263,8 @@ export default {
           padding: 5px;
           border-radius: 3px;
           cursor: pointer;
-          margin-top: 5px;
-          margin: 0 20px;
+          margin: 5px 20px;
+          margin-top: 0;
 
           &:hover {
             color: #007fff;
