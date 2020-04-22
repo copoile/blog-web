@@ -27,10 +27,10 @@
     </p>
     <p style="clear: both;">
       注册登录即表示同意
-    <span style="color: #007fff;">
-      <span class="btn" @click="terms">用户协议</span>
-      <span class="btn" @click="privacy">隐私政策</span>
-	  </span>
+      <span style="color: #007fff;">
+        <span class="btn" @click="terms">用户协议</span>
+        <span class="btn" @click="privacy">隐私政策</span>
+      </span>
     </p>
   </el-dialog>
 </template>
@@ -72,13 +72,13 @@ export default {
       this.$store.commit('login/CHANGE_VISIBLE', false)
       this.$router.push('/terms')
     },
-    
+
     // 关闭弹框跳转隐私政策
     privacy() {
       this.$store.commit('login/CHANGE_VISIBLE', false)
       this.$router.push('/privacy')
     },
-    
+
     // 关闭弹框事件
     bClose() {
       this.code = ''
@@ -93,7 +93,6 @@ export default {
 
     // 登录
     login() {
-      this.loading = true
       this.$store.commit('user/SET_TOKEN', null)
       if (this.active === 0) {
         this.passwordLogin()
@@ -118,6 +117,7 @@ export default {
         username: username,
         password: password
       }
+      this.loading = true
       new Promise(async(resolve, reject) => {
         try {
           await this.$store.dispatch('user/accountLogin', params)
@@ -162,6 +162,7 @@ export default {
         mobile: mobile,
         code: code
       }
+      this.loading = true
       new Promise(async(resolve, reject) => {
         try {
           await this.$store.dispatch('user/codeLogin', params)

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <app-header :nav-item-active="-1" />
-    <div class="content-container">
+    <div class="content-container animated fadeInUp">
       <h3>重置密码</h3>
       <el-form ref="form" :model="form">
         <el-form-item>

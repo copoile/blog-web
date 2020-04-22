@@ -2,18 +2,16 @@
   <div class="container">
     <app-header :nav-item-active="3" />
     <div class="content-container">
-      <transition name="fade">
-        <ul class="list">
-          <li v-for="(item, index) in list" :key="index" class="item">
-            <a :href="item.url" target="_blank">
-              <div class="logo-box">
-                <img :src="item.icon">
-              </div>
-              <div class="content-box">{{ item.name }}</div>
-            </a>
-          </li>
-        </ul>
-      </transition>
+      <ul class="list animated fadeIn">
+        <li v-for="(item, index) in list" :key="index" class="item">
+          <a :href="item.url" target="_blank">
+            <div class="logo-box">
+              <img :src="item.icon">
+            </div>
+            <div class="content-box">{{ item.name }}</div>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </template>

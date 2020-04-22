@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <app-header :nav-item-active="-1" />
-    <div class="content-container markdown-body">
+    <div class="content-container markdown-body animated fadeIn">
       <h1 style="text-align: center;">悦读分享隐私政策</h1>
       <h3>导言</h3>
       <p>本站点尊重并保护所有使用服务用户的个人隐私权。为了给您提供更准确、更有个性化的服务，本站点会按照本隐私权政策的规定使用和披露您的个人信息。但本站点将以高度的勤勉、审慎义务对待这些信息。除本隐私权政策另有规定外，在未征得您事先许可的情况下，本应用不会将这些信息对外披露或向第三方提供。</p>

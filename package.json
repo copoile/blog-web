@@ -3,7 +3,7 @@
   "version": "4.2.1",
   "description": "a blog web project",
   "author": "yaohw<yaohw484@gmail.com>",
-  "license": "MIT",
+  "license": "Apache",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build:prod": "vue-cli-service build",
@@ -15,6 +15,7 @@
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml"
   },
   "dependencies": {
+    "animate.css": "^3.7.2",
     "axios": "0.18.1",
     "babel-preset-env": "^1.7.0",
     "element-ui": "^2.13.0",

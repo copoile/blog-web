@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="head">
-      <i class="el-icon-refresh icon-refresh" @click="refresh" />
+      <el-button type="primary" size="mini" icon="el-icon-refresh" class="icon-refresh" circle @click="refresh" />
     </div>
     <el-table v-loading="loading" :data="tableData" border style="width: 100%" size="medium">
       <el-table-column type="expand">
@@ -31,7 +31,6 @@
       <el-table-column prop="title" label="标题" min-width="320" align="center" />
       <el-table-column prop="categoryName" label="分类" width="110" align="center" />
       <el-table-column label="标签" width="120" align="center">
-
 
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
@@ -96,7 +95,7 @@ export default {
     },
     // 编辑
     handleEdit(row) {
-      this.$prompt('请输入分数', {
+      this.$prompt('请输入序号', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         showClose: false,
@@ -115,7 +114,7 @@ export default {
         )
       }).catch(() => {
         // TODO
-      });
+      })
     },
 
     // 删除
@@ -180,9 +179,8 @@ export default {
       right: 20px;
       top: 50%;
       transform: translateY(-50%);
-      color: #007fff;
+      color: #fff;
       font-weight: 700;
-      font-size: 20px;
 
       @media screen and (max-width: 922px){
         display: none;

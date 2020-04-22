@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <app-header :nav-item-active="-1" />
-    <div class="content-container">
+    <div class="content-container animated fadeInUp">
       <h3>绑定邮箱</h3>
       <el-form v-show="!success" :model="form">
         <el-form-item>

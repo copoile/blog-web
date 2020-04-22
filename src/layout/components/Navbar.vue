@@ -28,7 +28,7 @@
     <el-dialog
       title="修改密码"
       top="30vh"
-      width="300px"
+      width="320px"
       :modal="true"
       :visible.sync="visible"
       :modal-append-to-body="false"

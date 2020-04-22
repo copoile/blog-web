@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <app-header :nav-item-active="-1" />
-    <div class="content-container">
+    <div class="content-container animated fadeInUp">
       <h3>更换手机号</h3>
       <el-steps :active="active" align-center>
         <el-step title="验证身份" icon="el-icon-unlock" />

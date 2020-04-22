@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <app-header :nav-item-active="-1" />
-    <div class="content-container markdown-body">
+    <div class="content-container markdown-body animated fadeIn">
       <h1 style="text-align: center;">悦读分享用户协议</h1>
       <h3>导言</h3>
       <p>欢迎使用“悦读分享”以及相关服务！</p>

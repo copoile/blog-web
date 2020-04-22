@@ -9,7 +9,7 @@
       </el-select>
       <el-input v-model="title" style="width: 120px;" placeholder="请输入标题" size="small" clearable />
       <el-button type="primary" size="small" icon="el-icon-search" @click="search">搜索</el-button>
-      <i class="el-icon-refresh icon-refresh" @click="refresh" />
+      <el-button type="primary" size="mini" icon="el-icon-refresh" class="icon-refresh" circle @click="refresh" />
     </div>
     <el-table v-loading="loading" :data="tableData" border style="width: 100%" size="medium">
       <el-table-column type="expand">
@@ -241,9 +241,8 @@ export default {
       right: 20px;
       top: 50%;
       transform: translateY(-50%);
-      color: #007fff;
+      color: #fff;
       font-weight: 700;
-      font-size: 20px;
 
       @media screen and (max-width: 922px){
         display: none;

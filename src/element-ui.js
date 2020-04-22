@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import 'element-ui/lib/theme-chalk/index.css'
 import {
   Pagination,
   Dialog,
@@ -14,14 +13,10 @@ import {
   Input,
   InputNumber,
   Radio,
-  RadioGroup,
-  RadioButton,
   Checkbox,
-  CheckboxButton,
   Switch,
   Select,
   Option,
-  OptionGroup,
   Button,
   ButtonGroup,
   Table,
@@ -64,14 +59,10 @@ Vue.use(MenuItemGroup)
 Vue.use(Input)
 Vue.use(InputNumber)
 Vue.use(Radio)
-Vue.use(RadioGroup)
-Vue.use(RadioButton)
 Vue.use(Checkbox)
-Vue.use(CheckboxButton)
 Vue.use(Switch)
 Vue.use(Select)
 Vue.use(Option)
-Vue.use(OptionGroup);
 Vue.use(Button);
 Vue.use(ButtonGroup)
 Vue.use(Table)
@@ -95,7 +86,10 @@ Vue.use(Aside)
 Vue.use(Timeline)
 Vue.use(TimelineItem)
 Vue.use(Image)
+Vue.use(Loading)
+// 这里有个奇怪的bug,需要复值，要不然报is not defined
+const MessageBox1 = MessageBox
 
-Vue.prototype.$loading = Loading.service
-Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox1.confirm
+Vue.prototype.$prompt = MessageBox1.prompt
