@@ -8,9 +8,9 @@
       <blockquote><p>医生说我牙不好，怕是以后只能吃软饭了，所以有没有那种，就是那种能包.......那没有的话我等下再来问下。</p>
       </blockquote>
       <h3>宗旨</h3>
-      <p>本博客宗旨主要分享作者在生活和工作中读过的好文章，以及作者在生活和工作过程中遇到的一些问题的记录，一些心得以及总结的输出。希望通过博客记录的这种方式沉淀下自己，同时也希望能帮到更多的人，交到更多志同道合的朋友，聊聊<code>哲学</code>，谈谈<code>橘子</code>。</p>
+      <p>本博客宗旨主要分享作者在生活和工作中读过的好文章，以及作者在生活和工作过程中遇到的一些问题的记录，一些心得以及总结的输出。希望通过博客记录的这种方式沉淀下自己，同时也希望能帮到更多的人，交到更多志同道合的朋友，聊聊<code>哲学♂</code>，谈谈<code>橘子</code>。</p>
       <h3>项目开源</h3>
-      <p>项目包括前后端，都是博主自己写的，前端项目使用Vue + Element-UI编写，后端使用SpringBoot + MyBatis-Plus + Security搭建的博客服务Api。项目目前都已在Github上开源，欢迎star哦～</p>
+      <p>项目包括前后端，都是博主自己写的，前端项目使用Vue全家桶 + Element-UI编写，后端使用SpringBoot + MyBatis-Plus + Security搭建的博客服务Api。项目目前都已在Github上开源，欢迎star哦～</p>
       <ul>
       <li>前端项目：<a href='https://github.com/copoile/blog-web' target="_blank">https://github.com/copoile/blog-web</a></li>
       <li>后端项目：<a href='https://github.com/copoile/blog-api' target="_blank">https://github.com/copoile/blog-api</a></li>

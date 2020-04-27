@@ -1,11 +1,5 @@
 let callbacks = []
 
-function loadedTinymce() {
-  // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2144
-  // check is successfully downloaded script
-  return window.tinymce
-}
-
 const dynamicLoadScript = (src, callback) => {
   const existingScript = document.getElementById(src)
   const cb = callback || function() {}
@@ -21,11 +15,7 @@ const dynamicLoadScript = (src, callback) => {
   }
 
   if (existingScript && cb) {
-    if (loadedTinymce()) {
-      cb(null, existingScript)
-    } else {
       callbacks.push(cb)
-    }
   }
 
   function stdOnEnd(script) {
