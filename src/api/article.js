@@ -25,6 +25,18 @@ export function pageArticle(params) {
 }
 
 /**
+ * 状态修改
+ * @param {Object} params 
+ */
+export function updateStatus(params) {
+  return request({
+    url: '/article/status/update',
+    method: 'post',
+    params: params
+  })
+}
+
+/**
  * 分页获取已发布文章（前台）
  * @param {Object} params
  */

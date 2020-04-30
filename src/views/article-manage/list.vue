@@ -49,11 +49,14 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column label="状态" width="110" align="center">
+      <el-table-column label="发布" width="110" align="center">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status === 0 ? 'success' : scope.row.status === 1 ? 'primary' : 'danger'">
-            {{ scope.row.status === 0 ? '已发布' : scope.row.status === 1 ? '待发布': '已删除' }}
-          </el-tag>
+          <el-switch
+            v-model="scope.row.published"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            @change="statusChange(scope.row)"
+          />
         </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" min-width="230">
@@ -80,7 +83,7 @@
 
 <script>
 import { tagList } from '@/api/tag.js'
-import { pageArticle, addRecommend, deleteArticle } from '@/api/article.js'
+import { pageArticle, addRecommend, deleteArticle, updateStatus } from '@/api/article.js'
 import { categoryList } from '@/api/category.js'
 import ArticlePreview from './components/ArticlePreview.vue'
 export default {
@@ -143,13 +146,15 @@ export default {
         current: this.pageNum,
         size: this.pageSize,
         categoryId: this.categoryId,
-        tagId: this.tagId,
-        title: this.title
+        tagId: this.tagId ? this.tagId : null,
+        title: this.title ? this.title : null
       }
       pageArticle(params).then(
         res => {
           this.total = res.data.total
-          this.tableData = res.data.records
+          const records = res.data.records
+          records.forEach(ele => { ele.published = ele.status === 0 })
+          this.tableData = records
           this.loading = false
         },
         error => {
@@ -173,6 +178,15 @@ export default {
           id: row.id
         }
       })
+    },
+
+    // 状态修改:发布|暂存
+    statusChange(row) {
+      const params = {
+        articleId: row.id,
+        status: row.published ? 0 : 1
+      }
+      updateStatus(params)
     },
 
     // 删除
