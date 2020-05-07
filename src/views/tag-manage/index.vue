@@ -98,16 +98,25 @@ export default {
 
     // 删除
     handleDelete(row) {
-      deleteTag(row.id).then(
-        res => {
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          })
-          this.pageNum = 1
-          this.loadData()
-        }
-      )
+      this.$confirm('确定删除该标签吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        showClose: false,
+        type: 'warning'
+      }).then(() => {
+        deleteTag(row.id).then(
+          res => {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            this.pageNum = 1
+            this.loadData()
+          }
+        )
+      }).catch(() => {
+        // TODO
+      })
     },
 
     // 编辑保存

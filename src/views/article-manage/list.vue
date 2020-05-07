@@ -191,16 +191,25 @@ export default {
 
     // 删除
     handleDelete(row) {
-      deleteArticle(row.id).then(
-        res => {
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          })
-          this.pageNum = 1
-          this.loadData()
-        }
-      )
+      this.$confirm('确定删除该篇文章吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        showClose: false,
+        type: 'warning'
+      }).then(() => {
+        deleteArticle(row.id).then(
+          res => {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            this.pageNum = 1
+            this.loadData()
+          }
+        )
+      }).catch(() => {
+        // TODO
+      })
     },
 
     // 文章预览

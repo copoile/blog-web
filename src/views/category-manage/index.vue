@@ -117,16 +117,25 @@ export default {
 
     // 删除
     handleDelete(row) {
-      deleteCategory(row.id).then(
-        res => {
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          })
-          this.pageNum = 1
-          this.loadData()
-        }
-      )
+      this.$confirm('确定删除该分类吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        showClose: false,
+        type: 'warning'
+      }).then(() => {
+        deleteCategory(row.id).then(
+          res => {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            this.pageNum = 1
+            this.loadData()
+          }
+        )
+      }).catch(() => {
+        // TODO
+      })
     },
 
     // 分页页码更改事件

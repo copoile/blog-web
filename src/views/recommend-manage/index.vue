@@ -119,15 +119,24 @@ export default {
 
     // 删除
     handleDelete(row) {
-      deleteRecommend(row.id).then(
-        res => {
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          })
-          this.loadData()
-        }
-      )
+      this.$confirm('确定删除该推荐吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        showClose: false,
+        type: 'warning'
+      }).then(() => {
+        deleteRecommend(row.id).then(
+          res => {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            this.loadData()
+          }
+        )
+      }).catch(() => {
+        // TODO
+      })
     },
 
     // 文章预览

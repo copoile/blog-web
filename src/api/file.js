@@ -7,3 +7,11 @@ import request from '@/utils/request'
 export function deleteFile(params) {
   return request.delete('/file/delete', { params })
 }
+
+/**
+ * 分页获取文件
+ * @param {Object} params
+ */
+export function pageFile(params) {
+  return request.get('/file/page', { params })
+}

@@ -274,6 +274,20 @@ export const asyncRoutes = [
       }
     }]
   },
+  {
+    path: '/file',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'File',
+      component: () => import('@/views/file-manage/index'),
+      meta: {
+        title: '文件管理',
+        icon: 'file-manage',
+        roles: ['admin']
+      }
+    }]
+  },
   // 404 页面必须放到最后！！！
   {
     path: '*',
