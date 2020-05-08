@@ -198,7 +198,7 @@ export default {
       }
 
       .art-title {
-        font-size: 28px;
+        font-size: 25px;
         font-weight: 700;
         color: #222;
       }

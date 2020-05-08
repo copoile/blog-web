@@ -4,7 +4,7 @@
     <div class="content-container markdown-body animated fadeIn">
       <h3>简介</h3>
       <p>本站点主要维护人小姚同学<code>正在寻找女管理,会嘤嘤的那种</code>，一个主web开发90后普通程序员，然后活在这个不痛不痒的世界里。因为以前比较喜欢玩电脑，而且觉得写代码很牛逼的亚子，所以大学学了计算机，之后便在程序袁的不归路上越走越远......  </p>
-      <p>于我个人而言，编程算是一个爱好<code>我永远喜欢编程.jpg</code>，编程这件事能让我孜孜不倦的做下去，很趣的的一件事情。其实我也怕当爱好成为我的工作后会失去原本属于这份爱好的兴趣,但我更无法忍受我的工作是我不喜欢做事情，我也没信心做好任何一份我不热爱的工作。编程并不是一件容易的事情，头秃卡bug是常有的事,<code>沧桑脸.jpg</code> 但是能怎么办呢，平凡人生的常态就是这样,某得办法，都是为了生活，且行且努力吧。希望能通过我自己的一点点努力拉近自己理想生活的距离，出任CEO，迎娶白富美，走上人生巅峰​(<span class="ql-emojiblot" data-name="peach">﻿<span contenteditable="false"><span class="ap ap-peach">?</span></span>﻿</span>真好吃，甚至有点想开潘<span class="ql-emojiblot" data-name="peach">﻿<span contenteditable="false"><span class="ap ap-peach">?</span></span>﻿</span>大会)。  </p>
+      <p>于我个人而言，编程算是一个爱好<code>我永远喜欢编程.jpg</code>，编程这件事能让我孜孜不倦的做下去，挺趣的一件事情。其实我也怕当爱好成为我的工作后会失去原本属于这份爱好的兴趣,但我更无法忍受我的工作是我不喜欢做事情，我也没信心做好任何一份我不热爱的工作。编程并不是一件容易的事情，头秃卡bug是常有的事,<code>沧桑脸.jpg</code> 但是能怎么办呢，平凡人生的常态就是这样,某得办法，都是为了生活，且行且努力吧。希望能通过我自己的一点点努力拉近自己理想生活的距离，出任CEO，迎娶白富美，走上人生巅峰​(<span class="ql-emojiblot" data-name="peach">﻿<span contenteditable="false"><span class="ap ap-peach">?</span></span>﻿</span>真好吃，甚至有点想开潘<span class="ql-emojiblot" data-name="peach">﻿<span contenteditable="false"><span class="ap ap-peach">?</span></span>﻿</span>大会)。  </p>
       <blockquote><p>医生说我牙不好，怕是以后只能吃软饭了，所以有没有那种，就是那种能包.......那没有的话我等下再来问下。</p>
       </blockquote>
       <h3>宗旨</h3>
