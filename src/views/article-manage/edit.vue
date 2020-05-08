@@ -34,7 +34,7 @@
       ref="md"
       v-model="content"
       style="min-height: 600px"
-      code-style="qtcreator_dark"
+      code-style="gradient-dark"
       :ishljs="true"
       @imgAdd="mdImgUpload"
       @imgDel="mdImgDel"

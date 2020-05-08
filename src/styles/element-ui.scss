@@ -24,6 +24,11 @@
   margin: 0 auto;
 }
 
+// 手机华为自带浏览器bug
+.el-dialog__wrapper {
+  overflow: hidden;
+}
+
 // refine element ui el-dialog__body
 .el-dialog__body {
   padding: 10px 25px 15px 25px;

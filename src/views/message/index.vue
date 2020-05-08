@@ -565,6 +565,10 @@ export default {
               width: 82.9%;
             }
 
+            @media screen and (max-width: 375px){
+              width: 79.5%;
+            }
+
             .top {
               height: 25px;
               width: 100%;
