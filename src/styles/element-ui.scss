@@ -22,6 +22,8 @@
   left: 0;
   position: relative;
   margin: 0 auto;
+  max-height: 90vh;
+  overflow-y: scroll;
 }
 
 // 手机华为自带浏览器bug

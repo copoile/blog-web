@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    top="10vh"
+    top="5vh"
     width="720px"
     :destroy-on-close="true"
     :show-close="false"
