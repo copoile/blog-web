@@ -43,7 +43,8 @@ import {
   Loading,
   MessageBox,
   Message,
-  Notification
+  Notification,
+  Drawer
 } from 'element-ui'
 
 Vue.use(Pagination)
@@ -87,6 +88,7 @@ Vue.use(Timeline)
 Vue.use(TimelineItem)
 Vue.use(Image)
 Vue.use(Loading)
+Vue.use(Drawer)
 // 这里有个奇怪的bug,需要复值，要不然报is not defined
 const MessageBox1 = MessageBox
 

@@ -189,7 +189,7 @@ export default {
         gender: false,
         brief: false
       },
-      path: 'http://127.0.0.1:9090/user/avatar/update',
+      path: process.env.VUE_APP_BASE_API + '/avatar/update',
       files: [],
       loading: false,
       userInfo: '',
@@ -387,17 +387,17 @@ export default {
       }
       return isImg && isLt300KB
     },
-    
+
     // 邮箱脱敏
     sensitiveEmail(email) {
-     return email ? email.substr(0, 2) + '****' + email.substr(email.indexOf('@')) : ''
+      return email ? email.substr(0, 2) + '****' + email.substr(email.indexOf('@')) : ''
     },
-    
+
     // 手机号脱敏
     sensitiveMobile(mobile) {
       var str = '' + mobile
       var pat = /(\d{3})\d*(\d{4})/
-      return str ? str.replace(pat,'$1****$2') : ''
+      return str ? str.replace(pat, '$1****$2') : ''
     }
   }
 }
