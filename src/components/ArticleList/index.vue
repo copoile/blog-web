@@ -8,9 +8,9 @@
   >
     <transition-group name="fade-list">
       <li v-for="(item, index) in list" :key="index" class="list-item">
-        <router-link to="/" class="wrap-img">
+        <div class="wrap-img">
           <img :src="item.cover">
-        </router-link>
+        </div>
         <div class="wrapper-meta">
           <div class="avatar-wrapper">
             <img class="user-avatar" :src="item.user.avatar">
@@ -136,7 +136,6 @@ export default {
       top: 50%;
       transform: translateY(-50%);
       right: 18px;
-      cursor: pointer;
       overflow: hidden;
       border-radius: 4px;
       border: 1px solid #f3f7fa;
