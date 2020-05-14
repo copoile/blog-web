@@ -40,7 +40,13 @@ router.beforeEach(async(to, from, next) => {
         NProgress.done()
       }
       if (result && hasAccessToken) {
-        await store.dispatch('user/getUserInfo')
+         // 获取用户线信息，从用户信息中获取角色
+        const { roles } = await store.dispatch('user/getUserInfo')
+        const hasRoles = store.getters.roles && store.getters.roles.length > 0
+        // 根据角色动态加载路由
+        const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+        // 添加动态路由
+        router.addRoutes(accessRoutes)
         next('/user/info')
         NProgress.done()
       }
