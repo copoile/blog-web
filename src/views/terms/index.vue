@@ -2,7 +2,7 @@
   <div class="container">
     <app-header :nav-item-active="-1" />
     <div class="content-container markdown-body animated fadeIn">
-      <h1 style="text-align: center;">悦读分享用户协议</h1>
+      <h1 style="text-align: center;">个人阅读分享用户协议</h1>
       <h3>导言</h3>
       <p>欢迎使用“悦读分享”以及相关服务！</p>
       <p>为了更好地向您提供服务，请您在使用“悦读分享”及相关服务之前，认真阅读并理解本协议。</p>
