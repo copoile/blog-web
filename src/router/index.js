@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
-import { bindEmail } from '@/api/user.js'
 Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
@@ -21,31 +20,6 @@ import Layout from '@/layout'
     activeMenu: '/example/list'  如果设置，则导航栏将高亮显示
   }
  */
-
-/**
- * code绑定邮箱路由，code绑定邮箱，绑定成功重定向用户信息
- * 绑定失败，重定向链接失效页面，暂时没写链接失效页面
- */
-const emailBindRoute =  {
-  path: '/email-bind',
-  redirect: to => {
-      const code = to.query.code
-      if (code) {
-        const params = { code: code }
-        bindEmail(params).then(
-          res => {
-            store.dispatch('user/getUserInfo')
-            return '/user/info'
-          },
-          error => {
-            return '/404'
-          }
-        )
-      }
-      return '/404'
-    },
-  hidden: true
-}
 
 /**
  * 常量路由，所有用户可见
@@ -121,8 +95,11 @@ export const constantRoutes = [
     component: () => import('@/views/search/index'),
     hidden: true
   },
-  // 邮箱绑定路由
-  emailBindRoute,
+  {
+    path: '/email-bind',
+    component: () => import('@/views/404'),
+    hidden: true
+  },
   {
     path: '/404',
     component: () => import('@/views/404'),

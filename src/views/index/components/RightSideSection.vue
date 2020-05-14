@@ -52,7 +52,7 @@
         </ul>
         <ul class="more-list">
           <li class="item">
-            ©2020 阅读分享
+            ©2020 个人阅读分享
           </li>
         </ul>
         <ul class="more-list">

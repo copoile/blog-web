@@ -24,7 +24,7 @@
             </el-dropdown>
           </div>
           <img class="logo-img" src="https://poile-img.nos-eastchina1.126.net/logo.png">
-          <span class="logo-title">悦读分享</span>
+          <span class="logo-title">个人阅读分享</span>
         </div>
 
         <nav class="main-nav">

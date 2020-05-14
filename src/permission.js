@@ -6,21 +6,53 @@ import 'nprogress/nprogress.css'
 import { getAccessToken } from '@/utils/auth'
 import getPageTitle from '@/utils/get-page-title'
 import pathToRegexp from 'path-to-regexp'
+import { bindEmail } from '@/api/user.js'
 
 NProgress.configure({ showSpinner: false })
 // 免登录白名单
 const whiteList = ['/', '/tag', '/category', '/archives',
-'/message', '/friend-link', '/article/:id', '/reset-password', '/about', '/search', '/terms', '/privacy']
+'/message', '/friend-link', '/article/:id', '/reset-password', '/about', '/search', '/terms', '/privacy', '/email-bind']
 
 router.beforeEach(async(to, from, next) => {
   // 进度条开始
   NProgress.start()
 
-  // 页面标题
-  document.title = getPageTitle(to.meta.title)
-
   // 获取AccessToken，判断是否已登录
   const hasAccessToken = getAccessToken()
+
+  // 是否邮箱绑定路由, 邮箱绑定成功如果有token则刷新用户信息
+  // 并且跳转用户信息页，没token跳回首页，绑定失败或没获取到code跳404
+  if (pathToRegexp('/email-bind').exec(to.path)) {
+    const code = to.query.code
+    if (code) {
+      const params = { code: code }
+      let result = true
+      await bindEmail(params).then(
+        res => {
+          result = true
+        },
+        error => {
+          result = false
+        }
+      )
+      if (!result) {
+        next('/404')
+        NProgress.done()
+      }
+      if (result && hasAccessToken) {
+        await store.dispatch('user/getUserInfo')
+        next('/user/info')
+        NProgress.done()
+      }
+      if (result && !hasAccessToken) {
+        next('/')
+        NProgress.done()
+      }
+    }
+  }
+
+  // 页面标题
+  document.title = getPageTitle(to.meta.title)
 
   if (hasAccessToken) {
       // 获取角色，判断是否已调获取用户信息接口
@@ -44,7 +76,7 @@ router.beforeEach(async(to, from, next) => {
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
           // 跳回首页
-          next(`/`)
+          next('/')
           NProgress.done()
         }
       }
@@ -56,7 +88,7 @@ router.beforeEach(async(to, from, next) => {
       next()
     } else {
       // 跳回首页
-      next(`/`)
+      next('/')
       NProgress.done()
     }
   }

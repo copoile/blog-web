@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: '悦读分享',
+      title: '个人阅读分享',
       logo: 'https://poile-img.nos-eastchina1.126.net/white-logo.png'
     }
   }
