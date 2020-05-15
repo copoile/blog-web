@@ -18,7 +18,7 @@
       <p>若本号内容有涉及版权问题请及时联系博主进行整改，站内错误或是其他内容建议也欢迎反馈到博主。</p>
       <h3>联系方式</h3>
       <ul>
-        <li>邮箱：<a href="mailto:yaohw484gmail.com">yaohw484gmail.com</a></li>
+        <li>邮箱：<a href="mailto:yaohw484@gmail.com">yaohw484gmail.com</a></li>
         <li>微信：poile</li>
       </ul>
     </div>
