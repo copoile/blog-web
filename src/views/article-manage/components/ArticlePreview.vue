@@ -15,7 +15,7 @@
         <i class="el-dialog__close el-icon el-icon-close" />
       </button>
     </span>
-    <div class="content markdown-body" v-html="article.htmlContent" v-loading="loading" />
+    <div v-loading="loading" class="content markdown-body" v-html="article.htmlContent" />
   </el-dialog>
 </template>
 
@@ -68,5 +68,10 @@ export default {
   padding: 15px;
   min-height: 70vh;
   text-align: left;
+}
+
+/deep/ .el-dialog {
+  max-height: 90vh;
+  overflow-y: scroll;
 }
 </style>

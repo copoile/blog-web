@@ -19,7 +19,7 @@ export function pageCategory(params) {
  * 获取分类列表
  */
 export function categoryList() {
-	return request.get('/category/list')
+  return request.get('/category/list')
 }
 
 /**
@@ -28,10 +28,10 @@ export function categoryList() {
  */
 export function updateCategory(params) {
   return request({
-      url: '/category/update',
-      method: 'post',
-      params: params
-    })
+    url: '/category/update',
+    method: 'post',
+    params: params
+  })
 }
 
 /**

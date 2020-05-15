@@ -33,10 +33,10 @@ export function tagList() {
  */
 export function updateTag(params) {
   return request({
-      url: '/tag/update',
-      method: 'post',
-      params: params
-    })
+    url: '/tag/update',
+    method: 'post',
+    params: params
+  })
 }
 
 /**

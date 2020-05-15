@@ -18,11 +18,9 @@ import {
   Select,
   Option,
   Button,
-  ButtonGroup,
   Table,
   TableColumn,
   DatePicker,
-  TimeSelect,
   Popover,
   Breadcrumb,
   BreadcrumbItem,
@@ -39,7 +37,6 @@ import {
   Aside,
   Timeline,
   TimelineItem,
-  Image,
   Loading,
   MessageBox,
   Message,
@@ -64,12 +61,10 @@ Vue.use(Checkbox)
 Vue.use(Switch)
 Vue.use(Select)
 Vue.use(Option)
-Vue.use(Button);
-Vue.use(ButtonGroup)
+Vue.use(Button)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(DatePicker)
-Vue.use(TimeSelect)
 Vue.use(Popover)
 Vue.use(Breadcrumb)
 Vue.use(BreadcrumbItem)
@@ -86,7 +81,6 @@ Vue.use(Step)
 Vue.use(Aside)
 Vue.use(Timeline)
 Vue.use(TimelineItem)
-Vue.use(Image)
 Vue.use(Loading)
 Vue.use(Drawer)
 // 这里有个奇怪的bug,需要复值，要不然报is not defined

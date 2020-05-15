@@ -20,16 +20,15 @@ export function accountLogin(params) {
  * @param {Object} params
  */
 export function codeLogin(params) {
-	return request({
-	  url: '/mobile/login',
-	  headers: {
-	    'Authorization': 'Basic cGM6MTIzNDU2'
-	  },
-	  method: 'post',
-	  params: params
-	})
+  return request({
+    url: '/mobile/login',
+    headers: {
+      'Authorization': 'Basic cGM6MTIzNDU2'
+    },
+    method: 'post',
+    params: params
+  })
 }
-
 
 /**
  * @description 获取用户信息
@@ -79,10 +78,10 @@ export function updateUser(data) {
  */
 export function updatePassword(params) {
   return request({
-      url: '/user/password/update',
-      method: 'post',
-      params: params
-    })
+    url: '/user/password/update',
+    method: 'post',
+    params: params
+  })
 }
 
 /**
@@ -91,10 +90,10 @@ export function updatePassword(params) {
  */
 export function resetPassword(params) {
   return request({
-      url: '/user/password/reset',
-      method: 'post',
-      params: params
-    })
+    url: '/user/password/reset',
+    method: 'post',
+    params: params
+  })
 }
 
 /**
@@ -103,10 +102,10 @@ export function resetPassword(params) {
  */
 export function validateEmail(params) {
   return request({
-      url: '/user/email/validate',
-      method: 'post',
-      params: params
-    })
+    url: '/user/email/validate',
+    method: 'post',
+    params: params
+  })
 }
 
 /**
@@ -115,10 +114,10 @@ export function validateEmail(params) {
  */
 export function bindEmail(params) {
   return request({
-      url: '/user/email/bind',
-      method: 'post',
-      params: params
-    })
+    url: '/user/email/bind',
+    method: 'post',
+    params: params
+  })
 }
 
 /**
@@ -127,10 +126,10 @@ export function bindEmail(params) {
  */
 export function validateMobile(params) {
   return request({
-      url: '/user/mobile/validate',
-      method: 'post',
-      params: params
-    })
+    url: '/user/mobile/validate',
+    method: 'post',
+    params: params
+  })
 }
 
 /**
@@ -139,10 +138,10 @@ export function validateMobile(params) {
  */
 export function bindMobile(params) {
   return request({
-      url: '/user/mobile/rebind',
-      method: 'post',
-      params: params
-    })
+    url: '/user/mobile/rebind',
+    method: 'post',
+    params: params
+  })
 }
 
 /**
@@ -150,7 +149,7 @@ export function bindMobile(params) {
  * @param {Object} params
  */
 export function pageUser(params) {
-  return request.get('/user/page', params)
+  return request.get('/user/page', { params })
 }
 
 /**
@@ -159,8 +158,8 @@ export function pageUser(params) {
  */
 export function updateStatus(params) {
   return request({
-      url: '/user/status/update',
-      method: 'post',
-      params: params
-    })
+    url: '/user/status/update',
+    method: 'post',
+    params: params
+  })
 }
