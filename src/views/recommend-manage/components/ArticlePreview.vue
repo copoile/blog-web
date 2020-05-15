@@ -69,4 +69,9 @@ export default {
   min-height: 70vh;
   text-align: left;
 }
+
+/deep/ .el-dialog {
+  max-height: 90vh;
+  overflow-y: scroll;
+}
 </style>
