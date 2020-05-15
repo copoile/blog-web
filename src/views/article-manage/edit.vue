@@ -209,7 +209,7 @@ export default {
       var formdata = new FormData()
       formdata.append('file', $file)
       request({
-        url: 'http://127.0.0.1:9090/file/upload',
+        url: process.env.VUE_APP_BASE_API + '/file/upload',
         method: 'post',
         data: formdata,
         headers: { 'Content-Type': 'multipart/form-data' }

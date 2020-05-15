@@ -189,7 +189,7 @@ export default {
         gender: false,
         brief: false
       },
-      path: process.env.VUE_APP_BASE_API + '/avatar/update',
+      path: process.env.VUE_APP_BASE_API + '/user/avatar/update',
       files: [],
       loading: false,
       userInfo: '',
