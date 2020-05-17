@@ -8,8 +8,8 @@
 
 **在线接口文档**  
 
-国内: [https://copoile.github.io](https://copoile.github.io)  
-国外: [https://copoile.github.io](http://copoile.gitee.io/blog-doc) 
+国外: [https://copoile.github.io](https://copoile.github.io)  
+国内: [http://copoile.gitee.io/blog-doc](http://copoile.gitee.io/blog-doc) 
 
 > Api文档使用GitBook编写，文档源码地址: [https://github.com/copoile/blog-api-doc.git](https://github.com/copoile/blog-api-doc.git)
 
