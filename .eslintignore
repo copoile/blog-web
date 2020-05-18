@@ -2,3 +2,6 @@ build/*.js
 src/assets
 public
 dist
+src/views/about/*
+src/views/terms/*
+src/views/privacy/*
