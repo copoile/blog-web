@@ -14,6 +14,23 @@ const whiteList = ['/', '/tag', '/category', '/archives',
 '/message', '/friend-link', '/article/:id', '/reset-password', '/about', '/search', '/terms', '/privacy', '/email-bind']
 
 router.beforeEach(async(to, from, next) => {
+
+  // 百度统计
+  if (window.location.hostname === 'www.poile.cn' && to.path) {
+          if (window._hmt) {
+              window._hmt.push(['_trackPageview', '/#' + to.fullPath]);
+          } else {
+              var _hmt = [];
+              window._hmt = _hmt;
+              (function () {
+                  let hm = document.createElement('script');
+                  hm.src = 'https://hm.baidu.com/hm.js?0365897af075de8b1b3ba64f3cc7b423';
+                  let s = document.getElementsByTagName('script')[0];
+                  s.parentNode.insertBefore(hm, s);
+              })();
+          }
+      }
+
   // 进度条开始
   NProgress.start()
 

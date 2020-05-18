@@ -65,7 +65,7 @@
             备案号
           </li>
           <li class="item">
-            <a href="http://www.beian.miit.gov.cn/">
+            <a href="http://www.beian.miit.gov.cn/" target="_blank">
               粤ICP备19083123号
             </a>
           </li>
