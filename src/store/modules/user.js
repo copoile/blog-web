@@ -1,7 +1,7 @@
 import { accountLogin, codeLogin, logout, getUserInfo } from '@/api/user'
 import { getAccessToken, setAccessToken, removeAccessToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
-
+import { thirdLogin } from '@/api/user.js'
 const state = {
   token: getAccessToken(),
   nickname: '',
@@ -29,6 +29,22 @@ const actions = {
   accountLogin({ commit }, params) {
     return new Promise((resolve, reject) => {
       accountLogin(params).then(response => {
+        const { data } = response
+        commit('SET_TOKEN', data.access_token)
+        setAccessToken(data.access_token)
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+  
+  /**
+   * 第三方登录
+   */
+  thirdLogin({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      thirdLogin(params).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.access_token)
         setAccessToken(data.access_token)

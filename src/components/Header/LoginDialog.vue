@@ -1,9 +1,30 @@
 <!-- 登录弹框组件 -->
 <template>
-  <el-dialog top="25vh" width="318px" custom-class="login-dialog" :close-on-click-modal="false" :show-close="false" :visible="login_visible" :lock-scroll="false">
+  <el-dialog
+    top="25vh"
+    width="318px"
+    custom-class="login-dialog"
+    :close-on-click-modal="false"
+    :show-close="false"
+    :visible="login_visible"
+    :lock-scroll="false"
+  >
     <span slot="title">
-      <span v-for="(item, index) in tabs" :key="index" class="btn tab" :class="{ active: active === index }" @click="tabClick(index)">{{ item }}</span>
-      <button type="button" aria-label="Close" class="el-dialog__headerbtn" @click="bClose"><i class="el-dialog__close el-icon el-icon-close" /></button>
+      <span
+        v-for="(item, index) in tabs"
+        :key="index"
+        class="btn tab"
+        :class="{ active: active === index }"
+        @click="tabClick(index)"
+      >{{ item }}</span>
+      <button
+        type="button"
+        aria-label="Close"
+        class="el-dialog__headerbtn"
+        @click="bClose"
+      >
+        <i class="el-dialog__close el-icon el-icon-close" />
+      </button>
     </span>
 
     <el-input v-if="active === 0" v-model="username" placeholder="用户名或手机号" />
@@ -32,6 +53,18 @@
         <span class="btn" @click="privacy">隐私政策</span>
       </span>
     </p>
+    <div class="third-login">
+      <p class="name">社交账号登录</p>
+      <div class="icon-box">
+        <svg-icon icon-class="qq-login" class="icon" />
+        <a href="https://github.com/login/oauth/authorize?client_id=bded74b0f0213e6d1a85&scope=user:email&state=2">
+          <svg-icon icon-class="github-login" class="icon" />
+        </a>
+        <a href="https://gitee.com/oauth/authorize?client_id=18348ed893d47d047a79fb0a395fe1c8c481720021096bc5afe2a90a4e6ec557&redirect_uri=https%3A%2F%2Fwww.poile.cn%2Foauth&response_type=code&state=3">
+          <svg-icon icon-class="gitee-login" class="icon" />
+        </a>
+      </div>
+    </div>
   </el-dialog>
 </template>
 
@@ -259,6 +292,48 @@ export default {
 
     .right {
       float: right;
+    }
+  }
+
+  .third-login {
+    width: 100%;
+
+    .name {
+      color: #767676;
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+      margin: 15px 0;
+
+      &:before {
+        content: "";
+        height: 1px;
+        background: grey;
+        flex: 1;
+        margin-right: 10px;
+      }
+
+      &:after {
+        content: "";
+        height: 1px;
+        flex: 1;
+        background: grey;
+        margin-left: 10px;
+      }
+    }
+
+    .icon-box {
+      display: flex;
+      box-sizing: border-box;
+      justify-content: center;
+      margin-top: 10px;
+      margin-bottom: 5px;
+
+      .icon {
+        height: 28px;
+        width: 28px;
+        margin: 0 15px;
+      }
     }
   }
 }

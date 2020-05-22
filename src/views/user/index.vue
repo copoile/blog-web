@@ -37,11 +37,14 @@
         <li class="item">
           <span class="label">用户名</span>
           <div class="input-wrapper">
-            <el-input v-model="userInfo.username" disabled placeholder="填写你的用户名" />
+            <el-input v-model="userInfo.username" disabled placeholder="未填写" />
           </div>
           <div class="action-box">
-            <el-button type="text" disabled style="color: #C0C4CC;">
+            <el-button v-if="userInfo.username" type="text" disabled style="color: #C0C4CC;">
               <span><i class="el-icon-lock" />不可修改</span>
+            </el-button>
+            <el-button v-else type="text" @click="usernamePrompt">
+              <span><i class="el-icon-lock" />立即填写</span>
             </el-button>
           </div>
         </li>
@@ -68,11 +71,14 @@
         <li class="item">
           <span class="label">手机号</span>
           <div class="input-wrapper">
-            <el-input v-model="form.mobile" disabled placeholder="绑定你的手机号" />
+            <el-input v-model="form.mobile" disabled placeholder="绑定手机号" />
           </div>
           <div class="action-box">
-            <router-link to="/rebind-mobile">
+            <router-link v-if="form.mobile" to="/rebind-mobile">
               <span><i class="el-icon-mobile-phone" />更改绑定</span>
+            </router-link>
+            <router-link v-else to="/rebind-mobile">
+              <span><i class="el-icon-mobile-phone" />立即绑定</span>
             </router-link>
           </div>
         </li>
@@ -388,6 +394,20 @@ export default {
       return isImg && isLt300KB
     },
 
+    // 用户名输入弹框
+    usernamePrompt() {
+      this.$prompt('字母开头，允许2-16字节，允许字母数字下划线，并且用户名成功填写后不允许修改。', '填写用户名', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /^[a-zA-Z][a-zA-Z0-9_]{1,15}$/,
+        inputErrorMessage: '用户名格式不正确'
+      }).then(({ value }) => {
+        console.log('value:' + value)
+      }).catch(() => {
+        // TODO
+      })
+    },
+
     // 邮箱脱敏
     sensitiveEmail(email) {
       return email ? email.substr(0, 2) + '****' + email.substr(email.indexOf('@')) : ''
@@ -395,9 +415,8 @@ export default {
 
     // 手机号脱敏
     sensitiveMobile(mobile) {
-      var str = '' + mobile
       var pat = /(\d{3})\d*(\d{4})/
-      return str ? str.replace(pat, '$1****$2') : ''
+      return mobile ? mobile.toString().replace(pat, '$1****$2') : ''
     }
   }
 }

@@ -11,7 +11,7 @@
         <img :src="item.avatar||defaultAvatar" class="avatar">
         <div class="content-box">
           <div class="row">昵称:&ensp;{{ item.nickname }}</div>
-          <div class="row">用户名:&ensp;{{ item.username }}</div>
+          <div class="row">用户名:&ensp;{{ item.username }}<span v-if="!item.username" style="color: #999;">未绑定</span></div>
           <div class="row">手机号:&ensp;{{ sensitiveMobile(item.mobile) }}<span v-if="!item.mobile" style="color: #999;">未绑定</span></div>
           <div class="row">邮箱:&ensp;{{ sensitiveEmail(item.email) }}<span v-if="!item.email" style="color: #999;">未绑定</span></div>
           <div class="row">性别:&ensp;{{ item.gender===1?'男':'女' }}</div>
@@ -105,14 +105,13 @@ export default {
 
     // 邮箱脱敏
     sensitiveEmail(email) {
-     return email?email.substr(0, 2) + '****' + email.substr(email.indexOf('@')) : ''
+      return email ? email.substr(0, 2) + '****' + email.substr(email.indexOf('@')) : ''
     },
-    
+
     // 手机号脱敏
     sensitiveMobile(mobile) {
-      var str = '' + mobile
       var pat = /(\d{3})\d*(\d{4})/
-      return str.replace(pat,'$1****$2')
+      return mobile ? mobile.toString().replace(pat, '$1****$2') : ''
     }
   }
 }

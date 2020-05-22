@@ -101,6 +101,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/oauth',
+    component: () => import('@/views/oauth'),
+    hidden: true
+  },
+  {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
@@ -283,6 +288,7 @@ const createRouter = () => new Router({
       return { x: 0, y: 0 }
     }
   },
+  mode: 'history',
   routes: constantRoutes
 })
 
