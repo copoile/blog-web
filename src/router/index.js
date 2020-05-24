@@ -76,6 +76,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/bind-mobile',
+    component: () => import('@/views/bind-mobile/index'),
+    hidden: true
+  },
+  {
     path: '/about',
     component: () => import('@/views/about/index'),
     hidden: true

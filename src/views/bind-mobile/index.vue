@@ -2,12 +2,7 @@
   <div class="container">
     <app-header :nav-item-active="-1" />
     <div class="content-container animated fadeInUp">
-      <h3>更换手机号</h3>
-      <el-steps :active="active" align-center>
-        <el-step title="验证身份" icon="el-icon-unlock" />
-        <el-step title="更换手机号" icon="el-icon-mobile-phone" />
-      </el-steps>
-
+      <h3>绑定手机号</h3>
       <el-form>
         <el-form-item>
           <el-input v-model="mobile" placeholder="输入手机号" />
@@ -31,7 +26,7 @@
             style="width: 100%;"
             :loading="loading"
             @click="submit"
-          >{{ active === 1 ? '下一步' : '提交' }}</el-button>
+          >提交</el-button>
         </el-form-item>
         <el-form-item style="text-align: center;">
           <router-link to="/" type="text" style="width: 100%;text-align: center;color: #007fff;">返回首页</router-link>
@@ -42,7 +37,7 @@
 </template>
 
 <script>
-import { validateMobile, rebindMobile } from '@/api/user.js'
+import { bindMobile } from '@/api/user.js'
 import AppHeader from '@/components/Header/index'
 import { validMobile } from '@/utils/validate.js'
 import { sendCode } from '@/api/code.js'
@@ -56,8 +51,7 @@ export default {
       code: '',
       mobile: '',
       codeCount: 0,
-      timer: null,
-      active: 1
+      timer: null
     }
   },
   methods: {
@@ -67,27 +61,11 @@ export default {
       if (this.vsubmit()) {
         this.loading = true
         const params = { mobile: this.mobile, code: this.code }
-        const active = this.active
-        if (active === 1) {
-          validateMobile(params).then(
+          bindMobile(params).then(
             res => {
               this.loading = false
-              this.active = 2
-              this.mobile = ''
-              this.code = ''
-              this.timer = null
-              this.codeCount = 0
-            },
-            error => {
-              console.error(error)
-              this.loading = false
-            }
-          )
-        } else {
-          rebindMobile(params).then(
-            res => {
               this.$message({
-                message: '更换成功',
+                message: '绑定成功',
                 type: 'success'
               })
               this.$store.dispatch('user/getUserInfo').then(res => this.$router.push('/user/info'))
@@ -97,7 +75,6 @@ export default {
               this.loading = false
             }
           )
-        }
       }
     },
 

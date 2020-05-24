@@ -151,7 +151,7 @@ export function validateMobile(params) {
  * 绑定新手机号
  * @param {Object} params
  */
-export function bindMobile(params) {
+export function rebindMobile(params) {
   return request({
     url: '/user/mobile/rebind',
     method: 'post',
@@ -177,4 +177,28 @@ export function updateStatus(params) {
     method: 'post',
     params: params
   })
+}
+
+/**
+ * 绑定用户名
+ * @param {Object}  params
+ */
+export function bindUsername(params) {
+  return request({
+    url: '/user/username/bind',
+    method: 'post',
+    params: params
+  })
+}
+
+/**
+ * 绑定手机号
+ * @param {Object} params
+ */
+export function bindMobile(params) {
+  return request({
+      url: '/user/mobile/bind',
+      method: 'post',
+      params: params
+    })
 }

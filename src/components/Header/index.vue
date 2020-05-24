@@ -71,6 +71,9 @@
                   <img :src="userInfo.avatar || defaultAvatar" class="user-avatar">
                 </div>
                 <el-dropdown-menu slot="dropdown">
+                  <router-link v-if="!userInfo.mobile" to="/bind-mobile">
+                    <el-dropdown-item>绑定手机号</el-dropdown-item>
+                  </router-link>
                   <router-link v-if="!userInfo.email" to="/email-validate">
                     <el-dropdown-item>绑定邮箱</el-dropdown-item>
                   </router-link>

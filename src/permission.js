@@ -103,14 +103,13 @@ router.beforeEach(async(to, from, next) => {
         }
       }
   } else {
-
     // 未登录，并且路径存在免登录白名单中
     const included = whiteList.some( ele => pathToRegexp(ele).exec(to.path) )
     if (included) {
       next()
     } else {
-      // 跳回首页
-      next('/')
+      const path = to.matched.length === 0 ? '/404' : '/'
+      next(path)
       NProgress.done()
     }
   }

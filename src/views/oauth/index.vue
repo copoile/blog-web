@@ -52,8 +52,9 @@ export default {
           this.$router.push('/')
           resolve()
         } catch (error) {
+          this.content = error
+          this.success = false
           this.loading = false
-          console.error(error)
           reject(error)
         }
       })

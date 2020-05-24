@@ -77,7 +77,7 @@
             <router-link v-if="form.mobile" to="/rebind-mobile">
               <span><i class="el-icon-mobile-phone" />更改绑定</span>
             </router-link>
-            <router-link v-else to="/rebind-mobile">
+            <router-link v-else to="/bind-mobile">
               <span><i class="el-icon-mobile-phone" />立即绑定</span>
             </router-link>
           </div>
@@ -174,7 +174,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { getAccessToken } from '@/utils/auth'
-import { updateUser } from '@/api/user.js'
+import { updateUser, bindUsername } from '@/api/user.js'
 export default {
   name: 'User',
   data() {
@@ -402,7 +402,16 @@ export default {
         inputPattern: /^[a-zA-Z][a-zA-Z0-9_]{1,15}$/,
         inputErrorMessage: '用户名格式不正确'
       }).then(({ value }) => {
-        console.log('value:' + value)
+        const params = { username: value }
+        bindUsername(params).then(
+          res => {
+            this.$message({
+              message: '绑定成功',
+              type: 'success'
+            })
+            this.$store.dispatch('user/getUserInfo').then(res => this.init())
+          }
+        )
       }).catch(() => {
         // TODO
       })
