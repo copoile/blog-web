@@ -67,6 +67,11 @@ npm install --registry=https://registry.npm.taobao.org
 npm run dev
 ```
 
+### 线上
+目前网站已正式上线，如需查看完整效果可查看网站:  
+[https://www.poile.cn](https://www.poile.cn)
+
+> 觉得不错的话，多支持下low逼弟弟哦～
 
 
 ### 项目展示
