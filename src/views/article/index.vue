@@ -56,6 +56,8 @@
 </template>
 
 <script>
+import { initAudio } from '@/assets/audio/index.js'
+import '@/assets/audio/index.css'
 import '@/styles/heilingt.css'
 import { mapGetters } from 'vuex'
 import { formatDate } from '@/utils/index.js'
@@ -122,6 +124,10 @@ export default {
         res => {
           this.loading = false
           this.article = res.data
+          // 初始化音频
+          this.$nextTick().then(() => {
+            initAudio()
+          })
           this.incrementView()
         }
       )

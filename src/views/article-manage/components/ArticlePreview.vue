@@ -21,6 +21,8 @@
 
 <script>
 import '@/styles/heilingt.css'
+import '@/assets/audio/index.css'
+import { initAudio } from '@/assets/audio/index.js'
 import { articleDetail } from '@/api/article.js'
 export default {
   props: {
@@ -50,6 +52,9 @@ export default {
         res => {
           this.loading = false
           this.article = res.data
+          this.$nextTick().then(() => {
+            initAudio()
+          })
         }
       )
     },

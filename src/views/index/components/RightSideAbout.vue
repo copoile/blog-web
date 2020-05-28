@@ -3,7 +3,7 @@
     <div class="avatar-wrapper">
       <img class="user-avatar" src="https://poile-img.nos-eastchina1.126.net/me.png">
     </div>
-    <router-link to="/about">咦?我是谁?我怎么会这?[<span class="btn" style="color: #007fff;">关于</span>]</router-link>
+    <router-link to="/about">偶咧?我是谁?我怎么会这?[<span class="btn" style="color: #007fff;">关于</span>]</router-link>
   </div>
 </template>
 

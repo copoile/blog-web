@@ -1,0 +1,83 @@
+
+.audio-wrapper {
+    background-color: #fcfcfc;
+    margin: 10px auto;
+    max-width: 400px;
+    height: 40px;
+    border: 1px solid #f0f0f0;
+    color: #3e3e3e;
+    display: flex;
+    align-items: center;
+    border-radius: 2px;
+}
+
+.audio-left {
+    float: left;
+    text-align: center;
+    width: 50px;
+    height: 100%;
+    margin-right: 5px;
+    position: relative;
+}
+
+.audio-left img {
+    display: block;
+    width: 22px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: initial;   /* 解除与app的样式冲突 */
+    cursor: pointer;
+    background-color: inherit;
+}
+
+.audio-right {
+    margin-right: 2%;
+    flex: 1;
+    height: 100%;
+}
+
+.audio-right p {
+    font-size: 12px;
+    padding: 0;
+    margin-bottom: 3px;
+
+    /* 歌曲名称只显示在一行，超出部分显示为省略号 */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 243px;   /* 要适配小屏幕手机，所以最大宽度先设小一点，后面js根据屏幕大小重新设置 */
+}
+
+.progress-bar-bg {
+    background-color: #d9d9d9;
+    position: relative;
+    height: 1px;
+    cursor: pointer;
+    margin: 2px 0;
+}
+
+.progress-bar {
+    background-color: #649fec;
+    width: 0;
+    height: 2px;
+    opacity: .8;
+}
+
+.progress-bar-bg span {
+    content: " ";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    background-color: #3e87e8;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -2px;
+    margin-left: -5px;
+    cursor: pointer;
+    padding: 1px;
+}

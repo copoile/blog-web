@@ -56,7 +56,9 @@
     <div class="third-login">
       <p class="name">社交账号登录</p>
       <div class="icon-box">
-        <svg-icon icon-class="qq-login" class="icon" />
+        <a href="https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101881036&redirect_uri=https://www.poile.cn/oauth&state=1">
+          <svg-icon icon-class="qq-login" class="icon" />
+        </a>
         <a href="https://github.com/login/oauth/authorize?client_id=bded74b0f0213e6d1a85&scope=user:email&state=2">
           <svg-icon icon-class="github-login" class="icon" />
         </a>
@@ -299,26 +301,28 @@ export default {
     width: 100%;
 
     .name {
-      color: #767676;
+      color: #999;
       display: flex;
       align-items: center;
-      font-size: 15px;
-      margin: 15px 0;
+      font-size: 16px;
+      margin: 23px 0;
 
       &:before {
         content: "";
         height: 1px;
-        background: grey;
+        background: #999;
         flex: 1;
         margin-right: 10px;
+        opacity: .8;
       }
 
       &:after {
         content: "";
         height: 1px;
         flex: 1;
-        background: grey;
+        background: #999;
         margin-left: 10px;
+        opacity: .8;
       }
     }
 

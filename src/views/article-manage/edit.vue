@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import '@/assets/audio/index.css'
 import '@/styles/heilingt.css'
 import DynamicTags from './components/DynamicTags'
 import ImgUpload from './components/ImgUpload'
