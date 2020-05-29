@@ -66,6 +66,8 @@ export default {
 
     // 日期格式化
     formatDate(str) {
+      // ios NAN问题
+      str = str.replace(/-/g, '/')
       const date = new Date(str)
       const now = new Date()
       return date.getFullYear() === now.getFullYear()

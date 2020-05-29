@@ -135,6 +135,8 @@ export default {
 
     // 日期格式化
     formatDate(str) {
+      // 解决ios 日期NAN问题
+      str = str.replace(/-/g, '/')
       return formatDate(new Date(str), 'yyyy年MM月dd日')
     },
 

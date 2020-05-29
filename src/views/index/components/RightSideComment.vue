@@ -63,6 +63,8 @@ export default {
 
     // 日期转换
     parseDate(str) {
+      // ios 兼容性问题
+      str = str.replace(/-/g, '/')
       return parseDate(new Date(str))
     }
   }

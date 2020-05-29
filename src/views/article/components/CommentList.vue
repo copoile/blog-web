@@ -163,7 +163,7 @@ export default {
           'emoji-toolbar': true,
           'emoji-shortname': true
         },
-        placeholder: '你好呀,不打算占楼层吗 ？'
+        placeholder: '嗨，你好呀,欢迎在评论区评论哦~'
       },
       reEditVisible: false,
       reEditorOption: {
@@ -203,6 +203,8 @@ export default {
 
     // 日期转换
     parseDate(str) {
+      // 解决ios 日期NAN问题
+      str = str.replace(/-/g, '/')
       return parseDate(new Date(str))
     },
 
@@ -477,6 +479,10 @@ export default {
           border-radius: 5px;
           min-height: 120px;
           padding: 20px;
+
+          @media screen and (max-width: 960px) {
+            min-height: 80px;
+          }
         }
 
         /deep/ .ql-stroke {
@@ -494,7 +500,7 @@ export default {
         padding: 10px;
         padding-right: 50px;
 
-        @media screen and (max-width: 960px){
+        @media screen and (max-width: 960px) {
           padding-right: 0;
         }
 
@@ -567,11 +573,11 @@ export default {
             float: left;
             width: 91%;
 
-            @media screen and (max-width: 960px){
+            @media screen and (max-width: 960px) {
               width: 82.9%;
             }
 
-            @media screen and (max-width: 375px){
+            @media screen and (max-width: 375px) {
               width: 79.5%;
             }
 
@@ -653,7 +659,7 @@ export default {
                   color: silver;
                   font-size: 12px;
 
-                  @media screen and (max-width: 960px){
+                  @media screen and (max-width: 960px) {
                     display: none;
                   }
                 }
@@ -699,7 +705,7 @@ export default {
                     color: #333;
                   }
 
-                  @media screen and (max-width: 960px){
+                  @media screen and (max-width: 960px) {
                     display: block;
                     float: left;
                     padding: 5px 0;

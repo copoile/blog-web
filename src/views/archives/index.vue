@@ -67,7 +67,7 @@
     </div>
 
     <!-- 移动tab菜单图标 -->
-    <svg-icon v-if="device !== 'desktop'" icon-class="archives-menu" class="menu-svg" @click="drawer=!drawer"/>
+    <svg-icon v-if="device !== 'desktop'" icon-class="archives-menu" class="menu-svg" @click="drawer=!drawer" />
     <!-- 移动tab菜单抽屉 -->
     <el-drawer
       v-if="device !== 'desktop'"
@@ -75,7 +75,7 @@
       direction="ltr"
       size="40%"
       :show-close="false"
-      >
+    >
       <ul class="menu-list">
         <li
           v-for="(tab,index) in tabs"
@@ -113,7 +113,6 @@ export default {
       drawer: false,
       tabActive: 0,
       loading: true,
-      temp: '2019-09-03',
       tabs: [],
       tabSize: 12,
       tabCurrent: 1,
@@ -168,7 +167,7 @@ export default {
       pagePublishedArticle(params).then(
         res => {
           const records = res.data.records
-          records.forEach(ele => { ele.date = formatDate(new Date(ele.publishTime), 'yyyy-MM-dd') })
+          records.forEach(ele => { ele.date = formatDate(new Date(ele.publishTime.replace(/-/g, '/')), 'yyyy-MM-dd') })
           this.artList = records
           this.total = res.data.total
           this.loading = false

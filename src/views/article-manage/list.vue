@@ -27,6 +27,9 @@
             <el-form-item label="收藏数">
               <span>{{ props.row.collectCount }}</span>
             </el-form-item>
+            <el-form-item label="时间">
+              <span>{{ props.row.publishTime }}</span>
+            </el-form-item>
           </el-form>
           <el-form label-position="left" class="table-expand">
             <el-form-item label="摘要">

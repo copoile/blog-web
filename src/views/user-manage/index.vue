@@ -81,7 +81,9 @@ export default {
           this.loading = false
           const records = res.data.records
           records.forEach(ele => {
-            ele.createTime = formatDate(new Date(ele.createTime), 'yyyy-MM-dd')
+            const str = ele.createTime.replace(/-/g, '/')
+            console.log(str)
+            ele.createTime = formatDate(new Date(str), 'yyyy-MM-dd')
             ele.enable = ele.status === 0
           })
           this.total = res.data.total
