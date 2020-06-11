@@ -47,13 +47,17 @@ export default {
   methods: {
     init() {
       // dynamic load live2d from cdn
-      load(live2dJs, (err) => {
-        if (err) {
-          this.$message.error(err.message)
-          return
-        }
-        loadlive2d('live2d', 'https://poile-img.nos-eastchina1.126.net/live2d/model.json')
-      })
+      try{
+        load(live2dJs, (err) => {
+          if (err) {
+            this.$message.error(err.message)
+            return
+          }
+          loadlive2d('live2d', 'https://poile-img.nos-eastchina1.126.net/live2d/model.json')
+        })
+      }catch(e){
+        //TODO handle the exception
+      }
     }
   }
 }

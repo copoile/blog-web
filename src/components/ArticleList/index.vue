@@ -229,6 +229,8 @@ export default {
       .tags-wrapper {
         font-size: 11px;
         margin-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
 
         .tag {
           border: 1px #999 solid;

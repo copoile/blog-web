@@ -17,7 +17,7 @@ export function getAccessToken() {
  * @param {String} token
  */
 export function setAccessToken(token) {
-  return Cookies.set(AccessTokenKey, token, { expires: 2/24 })
+  return Cookies.set(AccessTokenKey, token, { expires: 15 })
 }
 
 /**
