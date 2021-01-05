@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "animate.css": "^3.7.2",
-    "axios": "0.18.1",
+    "axios": "0.21.1",
     "babel-preset-env": "^1.7.0",
     "element-ui": "^2.13.0",
     "js-base64": "^2.5.2",
